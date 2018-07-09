@@ -1,0 +1,27 @@
+subprojects {
+    apply plugin: "java"
+  
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile 'org.slf4j:slf4j-api:1.8.0-beta2'
+        compile 'org.slf4j:slf4j-simple:1.8.0-beta2'
+    }
+}
+
+project(':service-compute') {
+}
+
+project(':service-tasks') {
+}
+
+project(':application') {
+    dependencies {
+        compile project(':service-compute')
+        compile project(':service-tasks')
+    }
+}
+
+

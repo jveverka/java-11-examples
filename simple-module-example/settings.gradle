@@ -1,0 +1,3 @@
+include "service-compute"
+include "service-tasks"
+include "application"

@@ -1,0 +1,17 @@
+apply plugin: 'application'
+
+ext.moduleName = 'itx.examples.java.eleven.application'
+
+group = 'itx.examples.java.eleven.application'
+version = '1.0.0'
+mainClassName = 'itx.examples.java.eleven.application.Main'
+
+compileJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+        ]
+        classpath = files()
+    }
+}

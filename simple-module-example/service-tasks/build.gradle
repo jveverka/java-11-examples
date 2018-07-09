@@ -1,0 +1,15 @@
+
+ext.moduleName = 'itx.examples.java.eleven.tasks'
+
+group = 'itx.examples.java.eleven.tasks'
+version = '1.0.0'
+
+compileJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+        ]
+        classpath = files()
+    }
+}
