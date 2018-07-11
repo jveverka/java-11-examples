@@ -1,0 +1,21 @@
+{
+
+  "directories": [
+    "test-modules/service-compute/build/libs/test-modules",
+    "test-modules/service-executor/build/libs/test-modules"
+  ],
+
+  "modules": [
+    {
+      "name" : "itx.dynamo.testmodules.service.compute",
+      "initializer": "itx.dynamo.testmodules.service.compute.api.ModuleHandlerImpl",
+      "description": ""
+    },
+    {
+      "name" : "itx.dynamo.testmodules.service.executor",
+      "initializer": "itx.dynamo.testmodules.service.executor.api.ModuleHandlerImpl",
+      "description": ""
+    }
+  ]
+
+}
