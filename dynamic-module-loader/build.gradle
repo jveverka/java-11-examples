@@ -6,6 +6,7 @@ subprojects {
 
     repositories {
         mavenCentral()
+        mavenLocal()
     }
 
     dependencies {
@@ -14,7 +15,13 @@ subprojects {
     }
 }
 
+project(':dynamo-services') {
+}
+
 project(':dynamo-core') {
+    dependencies {
+        compile project(':dynamo-services')
+    }
 }
 
 project(':dynamo-app') {
@@ -25,12 +32,12 @@ project(':dynamo-app') {
 
 project(':test-modules/service-compute') {
     dependencies {
-        compile project(':dynamo-core')
+        compile project(':dynamo-services')
     }
 }
 
 project(':test-modules/service-executor') {
     dependencies {
-        compile project(':dynamo-core')
+        compile project(':dynamo-services')
     }
 }

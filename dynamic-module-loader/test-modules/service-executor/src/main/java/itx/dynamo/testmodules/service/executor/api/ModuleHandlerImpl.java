@@ -1,4 +1,4 @@
-package itx.dynamo.testmodules.service.compute.api;
+package itx.dynamo.testmodules.service.executor.api;
 
 import itx.dynamo.services.api.ModuleHandler;
 import itx.dynamo.services.api.ServiceInjectionRequest;

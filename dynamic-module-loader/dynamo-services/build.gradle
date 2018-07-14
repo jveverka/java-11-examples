@@ -1,0 +1,19 @@
+
+ext.moduleName = 'itx.dynamo.services'
+
+group = 'itx.dynamo'
+version = '1.0.0'
+
+test {
+    useTestNG()
+}
+
+compileJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+        ]
+        classpath = files()
+    }
+}

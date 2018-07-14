@@ -1,3 +1,4 @@
+include "dynamo-services"
 include "dynamo-core"
 include "dynamo-app"
 include "test-modules/service-compute"

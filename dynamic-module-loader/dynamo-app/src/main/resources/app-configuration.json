@@ -1,6 +1,7 @@
 {
 
   "directories": [
+    "dynamo-services/build/libs",
     "test-modules/service-compute/build/libs/test-modules",
     "test-modules/service-executor/build/libs/test-modules"
   ],

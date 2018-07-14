@@ -1,16 +1,19 @@
 package itx.dynamo.core.api;
 
 import java.nio.file.Path;
-import java.util.Set;
+import java.util.*;
 
 public class DynamoConfiguration {
 
     private final Path[] directories;
-    private final Set<ModuleInfo> moduleInfoSet;
+    private final Map<String, ModuleInfo> moduleInfos;
 
     public DynamoConfiguration(Path[] directories, Set<ModuleInfo> moduleInfoSet) {
         this.directories = directories;
-        this.moduleInfoSet = moduleInfoSet;
+        this.moduleInfos = new HashMap<>();
+        moduleInfoSet.forEach( mi -> {
+            moduleInfos.put(mi.getName(), mi);
+        });
     }
 
     public Path[] getDirectories() {
@@ -18,7 +21,11 @@ public class DynamoConfiguration {
     }
 
     public Set<ModuleInfo> getModuleInfoSet() {
-        return moduleInfoSet;
+        return Collections.unmodifiableSet(new HashSet<ModuleInfo>(moduleInfos.values()));
+    }
+
+    public ModuleInfo getModuleInfo(String name) {
+        return moduleInfos.get(name);
     }
 
 }

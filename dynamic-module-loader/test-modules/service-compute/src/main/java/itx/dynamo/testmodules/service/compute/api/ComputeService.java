@@ -1,4 +1,4 @@
 package itx.dynamo.testmodules.service.compute.api;
 
-public interface ExecutorService {
+public interface ComputeService {
 }

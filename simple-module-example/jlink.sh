@@ -7,7 +7,7 @@ MODULE_PATH=$JAVA_HOME/jmods:application/build/libs:service-compute/build/libs:s
 $GRADLE_CACHE/org.slf4j/slf4j-api/1.8.0-beta2/ba136e771a794f77ab41fa879706e5cbd5b20f39:\
 $GRADLE_CACHE/org.slf4j/slf4j-simple/1.8.0-beta2/17687308d20646a7ee9f9f8b9f0d376959248639
 
-ADD_MODULES=java.base,itx.examples.java.eleven.compute,\
+ADD_MODULES=java.base,jdk.jshell,itx.examples.java.eleven.compute,\
 itx.examples.java.eleven.tasks,itx.examples.java.eleven.application,\
 org.slf4j,org.slf4j.simple
 
