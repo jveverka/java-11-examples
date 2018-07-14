@@ -8,6 +8,10 @@ public class ComputeServiceImpl implements ComputeService {
 
     final private static Logger LOG = LoggerFactory.getLogger(ComputeServiceImpl.class);
 
+    public ComputeServiceImpl() {
+        LOG.info("initializing ...");
+    }
+
     @Override
     public float add(float... numbers) {
         LOG.info("computing ...");

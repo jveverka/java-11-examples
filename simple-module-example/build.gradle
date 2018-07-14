@@ -14,6 +14,13 @@ subprojects {
 project(':service-compute') {
 }
 
+project(':service-compute-async') {
+    dependencies {
+        compile project(':service-compute')
+        compile project(':service-tasks')
+    }
+}
+
 project(':service-tasks') {
 }
 
@@ -21,6 +28,7 @@ project(':application') {
     dependencies {
         compile project(':service-compute')
         compile project(':service-tasks')
+        compile project(':service-compute-async')
     }
 }
 

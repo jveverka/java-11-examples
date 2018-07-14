@@ -17,7 +17,7 @@ public class TasksServiceImpl implements TasksService {
     private final ExecutorService executor;
 
     public TasksServiceImpl() {
-        LOG.info("init ...");
+        LOG.info("initializing ...");
         executor = Executors.newFixedThreadPool(4);
     }
 

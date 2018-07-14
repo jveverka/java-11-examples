@@ -1,3 +1,4 @@
 include "service-compute"
 include "service-tasks"
+include "service-compute-async"
 include "application"

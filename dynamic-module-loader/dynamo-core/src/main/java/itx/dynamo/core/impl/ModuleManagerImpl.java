@@ -40,10 +40,10 @@ public class ModuleManagerImpl implements ModuleManager {
             modulesNames.add(m.descriptor().name());
         });
 
-        ModuleLayer parent = ModuleLayer.boot();
-        Configuration configuration = parent.configuration().resolve(finder, ModuleFinder.of(), modulesNames);
+        ModuleLayer moduleLayer = ModuleLayer.boot();
+        Configuration configuration = moduleLayer.configuration().resolve(finder, ModuleFinder.of(), modulesNames);
         ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
-        ModuleLayer layer = parent.defineModulesWithOneLoader(configuration, systemClassLoader);
+        ModuleLayer newModuleLayer = moduleLayer.defineModulesWithOneLoader(configuration, moduleLayer.getClass().getClassLoader());
 
         finder.findAll().forEach( m -> {
             try {
@@ -51,9 +51,9 @@ public class ModuleManagerImpl implements ModuleManager {
                 ModuleInfo mi = this.configuration.getModuleInfo(m.descriptor().name());
                 if (mi != null) {
                     LOG.info("initializing {}/{}", mi.getName(), mi.getInitializer());
-                    Class<?> c = layer.findLoader(mi.getName()).loadClass(mi.getInitializer());
+                    Class<?> c = newModuleLayer.findLoader(mi.getName()).loadClass(mi.getInitializer());
                     Object object = c.getConstructors()[0].newInstance();
-                    //ModuleHandler moduleHandler = (ModuleHandler)object;
+                    ModuleHandler moduleHandler = (ModuleHandler)object;
                     LOG.info("created instance of {}", mi.getInitializer());
                 }
             } catch (ClassNotFoundException e) {
