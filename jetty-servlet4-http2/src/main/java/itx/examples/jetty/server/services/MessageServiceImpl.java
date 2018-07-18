@@ -66,7 +66,7 @@ public class MessageServiceImpl implements MessageServiceAsync {
                     .peek(l -> l.onClose())
                     .collect(Collectors.toList());
             listenersToRemove.forEach(l -> { listeners.remove(l.getId()); });
-            return Optional.of(new Long(messagesForGroup.size()));
+            return Optional.of(Long.valueOf(messagesForGroup.size()));
         }
         return Optional.empty();
     }
