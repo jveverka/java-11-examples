@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "itx.examples.grpc.service";
+option java_outer_classname = "SimpleServiceProto";
+option objc_class_prefix = "HLW";
+
+service Greeter {
+
+    rpc SayHello (HelloRequest) returns (HelloReply) {}
+
+    rpc GetData (DataMessage) returns (DataMessage) {}
+
+    rpc DataChannel (stream DataMessage) returns (stream DataMessage) {}
+
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+message HelloReply {
+    string message = 1;
+}
+
+message DataMessage {
+    uint64 index = 1;
+    string message = 2;
+}
