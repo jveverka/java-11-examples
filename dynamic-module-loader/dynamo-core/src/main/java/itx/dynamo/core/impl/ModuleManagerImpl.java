@@ -42,8 +42,8 @@ public class ModuleManagerImpl implements ModuleManager {
 
         ModuleLayer moduleLayer = ModuleLayer.boot();
         Configuration configuration = moduleLayer.configuration().resolve(finder, ModuleFinder.of(), modulesNames);
-        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
-        ModuleLayer newModuleLayer = moduleLayer.defineModulesWithOneLoader(configuration, moduleLayer.getClass().getClassLoader());
+        ClassLoader systemClassLoader = ClassLoader.getPlatformClassLoader();
+        ModuleLayer newModuleLayer = moduleLayer.defineModulesWithOneLoader(configuration, systemClassLoader);
 
         finder.findAll().forEach( m -> {
             try {

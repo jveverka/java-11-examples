@@ -1,0 +1,53 @@
+{
+	"variables": [],
+	"info": {
+		"name": "jetty-http2",
+		"_postman_id": "e3a5ba5f-dec0-70dd-d3af-5e2bed34d064",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET group1",
+			"request": {
+				"url": "http://localhost:8080/data/sync/group1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE group1",
+			"request": {
+				"url": "http://localhost:8080/data/sync/group1",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST message",
+			"request": {
+				"url": "http://localhost:8080/data/sync",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": {\n\t\t\"timeStamp\": 1234,\n\t\t\"conversationId\": {\n\t\t\t\"userId\": \"juraj\",\n\t\t\t\"groupId\": \"group1\"\n\t\t}\n\t},\n\t\"message\": \"hello message 01\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
