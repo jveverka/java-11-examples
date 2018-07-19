@@ -6,6 +6,10 @@ group = 'itx.examples.java.eleven.application'
 version = '1.0.0'
 mainClassName = 'itx.examples.java.eleven.application.Main'
 
+dependencies {
+    testCompile 'org.testng:testng:6.14.3'
+}
+
 compileJava {
     inputs.property("moduleName", moduleName)
     doFirst {

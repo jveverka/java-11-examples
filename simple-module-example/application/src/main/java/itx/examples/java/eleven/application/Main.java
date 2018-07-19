@@ -1,5 +1,6 @@
 package itx.examples.java.eleven.application;
 
+import itx.examples.java.eleven.application.utils.Utils;
 import itx.examples.java.eleven.compute.api.ComputeService;
 import itx.examples.java.eleven.computeasync.api.ComputeAsyncService;
 import itx.examples.java.eleven.tasks.api.TasksService;
@@ -21,41 +22,18 @@ public class Main {
         LOG.info("MAIN start ...");
         Runtime.Version version = Runtime.version();
         LOG.info("Java version: {}", version.toString());
-        ComputeAsyncService computeAsyncService = getServiceOrFail(ComputeAsyncService.class);
-        ComputeService computeService = getServiceOrFail(ComputeService.class);
-        TasksService tasksService = getServiceOrFail(TasksService.class);
+        ComputeAsyncService computeAsyncService = Utils.getServiceOrFail(ComputeAsyncService.class);
+        ComputeService computeService = Utils.getServiceOrFail(ComputeService.class);
+        TasksService tasksService = Utils.getServiceOrFail(TasksService.class);
         float computeResult = computeService.add(1,2,3,4);
         LOG.info("compute result {}", computeResult);
-        String taskResult = tasksService.submit(getTask()).get();
+        String taskResult = tasksService.submit(Utils.getSimpleTask()).get();
         LOG.info("task result {}", taskResult);
         Future<Float> floatFuture = computeAsyncService.addAsync(1, 2, 3, 4);
         LOG.info("compute async result {}", floatFuture.get());
         LOG.info("MAIN done.");
         tasksService.shutdown();
         computeAsyncService.shutdown();
-    }
-
-    private static Callable<String> getTask() {
-        return new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                String result = "";
-                LOG.info("task start");
-                result = (new Date()).toString();
-                LOG.info("task done");
-                return result;
-            }
-        };
-    }
-
-    private static <T> T getServiceOrFail(Class<T> type) {
-        ServiceLoader<T> loader = ServiceLoader.load(type);
-        Optional<T> serviceOptional = loader.findFirst();
-        if (serviceOptional.isPresent()) {
-            return serviceOptional.get();
-        } else {
-            throw new UnsupportedOperationException("service not found");
-        }
     }
 
 }
