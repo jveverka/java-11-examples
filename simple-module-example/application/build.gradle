@@ -10,6 +10,14 @@ dependencies {
     testCompile 'org.testng:testng:6.14.3'
 }
 
+test {
+    useTestNG()
+    //testLogging.showStandardStreams = true
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 compileJava {
     inputs.property("moduleName", moduleName)
     doFirst {

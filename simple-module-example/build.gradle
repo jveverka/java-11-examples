@@ -1,5 +1,14 @@
 subprojects {
     apply plugin: "java"
+
+    /*
+      target compatibility should be 11, but due to several issues with gradle / asm
+      is for now target compatibility set to 10
+      https://github.com/gradle/gradle/issues/5120
+      https://github.com/gradle/gradle/issues/5731
+    */
+    targetCompatibility = '10'
+    sourceCompatibility = '10'
   
     repositories {
         mavenCentral()
