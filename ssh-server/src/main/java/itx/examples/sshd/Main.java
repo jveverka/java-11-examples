@@ -2,6 +2,9 @@ package itx.examples.sshd;
 
 import itx.examples.sshd.auth.KeyPairProviderBuilder;
 import itx.examples.sshd.auth.PasswordAuthenticatorBuilder;
+import itx.examples.sshd.commands.CommandFactoryImpl;
+import itx.examples.sshd.commands.CommandProcessor;
+import itx.examples.sshd.commands.CommandProcessorImpl;
 import itx.examples.sshd.commands.ShellFactoryImpl;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.SshServer;
@@ -40,11 +43,14 @@ public class Main {
                 .setKeyPairPassword("secret")
                 .build();
 
+        CommandProcessor commandProcessor = new CommandProcessorImpl();
+
         SshServer sshd = SshServer.setUpDefaultServer();
         sshd.setPort(port);
         sshd.setPasswordAuthenticator(passwordAuthenticator);
         sshd.setKeyPairProvider(keyPairProvider);
-        sshd.setShellFactory(new ShellFactoryImpl());
+        sshd.setShellFactory(new ShellFactoryImpl(commandProcessor));
+        sshd.setCommandFactory(new CommandFactoryImpl(commandProcessor));
         sshd.start();
 
         Runtime.getRuntime().addShutdownHook(new Thread() {

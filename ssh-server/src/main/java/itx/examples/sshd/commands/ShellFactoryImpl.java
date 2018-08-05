@@ -9,16 +9,22 @@ public class ShellFactoryImpl implements Factory<Command> {
 
     final private static Logger LOG = LoggerFactory.getLogger(ShellFactoryImpl.class);
 
+    private CommandProcessor commandProcessor;
+
+    public ShellFactoryImpl(CommandProcessor commandProcessor) {
+        this.commandProcessor = commandProcessor;
+    }
+
     @Override
     public Command get() {
         LOG.info("get command");
-        return new SimpleCommand();
+        return new REPLCommand(commandProcessor);
     }
 
     @Override
     public Command create() {
         LOG.info("create command");
-        return new SimpleCommand();
+        return new REPLCommand(commandProcessor);
     }
 
 }

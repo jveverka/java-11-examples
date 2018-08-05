@@ -9,58 +9,53 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class SimpleCommand implements Command {
+public class SingleCommand implements Command {
 
-    final private static Logger LOG = LoggerFactory.getLogger(SimpleCommand.class);
+    final private static Logger LOG = LoggerFactory.getLogger(SingleCommand.class);
 
     private InputStream stdin;
     private OutputStream stdout;
     private OutputStream stderr;
     private ExitCallback exitCallback;
-    private ExecutorService executorService;
+    private CommandProcessor commandProcessor;
+    private String command;
 
-    public SimpleCommand() {
-        this.executorService = Executors.newSingleThreadExecutor();
+    public SingleCommand(String command, CommandProcessor commandProcessor) {
+        this.command = command;
+        this.commandProcessor = commandProcessor;
     }
 
     @Override
     public void setInputStream(InputStream stdin) {
-        LOG.info("setInputStream");
         this.stdin = stdin;
     }
 
     @Override
     public void setOutputStream(OutputStream stdout) {
-        LOG.info("setOutputStream");
         this.stdout = stdout;
     }
 
     @Override
     public void setErrorStream(OutputStream stderr) {
-        LOG.info("setErrorStream");
         this.stderr = stderr;
     }
 
     @Override
-    public void setExitCallback(ExitCallback callback) {
-        LOG.info("setExitCallback");
-        this.exitCallback = callback;
+    public void setExitCallback(ExitCallback exitCallback) {
+        this.exitCallback = exitCallback;
     }
 
     @Override
     public void start(Environment env) throws IOException {
         LOG.info("start");
-        SimpleCommandProcessor simpleCommandProcessor = new SimpleCommandProcessor(stdin, stdout, stderr, exitCallback);
-        executorService.submit(simpleCommandProcessor);
+        int returnCode = commandProcessor.processCommand(command, stdout, stderr);
+        exitCallback.onExit(returnCode);
     }
 
     @Override
     public void destroy() throws Exception {
         LOG.info("destroy");
-        executorService.shutdown();
     }
 
 }

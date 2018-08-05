@@ -10,9 +10,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 
-public class SimpleCommandProcessor implements Runnable {
+public class REPLCommandProcessor implements Runnable {
 
-    final private static Logger LOG = LoggerFactory.getLogger(SimpleCommandProcessor.class);
+    final private static Logger LOG = LoggerFactory.getLogger(REPLCommandProcessor.class);
     final private static int ENTER = 13;
     final private static int BACKSPACE = 127;
     final private static String EMPTY = "";
@@ -23,12 +23,14 @@ public class SimpleCommandProcessor implements Runnable {
     private OutputStream stdout;
     private OutputStream stderr;
     private ExitCallback exitCallback;
+    private CommandProcessor commandProcessor;
 
-    public SimpleCommandProcessor(InputStream stdin, OutputStream stdout, OutputStream stderr, ExitCallback exitCallback) {
+    public REPLCommandProcessor(CommandProcessor commandProcessor, InputStream stdin, OutputStream stdout, OutputStream stderr, ExitCallback exitCallback) {
         this.stdin = stdin;
         this.stdout = stdout;
         this.stderr = stderr;
         this.exitCallback = exitCallback;
+        this.commandProcessor = commandProcessor;
     }
 
     @Override
@@ -71,14 +73,15 @@ public class SimpleCommandProcessor implements Runnable {
         }
     }
 
-    private void processCommand(String command) {
+    private void processCommand(String command) throws IOException {
         command = command.trim();
         if (CMD_EXIT.equals(command)) {
             LOG.info("on exit");
             exitCallback.onExit(0);
         } else {
-            LOG.info("command: {}", command);
-
+            commandProcessor.processCommand(command, stdout, stderr);
+            stdout.flush();
+            stderr.flush();
         }
     }
 
