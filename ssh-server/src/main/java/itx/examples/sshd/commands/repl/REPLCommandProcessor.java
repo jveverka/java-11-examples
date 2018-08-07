@@ -11,11 +11,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.nio.charset.Charset;
 
 public class REPLCommandProcessor implements Runnable {
 
     final private static Logger LOG = LoggerFactory.getLogger(REPLCommandProcessor.class);
-    final private static String EMPTY = "";
 
     final private static String CMD_EXIT = "exit";
 
@@ -25,8 +25,10 @@ public class REPLCommandProcessor implements Runnable {
     private ExitCallback exitCallback;
     private CommandProcessor commandProcessor;
     private KeyMap keyMap;
+    private String prompt;
+    private Charset charset;
 
-    public REPLCommandProcessor(KeyMap keyMap, CommandProcessor commandProcessor,
+    public REPLCommandProcessor(String prompt, KeyMap keyMap, CommandProcessor commandProcessor,
                                 InputStream stdin, OutputStream stdout, OutputStream stderr, ExitCallback exitCallback) {
         this.stdin = stdin;
         this.stdout = stdout;
@@ -34,32 +36,48 @@ public class REPLCommandProcessor implements Runnable {
         this.exitCallback = exitCallback;
         this.commandProcessor = commandProcessor;
         this.keyMap = keyMap;
+        this.prompt = prompt;
+        this.charset = Charset.forName("UTF-8");
     }
 
     @Override
     public void run() {
         try {
-            Reader r = new InputStreamReader(stdin, "UTF-8");
+            Reader r = new InputStreamReader(stdin, charset);
             int intch;
-            String commandBuffer = EMPTY;
-            String command = EMPTY;
+            CommandRenderer commandRenderer = new CommandRenderer();
+            writePrompt();
             while ((intch = r.read()) != -1) {
                 char ch = (char) intch;
                 if (intch == keyMap.getEnterKeyCode()) {
                     stdout.write('\n');
                     stdout.write('\r');
-                    command = commandBuffer;
-                    commandBuffer = EMPTY;
-                    stdout.flush();
-                    processCommand(command);
+                    if (!processCommand(commandRenderer.getCommandAndReset())) {
+                        return;
+                    }
+                    writePrompt();
                 } else if (intch == keyMap.getBackSpaceKeyCode()) {
-                    writeBlanks(stdout, commandBuffer);
-                    commandBuffer = commandBuffer.substring(0, commandBuffer.length() -1);
+                    writeBlanks(commandRenderer.getCommand());
+                    commandRenderer.onBackSpace();
                     stdout.write('\r');
-                    stdout.write(commandBuffer.getBytes());
+                    stdout.write((prompt + commandRenderer.getCommand()).getBytes(charset));
+                    stdout.flush();
+                } else if (intch == keyMap.getArrowPrefix()) {
+                    int key1 = r.read();
+                    int key2 = r.read();
+                    if (keyMap.isKeyLeftSequence(intch, key1, key2)) {
+                        commandRenderer.onKeyLeft();
+                    } else if (keyMap.isKeyRightSequence(intch, key1, key2)) {
+                        commandRenderer.onKeyRight();
+                    } else {
+                        LOG.error("Unsupported arrow key sequence {} {} {}", intch, key1, key2);
+                    }
+                    stdout.write(intch);
+                    stdout.write(key1);
+                    stdout.write(key2);
                     stdout.flush();
                 } else {
-                    commandBuffer = commandBuffer + ch;
+                    commandRenderer.onCharInsert(ch);
                     stdout.write(ch);
                     stdout.flush();
                 }
@@ -69,22 +87,30 @@ public class REPLCommandProcessor implements Runnable {
         }
     }
 
-    private static void writeBlanks(OutputStream stdout, String command) throws IOException {
+    private void writePrompt() throws IOException {
+        stdout.write(prompt.getBytes(charset));
+        stdout.flush();
+    }
+
+    private void writeBlanks(String command) throws IOException {
         stdout.write('\r');
+        stdout.write(prompt.getBytes(charset));
         for (int i=0; i<command.length(); i++) {
             stdout.write(' ');
         }
     }
 
-    private void processCommand(String command) throws IOException {
+    private boolean processCommand(String command) throws IOException {
         command = command.trim();
         if (CMD_EXIT.equals(command)) {
             LOG.info("on exit");
             exitCallback.onExit(0);
+            return false;
         } else {
             commandProcessor.processCommand(command, stdout, stderr);
             stdout.flush();
             stderr.flush();
+            return true;
         }
     }
 

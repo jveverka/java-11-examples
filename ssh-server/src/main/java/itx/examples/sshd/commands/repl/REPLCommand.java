@@ -25,11 +25,13 @@ public class REPLCommand implements Command {
     private ExecutorService executorService;
     private CommandProcessor commandProcessor;
     private KeyMap keyMap;
+    private String prompt;
 
-    public REPLCommand(KeyMap keyMap, CommandProcessor commandProcessor) {
+    public REPLCommand(String prompt, KeyMap keyMap, CommandProcessor commandProcessor) {
         this.executorService = Executors.newSingleThreadExecutor();
         this.commandProcessor = commandProcessor;
         this.keyMap = keyMap;
+        this.prompt = prompt;
     }
 
     @Override
@@ -59,7 +61,8 @@ public class REPLCommand implements Command {
     @Override
     public void start(Environment env) throws IOException {
         LOG.info("start");
-        REPLCommandProcessor simpleCommandProcessor = new REPLCommandProcessor(keyMap, commandProcessor, stdin, stdout, stderr, exitCallback);
+        REPLCommandProcessor simpleCommandProcessor = new REPLCommandProcessor(prompt, keyMap, commandProcessor,
+                stdin, stdout, stderr, exitCallback);
         executorService.submit(simpleCommandProcessor);
     }
 

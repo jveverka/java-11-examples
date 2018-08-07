@@ -1,5 +1,9 @@
 package itx.examples.sshd.commands.repl;
 
+/**
+ * renders single commandline content
+ * supports editing (left, right arrow, backspace)
+ */
 public class CommandRenderer {
 
     private final static int BUF_MAX = 2048;
@@ -37,6 +41,12 @@ public class CommandRenderer {
         if (cursorPosition < cmdBuffer.length) {
             cursorPosition++;
         }
+    }
+
+    public String getCommandAndReset() {
+        String command = getCommand();
+        reset();
+        return command;
     }
 
     public String getCommand() {

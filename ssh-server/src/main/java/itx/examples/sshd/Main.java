@@ -34,7 +34,7 @@ public class Main {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         int port = 2222;
         PasswordAuthenticator passwordAuthenticator = new PasswordAuthenticatorBuilder()
-                .addCredentials("juraj", "secret")
+                .addCredentials("user", "secret")
                 .build();
 
         InputStream resourceAsStream = Main.class.getClassLoader().getResourceAsStream("server-keystore.jks");
@@ -53,7 +53,7 @@ public class Main {
         sshd.setPort(port);
         sshd.setPasswordAuthenticator(passwordAuthenticator);
         sshd.setKeyPairProvider(keyPairProvider);
-        sshd.setShellFactory(new ShellFactoryImpl(keyMap, commandProcessor));
+        sshd.setShellFactory(new ShellFactoryImpl("CMD: ", keyMap, commandProcessor));
         sshd.setCommandFactory(new CommandFactoryImpl(commandProcessor));
         sshd.start();
 

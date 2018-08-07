@@ -13,22 +13,24 @@ public class ShellFactoryImpl implements Factory<Command> {
 
     private CommandProcessor commandProcessor;
     private KeyMap keyMap;
+    private String prompt;
 
-    public ShellFactoryImpl(KeyMap keyMap, CommandProcessor commandProcessor) {
+    public ShellFactoryImpl(String prompt, KeyMap keyMap, CommandProcessor commandProcessor) {
         this.commandProcessor = commandProcessor;
         this.keyMap = keyMap;
+        this.prompt = prompt;
     }
 
     @Override
     public Command get() {
         LOG.info("get command");
-        return new REPLCommand(keyMap, commandProcessor);
+        return new REPLCommand(prompt, keyMap, commandProcessor);
     }
 
     @Override
     public Command create() {
         LOG.info("create command");
-        return new REPLCommand(keyMap, commandProcessor);
+        return new REPLCommand(prompt, keyMap, commandProcessor);
     }
 
 }

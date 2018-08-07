@@ -6,4 +6,10 @@ public interface KeyMap {
 
     int getBackSpaceKeyCode();
 
+    int getArrowPrefix();
+
+    boolean isKeyLeftSequence(int ... sequence);
+
+    boolean isKeyRightSequence(int ... sequence);
+
 }
