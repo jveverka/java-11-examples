@@ -6,6 +6,8 @@ import itx.examples.sshd.commands.CommandFactoryImpl;
 import itx.examples.sshd.commands.CommandProcessor;
 import itx.examples.sshd.commands.CommandProcessorImpl;
 import itx.examples.sshd.commands.ShellFactoryImpl;
+import itx.examples.sshd.commands.keymaps.KeyMap;
+import itx.examples.sshd.commands.keymaps.KeyMapProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.password.PasswordAuthenticator;
@@ -44,12 +46,14 @@ public class Main {
                 .build();
 
         CommandProcessor commandProcessor = new CommandProcessorImpl();
+        KeyMapProvider keyMapProvider = new KeyMapProvider();
+        KeyMap keyMap = keyMapProvider.getDefaultKeyMap();
 
         SshServer sshd = SshServer.setUpDefaultServer();
         sshd.setPort(port);
         sshd.setPasswordAuthenticator(passwordAuthenticator);
         sshd.setKeyPairProvider(keyPairProvider);
-        sshd.setShellFactory(new ShellFactoryImpl(commandProcessor));
+        sshd.setShellFactory(new ShellFactoryImpl(keyMap, commandProcessor));
         sshd.setCommandFactory(new CommandFactoryImpl(commandProcessor));
         sshd.start();
 

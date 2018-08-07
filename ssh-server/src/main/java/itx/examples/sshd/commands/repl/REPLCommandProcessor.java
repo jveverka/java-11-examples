@@ -1,5 +1,7 @@
-package itx.examples.sshd.commands;
+package itx.examples.sshd.commands.repl;
 
+import itx.examples.sshd.commands.CommandProcessor;
+import itx.examples.sshd.commands.keymaps.KeyMap;
 import org.apache.sshd.server.ExitCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +15,6 @@ import java.io.Reader;
 public class REPLCommandProcessor implements Runnable {
 
     final private static Logger LOG = LoggerFactory.getLogger(REPLCommandProcessor.class);
-    final private static int ENTER = 13;
-    final private static int BACKSPACE = 127;
     final private static String EMPTY = "";
 
     final private static String CMD_EXIT = "exit";
@@ -24,13 +24,16 @@ public class REPLCommandProcessor implements Runnable {
     private OutputStream stderr;
     private ExitCallback exitCallback;
     private CommandProcessor commandProcessor;
+    private KeyMap keyMap;
 
-    public REPLCommandProcessor(CommandProcessor commandProcessor, InputStream stdin, OutputStream stdout, OutputStream stderr, ExitCallback exitCallback) {
+    public REPLCommandProcessor(KeyMap keyMap, CommandProcessor commandProcessor,
+                                InputStream stdin, OutputStream stdout, OutputStream stderr, ExitCallback exitCallback) {
         this.stdin = stdin;
         this.stdout = stdout;
         this.stderr = stderr;
         this.exitCallback = exitCallback;
         this.commandProcessor = commandProcessor;
+        this.keyMap = keyMap;
     }
 
     @Override
@@ -42,14 +45,14 @@ public class REPLCommandProcessor implements Runnable {
             String command = EMPTY;
             while ((intch = r.read()) != -1) {
                 char ch = (char) intch;
-                if (intch == ENTER) {
+                if (intch == keyMap.getEnterKeyCode()) {
                     stdout.write('\n');
                     stdout.write('\r');
                     command = commandBuffer;
                     commandBuffer = EMPTY;
                     stdout.flush();
                     processCommand(command);
-                } else if (intch == BACKSPACE) {
+                } else if (intch == keyMap.getBackSpaceKeyCode()) {
                     writeBlanks(stdout, commandBuffer);
                     commandBuffer = commandBuffer.substring(0, commandBuffer.length() -1);
                     stdout.write('\r');

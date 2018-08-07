@@ -1,5 +1,7 @@
-package itx.examples.sshd.commands;
+package itx.examples.sshd.commands.repl;
 
+import itx.examples.sshd.commands.CommandProcessor;
+import itx.examples.sshd.commands.keymaps.KeyMap;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.command.Command;
@@ -22,9 +24,12 @@ public class REPLCommand implements Command {
     private ExitCallback exitCallback;
     private ExecutorService executorService;
     private CommandProcessor commandProcessor;
+    private KeyMap keyMap;
 
-    public REPLCommand(CommandProcessor commandProcessor) {
+    public REPLCommand(KeyMap keyMap, CommandProcessor commandProcessor) {
         this.executorService = Executors.newSingleThreadExecutor();
+        this.commandProcessor = commandProcessor;
+        this.keyMap = keyMap;
     }
 
     @Override
@@ -54,7 +59,7 @@ public class REPLCommand implements Command {
     @Override
     public void start(Environment env) throws IOException {
         LOG.info("start");
-        REPLCommandProcessor simpleCommandProcessor = new REPLCommandProcessor(commandProcessor, stdin, stdout, stderr, exitCallback);
+        REPLCommandProcessor simpleCommandProcessor = new REPLCommandProcessor(keyMap, commandProcessor, stdin, stdout, stderr, exitCallback);
         executorService.submit(simpleCommandProcessor);
     }
 
