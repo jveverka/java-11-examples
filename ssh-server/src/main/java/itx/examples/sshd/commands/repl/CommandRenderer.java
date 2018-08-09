@@ -60,6 +60,10 @@ public class CommandRenderer {
         return sb.toString();
     }
 
+    public int getCursorPosition() {
+        return cursorPosition;
+    }
+
     public void reset() {
         cursorPosition = 0;
         for (int i=0; i < cmdBuffer.length; i++) {

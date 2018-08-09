@@ -12,4 +12,8 @@ public interface KeyMap {
 
     boolean isKeyRightSequence(int ... sequence);
 
+    int[] getKeyLeftSequence();
+
+    int[] getKeyRightSequence();
+
 }

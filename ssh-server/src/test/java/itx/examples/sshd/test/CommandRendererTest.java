@@ -44,29 +44,29 @@ public class CommandRendererTest {
     @DataProvider(name = "testInputsProvider")
     public static Object[][] getDataForTestInputs() {
         return new Object[][] {
-                { new char[] {}, "" },
-                { new char[] { 'a', 'b', 'c'  }, "abc" },
-                { new char[] { 'a', 'b', 'c', BCK  }, "ab" },
-                { new char[] { 'a', 'b', 'c', BCK, BCK  }, "a" },
-                { new char[] { 'a', 'b', 'c', BCK, BCK, BCK  }, "" },
-                { new char[] { 'a', 'b', 'c', BCK, BCK, BCK, BCK  }, "" },
-                { new char[] { BCK, BCK, BCK, BCK  }, "" },
-                { new char[] { BCK, LEFT, RIGHT, BCK  }, "" },
-                { new char[] { 'a', 'b', 'c', 'd', LEFT, RIGHT, RIGHT, LEFT }, "abcd" },
-                { new char[] { 'a', 'b', 'c', 'd', LEFT, LEFT, BCK }, "acd" },
-                { new char[] { 'a', 'b', 'c', 'd', LEFT, LEFT, BCK, BCK }, "cd" },
-                { new char[] { 'a', 'b', 'c', 'd', LEFT, LEFT, BCK, BCK, BCK }, "cd" },
-                { new char[] { 'a', 'b', 'c', 'd', LEFT, LEFT, BCK, BCK, BCK, BCK }, "cd" },
-                { new char[] { 'a', 'b', 'c', 'd', LEFT, LEFT, LEFT, 'B' }, "aBbcd" },
-                { new char[] { 'a', 'b', 'c', 'd', LEFT, LEFT, LEFT, 'B', 'C' }, "aBCbcd" },
-                { new char[] { 'a', 'b', 'c', 'd', LEFT, BCK, BCK, 'B', 'C' }, "aBCd" },
-                { new char[] { 'a', 'b', 'c', RIGHT, RIGHT  }, "abc" },
-                { new char[] { 'a', 'b', 'c', RIGHT, RIGHT, 'd'  }, "abcd" },
+                { new char[] {}, "" , 0 },
+                { new char[] { 'a', 'b', 'c'  }, "abc", 3 },
+                { new char[] { 'a', 'b', 'c', BCK  }, "ab", 2 },
+                { new char[] { 'a', 'b', 'c', BCK, BCK  }, "a", 1 },
+                { new char[] { 'a', 'b', 'c', BCK, BCK, BCK  }, "", 0 },
+                { new char[] { 'a', 'b', 'c', BCK, BCK, BCK, BCK  }, "", 0 },
+                { new char[] { BCK, BCK, BCK, BCK  }, "", 0 },
+                { new char[] { BCK, LEFT, RIGHT, BCK  }, "", 0 },
+                { new char[] { 'a', 'b', 'c', 'd', LEFT, RIGHT, RIGHT, LEFT }, "abcd", 3 },
+                { new char[] { 'a', 'b', 'c', 'd', LEFT, LEFT, BCK }, "acd", 1 },
+                { new char[] { 'a', 'b', 'c', 'd', LEFT, LEFT, BCK, BCK }, "cd", 0 },
+                { new char[] { 'a', 'b', 'c', 'd', LEFT, LEFT, BCK, BCK, BCK }, "cd", 0 },
+                { new char[] { 'a', 'b', 'c', 'd', LEFT, LEFT, BCK, BCK, BCK, BCK }, "cd", 0 },
+                { new char[] { 'a', 'b', 'c', 'd', LEFT, LEFT, LEFT, 'B' }, "aBbcd", 2 },
+                { new char[] { 'a', 'b', 'c', 'd', LEFT, LEFT, LEFT, 'B', 'C' }, "aBCbcd", 3 },
+                { new char[] { 'a', 'b', 'c', 'd', LEFT, BCK, BCK, 'B', 'C' }, "aBCd", 3 },
+                { new char[] { 'a', 'b', 'c', RIGHT, RIGHT  }, "abc", 3 },
+                { new char[] { 'a', 'b', 'c', RIGHT, RIGHT, 'd'  }, "abcd", 4 },
         };
     }
 
     @Test(dataProvider = "testInputsProvider")
-    public void testInputs(char[] keys, String expectedCommand) {
+    public void testInputs(char[] keys, String expectedCommand, Integer expectedCursorPosition) {
         CommandRenderer commandRenderer = new CommandRenderer();
         for (int i=0; i<keys.length; i++) {
             switch (keys[i]) {
@@ -87,6 +87,7 @@ public class CommandRendererTest {
         String command = commandRenderer.getCommand();
         Assert.assertNotNull(command);
         Assert.assertEquals(command, expectedCommand);
+        Assert.assertEquals(Integer.valueOf(commandRenderer.getCursorPosition()), expectedCursorPosition);
     }
 
 }

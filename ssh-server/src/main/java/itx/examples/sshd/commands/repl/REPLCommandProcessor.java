@@ -50,6 +50,7 @@ public class REPLCommandProcessor implements Runnable {
             while ((intch = r.read()) != -1) {
                 char ch = (char) intch;
                 if (intch == keyMap.getEnterKeyCode()) {
+                    //on ENTER
                     stdout.write('\n');
                     stdout.write('\r');
                     if (!processCommand(commandRenderer.getCommandAndReset())) {
@@ -57,12 +58,13 @@ public class REPLCommandProcessor implements Runnable {
                     }
                     writePrompt();
                 } else if (intch == keyMap.getBackSpaceKeyCode()) {
+                    //on BACKSPACE
                     writeBlanks(commandRenderer.getCommand());
                     commandRenderer.onBackSpace();
-                    stdout.write('\r');
-                    stdout.write((prompt + commandRenderer.getCommand()).getBytes(charset));
+                    renderCommandline(commandRenderer);
                     stdout.flush();
                 } else if (intch == keyMap.getArrowPrefix()) {
+                    //arrow keys handling
                     int key1 = r.read();
                     int key2 = r.read();
                     if (keyMap.isKeyLeftSequence(intch, key1, key2)) {
@@ -77,14 +79,22 @@ public class REPLCommandProcessor implements Runnable {
                     stdout.write(key2);
                     stdout.flush();
                 } else {
+                    //on normal character
                     commandRenderer.onCharInsert(ch);
-                    stdout.write(ch);
+                    renderCommandline(commandRenderer);
                     stdout.flush();
                 }
             }
         } catch (IOException e) {
             LOG.error("ERROR: ", e);
         }
+    }
+
+    private void renderCommandline(CommandRenderer commandRenderer) throws IOException {
+        stdout.write('\r');
+        stdout.write((prompt + commandRenderer.getCommand()).getBytes(charset));
+        stdout.write('\r');
+        moveRight(prompt.length() + commandRenderer.getCursorPosition());
     }
 
     private void writePrompt() throws IOException {
@@ -97,6 +107,15 @@ public class REPLCommandProcessor implements Runnable {
         stdout.write(prompt.getBytes(charset));
         for (int i=0; i<command.length(); i++) {
             stdout.write(' ');
+        }
+    }
+
+    private void moveRight(int cursorPosition) throws IOException {
+        for (int i=0; i<cursorPosition; i++) {
+            int[] keyRightSequence = keyMap.getKeyRightSequence();
+            for (int j=0; j<keyRightSequence.length; j++) {
+                stdout.write(keyRightSequence[j]);
+            }
         }
     }
 
