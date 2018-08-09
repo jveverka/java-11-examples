@@ -35,6 +35,10 @@ public class CommandRenderer {
         }
     }
 
+    public void onDeleteKey() {
+        shiftLeft();
+    }
+
     public void onCharInsert(char ch) {
         shiftRight();
         this.cmdBuffer[cursorPosition] = ch;
@@ -64,6 +68,10 @@ public class CommandRenderer {
         return cursorPosition;
     }
 
+    public boolean isCursorInEndLinePosition() {
+        return cmdBuffer[cursorPosition] == EMPTY;
+    }
+
     public void reset() {
         cursorPosition = 0;
         for (int i=0; i < cmdBuffer.length; i++) {
@@ -85,7 +93,7 @@ public class CommandRenderer {
 
     private int getCommandLength() {
         for (int i=0; i < cmdBuffer.length; i++) {
-            if (cmdBuffer[i] == 0) {
+            if (cmdBuffer[i] == EMPTY) {
                 return i+1;
             }
         }

@@ -63,21 +63,29 @@ public class REPLCommandProcessor implements Runnable {
                     commandRenderer.onBackSpace();
                     renderCommandline(commandRenderer);
                     stdout.flush();
-                } else if (intch == keyMap.getArrowPrefix()) {
-                    //arrow keys handling
+                } else if (intch == keyMap.getSequencePrefix()) {
+                    //special keys handling
                     int key1 = r.read();
                     int key2 = r.read();
                     if (keyMap.isKeyLeftSequence(intch, key1, key2)) {
+                        if (commandRenderer.getCursorPosition() > 0) {
+                            flushKeySequence(intch, key1, key2);
+                        }
                         commandRenderer.onKeyLeft();
                     } else if (keyMap.isKeyRightSequence(intch, key1, key2)) {
+                        if (!commandRenderer.isCursorInEndLinePosition()) {
+                            flushKeySequence(intch, key1, key2);
+                        }
                         commandRenderer.onKeyRight();
+                    } else if (keyMap.isKeyDeleteSequence(intch, key1, key2)) {
+                        int key3 = r.read(); //consume last character
+                        writeBlanks(commandRenderer.getCommand());
+                        commandRenderer.onDeleteKey();
+                        renderCommandline(commandRenderer);
+                        stdout.flush();
                     } else {
-                        LOG.error("Unsupported arrow key sequence {} {} {}", intch, key1, key2);
+                       LOG.error("Unsupported key sequence {} {} {}", intch, key1, key2);
                     }
-                    stdout.write(intch);
-                    stdout.write(key1);
-                    stdout.write(key2);
-                    stdout.flush();
                 } else {
                     //on normal character
                     commandRenderer.onCharInsert(ch);
@@ -117,6 +125,13 @@ public class REPLCommandProcessor implements Runnable {
                 stdout.write(keyRightSequence[j]);
             }
         }
+    }
+
+    private void flushKeySequence(int key0, int key1, int key2) throws IOException {
+        stdout.write(key0);
+        stdout.write(key1);
+        stdout.write(key2);
+        stdout.flush();
     }
 
     private boolean processCommand(String command) throws IOException {
