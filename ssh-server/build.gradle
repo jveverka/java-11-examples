@@ -1,27 +1,33 @@
+subprojects {
 
-apply plugin: 'java'
+    apply plugin: "java"
 
-repositories {
-   mavenLocal()
-   mavenCentral()
+    /*
+      target compatibility should be 11, but due to several issues with gradle / asm
+      is for now target compatibility set to 10
+      https://github.com/gradle/gradle/issues/5120
+      https://github.com/gradle/gradle/issues/5731
+    */
+    targetCompatibility = '10'
+    sourceCompatibility = '10'
+  
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile 'org.slf4j:slf4j-api:1.8.0-beta2'
+        compile 'org.slf4j:slf4j-simple:1.8.0-beta2'
+    }
 }
 
-test {
-   useTestNG()
-   //testLogging.showStandardStreams = true
-   testLogging {
-      events "passed", "skipped", "failed"
-   }
+project(':ssh-server') {
 }
 
-sourceCompatibility = 10
-targetCompatibility = 10
-
-dependencies {
-   compile 'org.slf4j:slf4j-api:1.8.0-beta2'
-   compile 'org.slf4j:slf4j-simple:1.8.0-beta2'
-   compile 'org.apache.mina:mina-core:2.0.19'
-   compile 'org.apache.sshd:sshd-core:2.0.0'
-   testCompile 'org.testng:testng:6.14.3'
+project(':ssh-server-examples') {
+    dependencies {
+        compile project(':ssh-server')
+    }
 }
+
 
