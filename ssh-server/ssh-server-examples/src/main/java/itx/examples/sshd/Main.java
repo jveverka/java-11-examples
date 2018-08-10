@@ -1,11 +1,10 @@
 package itx.examples.sshd;
 
+import itx.examples.sshd.commands.CommandProcessorImpl;
+import itx.ssh.server.SshServerBuilder;
 import itx.ssh.server.auth.KeyPairProviderBuilder;
 import itx.ssh.server.auth.PasswordAuthenticatorBuilder;
-import itx.ssh.server.commands.CommandFactoryImpl;
 import itx.ssh.server.commands.CommandProcessor;
-import itx.examples.sshd.commands.CommandProcessorImpl;
-import itx.ssh.server.commands.ShellFactoryImpl;
 import itx.ssh.server.commands.keymaps.KeyMap;
 import itx.ssh.server.commands.keymaps.KeyMapProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
@@ -31,8 +30,9 @@ public class Main {
             NoSuchAlgorithmException, KeyStoreException {
         LOG.info("starting ssh server ");
 
-        CountDownLatch countDownLatch = new CountDownLatch(1);
         int port = 2222;
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+
         PasswordAuthenticator passwordAuthenticator = new PasswordAuthenticatorBuilder()
                 .addCredentials("user", "secret")
                 .build();
@@ -46,15 +46,15 @@ public class Main {
                 .build();
 
         CommandProcessor commandProcessor = new CommandProcessorImpl();
-        KeyMapProvider keyMapProvider = new KeyMapProvider();
-        KeyMap keyMap = keyMapProvider.getDefaultKeyMap();
+        KeyMap keyMap = KeyMapProvider.createDefaultKeyMap();
 
-        SshServer sshd = SshServer.setUpDefaultServer();
-        sshd.setPort(port);
-        sshd.setPasswordAuthenticator(passwordAuthenticator);
-        sshd.setKeyPairProvider(keyPairProvider);
-        sshd.setShellFactory(new ShellFactoryImpl("CMD: ", keyMap, commandProcessor));
-        sshd.setCommandFactory(new CommandFactoryImpl(commandProcessor));
+        SshServer sshd = new SshServerBuilder()
+                .setPort(port)
+                .withKeyPairProvider(keyPairProvider)
+                .withPasswordAuthenticator(passwordAuthenticator)
+                .withCommandFactory(commandProcessor)
+                .withShellFactory("CMD: ", keyMap, commandProcessor)
+                .build();
         sshd.start();
 
         Runtime.getRuntime().addShutdownHook(new Thread() {

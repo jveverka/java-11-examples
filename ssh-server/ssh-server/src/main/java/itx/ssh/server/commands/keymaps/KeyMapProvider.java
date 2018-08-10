@@ -25,4 +25,8 @@ public class KeyMapProvider {
         return this.keyMaps.get(keyMapName);
     }
 
+    public static KeyMap createDefaultKeyMap() {
+        return new DefaultKeyMap();
+    }
+
 }
