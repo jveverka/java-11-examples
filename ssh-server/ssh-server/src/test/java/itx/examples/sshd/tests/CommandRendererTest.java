@@ -75,9 +75,16 @@ public class CommandRendererTest {
                 { new char[] { 'a', 'b', 'c', LEFT, LEFT, DEL  }, "ac", 1, false },
                 { new char[] { HOME }, "" , 0 , true },
                 { new char[] { END }, "" , 0 , true },
+                { new char[] { HOME, 'a' }, "a" , 1 , true },
+                { new char[] { END, 'a' }, "a" , 1 , true },
                 { new char[] { HOME, END, HOME, END }, "" , 0 , true },
                 { new char[] { 'a', 'b', 'c', HOME  }, "abc", 0, false },
                 { new char[] { 'a', 'b', 'c', HOME, END  }, "abc", 3, true },
+                { new char[] { RIGHT }, "" , 0 , true },
+                { new char[] { LEFT }, "" , 0 , true },
+                { new char[] { RIGHT, 'a' }, "a" , 1 , true },
+                { new char[] { LEFT, 'a' }, "a" , 1 , true },
+
         };
     }
 
@@ -114,6 +121,7 @@ public class CommandRendererTest {
         Assert.assertEquals(command, expectedCommand);
         Assert.assertEquals(Integer.valueOf(commandRenderer.getCursorPosition()), expectedCursorPosition);
         Assert.assertEquals(Boolean.valueOf(commandRenderer.isCursorInEndLinePosition()), isCursorInEndLinePosition);
+        Assert.assertEquals(command.length(), commandRenderer.getCommandLength());
     }
 
 }

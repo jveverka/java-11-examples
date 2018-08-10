@@ -3,6 +3,7 @@ package itx.ssh.server.commands.repl;
 /**
  * renders single commandline content
  * supports editing (left, right arrow, backspace)
+ * internal character buffer is 0 terminated
  */
 public class CommandRenderer {
 
@@ -21,7 +22,12 @@ public class CommandRenderer {
     }
 
     public void onKeyEnd() {
-        cursorPosition = getCommandLength()-1;
+        int cmdLength = getCommandLength();
+        if (cmdLength == 0) {
+            cursorPosition = 0;
+        } else {
+            cursorPosition = cmdLength;
+        }
     }
 
     public void onKeyLeft() {
@@ -31,7 +37,7 @@ public class CommandRenderer {
     }
 
     public void onKeyRight() {
-        if (cursorPosition < (getCommandLength()-1)) {
+        if (cursorPosition < getCommandLength()) {
             cursorPosition++;
         }
     }
@@ -72,6 +78,18 @@ public class CommandRenderer {
         return sb.toString();
     }
 
+    public int getCommandLength() {
+        if (cmdBuffer[0] == EMPTY) {
+            return 0;
+        }
+        for (int i=0; i < cmdBuffer.length; i++) {
+            if (cmdBuffer[i] == EMPTY) {
+                return i;
+            }
+        }
+        return BUF_MAX;
+    }
+
     public int getCursorPosition() {
         return cursorPosition;
     }
@@ -97,15 +115,6 @@ public class CommandRenderer {
         for (int i = cursorPosition; i<(cmdBuffer.length-1); i++) {
             cmdBuffer[i] = cmdBuffer[i+1];
         }
-    }
-
-    private int getCommandLength() {
-        for (int i=0; i < cmdBuffer.length; i++) {
-            if (cmdBuffer[i] == EMPTY) {
-                return i+1;
-            }
-        }
-        return BUF_MAX;
     }
 
 }
