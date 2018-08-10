@@ -49,8 +49,8 @@ public class SingleCommand implements Command {
     @Override
     public void start(Environment env) throws IOException {
         LOG.info("start");
-        int returnCode = commandProcessor.processCommand(command, stdout, stderr);
-        exitCallback.onExit(returnCode);
+        CommandResult commandResult = commandProcessor.processCommand(command, stdout, stderr);
+        exitCallback.onExit(commandResult.getReturnCode());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package itx.ssh.server.commands.repl;
 
 import itx.ssh.server.commands.CommandProcessor;
+import itx.ssh.server.commands.CommandResult;
 import itx.ssh.server.commands.keymaps.KeyMap;
 import org.apache.sshd.server.ExitCallback;
 import org.slf4j.Logger;
@@ -16,8 +17,6 @@ import java.nio.charset.Charset;
 public class REPLCommandProcessor implements Runnable {
 
     final private static Logger LOG = LoggerFactory.getLogger(REPLCommandProcessor.class);
-
-    final private static String CMD_EXIT = "exit";
 
     private InputStream stdin;
     private OutputStream stdout;
@@ -145,16 +144,15 @@ public class REPLCommandProcessor implements Runnable {
     }
 
     private boolean processCommand(String command) throws IOException {
-        command = command.trim();
-        if (CMD_EXIT.equals(command)) {
-            LOG.info("on exit");
-            exitCallback.onExit(0);
-            return false;
-        } else {
-            commandProcessor.processCommand(command, stdout, stderr);
+        CommandResult commandResult = commandProcessor.processCommand(command, stdout, stderr);
+        if (!commandResult.terminateSession()) {
             stdout.flush();
             stderr.flush();
             return true;
+        } else {
+            LOG.info("on exit");
+            exitCallback.onExit(0);
+            return false;
         }
     }
 

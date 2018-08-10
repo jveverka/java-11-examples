@@ -4,7 +4,7 @@ import itx.ssh.server.auth.KeyPairProviderBuilder;
 import itx.ssh.server.auth.PasswordAuthenticatorBuilder;
 import itx.ssh.server.commands.CommandFactoryImpl;
 import itx.ssh.server.commands.CommandProcessor;
-import itx.ssh.server.commands.CommandProcessorImpl;
+import itx.examples.sshd.commands.CommandProcessorImpl;
 import itx.ssh.server.commands.ShellFactoryImpl;
 import itx.ssh.server.commands.keymaps.KeyMap;
 import itx.ssh.server.commands.keymaps.KeyMapProvider;

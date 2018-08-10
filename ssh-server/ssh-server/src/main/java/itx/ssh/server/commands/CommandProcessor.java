@@ -5,6 +5,6 @@ import java.io.OutputStream;
 
 public interface CommandProcessor {
 
-    int processCommand(String command, OutputStream stdout, OutputStream stderr) throws IOException;
+    CommandResult processCommand(String command, OutputStream stdout, OutputStream stderr) throws IOException;
 
 }
