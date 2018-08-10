@@ -11,6 +11,8 @@ public class DefaultKeyMap implements KeyMap {
     final private static int[] ARROW_LEFT_SEQUENCE = { SEQUENCE_PREFIX, ARROW_PREFIX, 68 };
     final private static int[] ARROW_RIGHT_SEQUENCE = { SEQUENCE_PREFIX, ARROW_PREFIX, 67 };
     final private static int[] DELETE_SEQUENCE = {SEQUENCE_PREFIX, ARROW_PREFIX, 51 };
+    final private static int[] HOME_SEQUENCE = {SEQUENCE_PREFIX, ARROW_PREFIX, 72 };
+    final private static int[] END_SEQUENCE = {SEQUENCE_PREFIX, ARROW_PREFIX, 70 };
 
     @Override
     public int getEnterKeyCode() {
@@ -52,6 +54,22 @@ public class DefaultKeyMap implements KeyMap {
     }
 
     @Override
+    public boolean isKeyHomeSequence(int... sequence) {
+        return sequence != null && sequence.length >= 3 &&
+                sequence[0] == HOME_SEQUENCE[0] &&
+                sequence[1] == HOME_SEQUENCE[1] &&
+                sequence[2] == HOME_SEQUENCE[2];
+    }
+
+    @Override
+    public boolean isKeyEndSequence(int... sequence) {
+        return sequence != null && sequence.length >= 3 &&
+                sequence[0] == END_SEQUENCE[0] &&
+                sequence[1] == END_SEQUENCE[1] &&
+                sequence[2] == END_SEQUENCE[2];
+    }
+
+    @Override
     public int[] getKeyLeftSequence() {
         return Arrays.copyOf(ARROW_LEFT_SEQUENCE, ARROW_LEFT_SEQUENCE.length);
     }
@@ -62,8 +80,18 @@ public class DefaultKeyMap implements KeyMap {
     }
 
     @Override
-    public int[] getDeleteSequence() {
+    public int[] getKeyDeleteSequence() {
         return Arrays.copyOf(DELETE_SEQUENCE, DELETE_SEQUENCE.length);
+    }
+
+    @Override
+    public int[] getKeyHomeSequence() {
+        return Arrays.copyOf(HOME_SEQUENCE, HOME_SEQUENCE.length);
+    }
+
+    @Override
+    public int[] getKeyEndSequence() {
+        return Arrays.copyOf(END_SEQUENCE, END_SEQUENCE.length);
     }
 
 }

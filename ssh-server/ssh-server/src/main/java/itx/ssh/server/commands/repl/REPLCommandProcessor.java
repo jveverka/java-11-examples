@@ -83,6 +83,16 @@ public class REPLCommandProcessor implements Runnable {
                         commandRenderer.onDeleteKey();
                         renderCommandline(commandRenderer);
                         stdout.flush();
+                    } else if (keyMap.isKeyHomeSequence(intch, key1, key2)) {
+                        commandRenderer.onKeyHome();
+                        stdout.write('\r');
+                        moveRight(prompt.length());
+                        stdout.flush();
+                    } else if (keyMap.isKeyEndSequence(intch, key1, key2)) {
+                        commandRenderer.onKeyEnd();
+                        stdout.write('\r');
+                        moveRight(prompt.length() + commandRenderer.getCommand().length());
+                        stdout.flush();
                     } else {
                        LOG.error("Unsupported key sequence {} {} {}", intch, key1, key2);
                     }

@@ -11,6 +11,8 @@ public class CommandRendererTest {
     private final static char RIGHT = 2;
     private final static char BCK = 3;
     private final static char DEL = 4;
+    private final static char HOME = 5;
+    private final static char END = 6;
 
     @Test
     public void testEmptyCommandRenderer() {
@@ -71,6 +73,11 @@ public class CommandRendererTest {
                 { new char[] { 'a', 'b', 'c', LEFT, LEFT, LEFT, DEL, DEL, 'd'  }, "dc", 1, false },
                 { new char[] { 'a', 'b', 'c', LEFT, DEL, DEL  }, "ab", 2, true },
                 { new char[] { 'a', 'b', 'c', LEFT, LEFT, DEL  }, "ac", 1, false },
+                { new char[] { HOME }, "" , 0 , true },
+                { new char[] { END }, "" , 0 , true },
+                { new char[] { HOME, END, HOME, END }, "" , 0 , true },
+                { new char[] { 'a', 'b', 'c', HOME  }, "abc", 0, false },
+                { new char[] { 'a', 'b', 'c', HOME, END  }, "abc", 3, true },
         };
     }
 
@@ -90,6 +97,12 @@ public class CommandRendererTest {
                     break;
                 case DEL:
                     commandRenderer.onDeleteKey();
+                    break;
+                case HOME:
+                    commandRenderer.onKeyHome();
+                    break;
+                case END:
+                    commandRenderer.onKeyEnd();
                     break;
                 default:
                     commandRenderer.onCharInsert(keys[i]);

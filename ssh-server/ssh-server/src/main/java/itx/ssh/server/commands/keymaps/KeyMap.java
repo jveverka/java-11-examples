@@ -14,10 +14,18 @@ public interface KeyMap {
 
     boolean isKeyDeleteSequence(int... sequence);
 
+    boolean isKeyHomeSequence(int... sequence);
+
+    boolean isKeyEndSequence(int... sequence);
+
     int[] getKeyLeftSequence();
 
     int[] getKeyRightSequence();
 
-    int[] getDeleteSequence();
+    int[] getKeyDeleteSequence();
+
+    int[] getKeyHomeSequence();
+
+    int[] getKeyEndSequence();
 
 }

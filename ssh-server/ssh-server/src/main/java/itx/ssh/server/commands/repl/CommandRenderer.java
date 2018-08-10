@@ -16,6 +16,14 @@ public class CommandRenderer {
         this.cmdBuffer = new char[BUF_MAX];
     }
 
+    public void onKeyHome() {
+        cursorPosition = 0;
+    }
+
+    public void onKeyEnd() {
+        cursorPosition = getCommandLength()-1;
+    }
+
     public void onKeyLeft() {
         if (cursorPosition > 0) {
             cursorPosition--;
