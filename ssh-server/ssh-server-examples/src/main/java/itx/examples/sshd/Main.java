@@ -28,40 +28,16 @@ public class Main {
     public static void main(String[] args)
             throws IOException, InterruptedException, UnrecoverableKeyException, CertificateException,
             NoSuchAlgorithmException, KeyStoreException {
-        LOG.info("starting ssh server ");
 
-        int port = 2222;
+        ServerApp app = new ServerApp();
+        app.startApplication();
+
         CountDownLatch countDownLatch = new CountDownLatch(1);
-
-        PasswordAuthenticator passwordAuthenticator = new PasswordAuthenticatorBuilder()
-                .addCredentials("user", "secret")
-                .build();
-
-        InputStream resourceAsStream = Main.class.getClassLoader().getResourceAsStream("server-keystore.jks");
-        KeyPairProvider keyPairProvider = new KeyPairProviderBuilder()
-                .setIs(resourceAsStream)
-                .setKeyPairAlias("serverkey")
-                .setKeystorePassword("secret")
-                .setKeyPairPassword("secret")
-                .build();
-
-        CommandProcessor commandProcessor = new CommandProcessorImpl();
-        KeyMap keyMap = KeyMapProvider.createDefaultKeyMap();
-
-        SshServer sshd = new SshServerBuilder()
-                .setPort(port)
-                .withKeyPairProvider(keyPairProvider)
-                .withPasswordAuthenticator(passwordAuthenticator)
-                .withCommandFactory(commandProcessor)
-                .withShellFactory("CMD: ", keyMap, commandProcessor)
-                .build();
-        sshd.start();
-
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 try {
                     LOG.info("shutting down ssh server ");
-                    sshd.stop();
+                    app.stop();
                     countDownLatch.countDown();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -69,7 +45,6 @@ public class Main {
             }
         });
 
-        LOG.info("Listening on port {}", port);
         countDownLatch.await();
     }
 

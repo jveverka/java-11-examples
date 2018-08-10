@@ -17,7 +17,7 @@ public class TestKeyStore {
     @Test
     public void testLeyStoreLoad()
             throws UnrecoverableEntryException, CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
-        InputStream resourceAsStream = this.getClass().getResourceAsStream("/server-keystore.jks");
+        InputStream resourceAsStream = this.getClass().getResourceAsStream("/test-server-keystore.jks");
         KeyPair keyPair = Utils.loadKeyStore(resourceAsStream, "secret", "serverkey", "secret");
         Assert.assertNotNull(keyPair);
     }
