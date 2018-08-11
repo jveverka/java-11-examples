@@ -1,7 +1,7 @@
-package itx.ssh.server.commands;
+package itx.ssh.server.commands.repl;
 
+import itx.ssh.server.commands.CommandProcessor;
 import itx.ssh.server.commands.keymaps.KeyMap;
-import itx.ssh.server.commands.repl.REPLCommand;
 import org.apache.sshd.common.Factory;
 import org.apache.sshd.server.command.Command;
 import org.slf4j.Logger;

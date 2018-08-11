@@ -1,6 +1,5 @@
 package itx.examples.sshd;
 
-import itx.examples.sshd.commands.StringCommandProcessorImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

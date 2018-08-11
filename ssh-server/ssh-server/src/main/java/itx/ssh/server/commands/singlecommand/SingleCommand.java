@@ -1,5 +1,7 @@
-package itx.ssh.server.commands;
+package itx.ssh.server.commands.singlecommand;
 
+import itx.ssh.server.commands.CommandProcessor;
+import itx.ssh.server.commands.CommandResult;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.command.Command;

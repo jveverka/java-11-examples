@@ -1,8 +1,8 @@
 package itx.ssh.server;
 
-import itx.ssh.server.commands.CommandFactoryImpl;
+import itx.ssh.server.commands.singlecommand.CommandFactoryImpl;
 import itx.ssh.server.commands.CommandProcessor;
-import itx.ssh.server.commands.ShellFactoryImpl;
+import itx.ssh.server.commands.repl.ShellFactoryImpl;
 import itx.ssh.server.commands.keymaps.KeyMap;
 import itx.ssh.server.commands.keymaps.KeyMapProvider;
 import itx.ssh.server.commands.subsystem.NamedCommandFactory;
@@ -45,16 +45,32 @@ public class SshServerBuilder {
         return this;
     }
 
+    /**
+     * Set prompt and {@link CommandProcessor} for REPL interface.
+     * @param prompt
+     * @param commandProcessor
+     * @return
+     */
     public SshServerBuilder withShellFactory(String prompt, CommandProcessor commandProcessor) {
         sshd.setShellFactory(new ShellFactoryImpl(prompt, keyMap, commandProcessor));
         return this;
     }
 
+    /**
+     * Set {@link CommandProcessor} for single command processing.
+     * @param commandProcessor
+     * @return
+     */
     public SshServerBuilder withCommandFactory(CommandProcessor commandProcessor) {
         sshd.setCommandFactory(new CommandFactoryImpl(commandProcessor));
         return this;
     }
 
+    /**
+     * Set {@link CommandProcessor} for ssh-client library processing.
+     * @param commandProcessor
+     * @return
+     */
     public SshServerBuilder withSubsystemFactory(CommandProcessor commandProcessor) {
         List<NamedFactory<Command>> namedFactories = new ArrayList<>();
         namedFactories.add(new NamedCommandFactory(keyMap, commandProcessor));

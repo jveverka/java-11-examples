@@ -1,5 +1,6 @@
 
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 repositories {
    mavenLocal()
@@ -16,6 +17,18 @@ test {
 
 sourceCompatibility = 10
 targetCompatibility = 10
+
+publishing {
+   publications {
+      maven(MavenPublication) {
+         groupId = 'itx.ssh.client'
+         artifactId = 'ssh-client'
+         version = '1.0.0'
+
+         from components.java
+      }
+   }
+}
 
 dependencies {
    compile 'org.slf4j:slf4j-api:1.8.0-beta2'

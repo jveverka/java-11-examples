@@ -1,5 +1,6 @@
-package itx.ssh.server.commands;
+package itx.ssh.server.commands.singlecommand;
 
+import itx.ssh.server.commands.CommandProcessor;
 import org.apache.sshd.server.command.Command;
 import org.apache.sshd.server.command.CommandFactory;
 import org.slf4j.Logger;

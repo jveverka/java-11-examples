@@ -30,7 +30,7 @@ project(':ssh-client') {
     }
 }
 
-project(':ssh-server-examples') {
+project(':ssh-examples') {
     dependencies {
         compile project(':ssh-client')
         compile project(':ssh-server')
