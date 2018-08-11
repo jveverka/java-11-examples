@@ -4,6 +4,6 @@ import java.io.IOException;
 
 public interface SshSession extends AutoCloseable {
 
-    void send(Message request) throws IOException;
+    void send(byte[] request) throws IOException;
 
 }

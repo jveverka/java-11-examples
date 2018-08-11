@@ -1,6 +1,5 @@
 package itx.ssh.client.impl;
 
-import itx.ssh.client.Message;
 import itx.ssh.client.SshSession;
 import itx.ssh.client.SshSessionListener;
 import itx.ssh.server.commands.keymaps.KeyMap;
@@ -48,7 +47,7 @@ public class SshSessionImpl implements SshSession {
                         if (ch != keyMap.getEnterKeyCode()) {
                             dataBuffer.add((byte)ch);
                         } else {
-                            listener.onServerEvent(Message.from(dataBuffer.getAndReset()));
+                            listener.onServerEvent(dataBuffer.getAndReset());
                         }
                     }
                 } catch (IOException e) {
@@ -60,8 +59,8 @@ public class SshSessionImpl implements SshSession {
     }
 
     @Override
-    public void send(Message request) throws IOException {
-        robotChannel.getInvertedIn().write(request.getData());
+    public void send(byte[] request) throws IOException {
+        robotChannel.getInvertedIn().write(request);
         robotChannel.getInvertedIn().write(keyMap.getEnterKeyCode());
         robotChannel.getInvertedIn().flush();
     }

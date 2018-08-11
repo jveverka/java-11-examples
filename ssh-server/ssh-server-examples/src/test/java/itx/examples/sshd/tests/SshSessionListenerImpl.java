@@ -1,17 +1,16 @@
 package itx.examples.sshd.tests;
 
-import itx.ssh.client.Message;
 import itx.ssh.client.SshSessionListener;
 
 import java.util.concurrent.CountDownLatch;
 
 public class SshSessionListenerImpl implements SshSessionListener {
 
-    private Message serverEvent;
+    private byte[] serverEvent;
     private CountDownLatch countDownLatch;
 
     @Override
-    public void onServerEvent(Message serverEvent) {
+    public void onServerEvent(byte[] serverEvent) {
         this.serverEvent = serverEvent;
         countDownLatch.countDown();
     }
@@ -26,7 +25,7 @@ public class SshSessionListenerImpl implements SshSessionListener {
         this.serverEvent = null;
     }
 
-    public Message getLastMessage() {
+    public byte[] getLastMessage() {
         return serverEvent;
     }
 
