@@ -1,3 +1,4 @@
 include "ssh-server"
+include "ssh-client"
 include "ssh-server-examples"
 

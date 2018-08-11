@@ -24,8 +24,12 @@ subprojects {
 project(':ssh-server') {
 }
 
+project(':ssh-client') {
+}
+
 project(':ssh-server-examples') {
     dependencies {
+        compile project(':ssh-client')
         compile project(':ssh-server')
     }
 }
