@@ -8,16 +8,16 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class CommandProcessorImpl implements CommandProcessor {
+public class StringCommandProcessorImpl implements CommandProcessor {
 
-    final private static Logger LOG = LoggerFactory.getLogger(CommandProcessorImpl.class);
+    final private static Logger LOG = LoggerFactory.getLogger(StringCommandProcessorImpl.class);
     final private static String CMD_SET = "set";
     final private static String CMD_GET = "get";
     final private static String CMD_EXIT = "exit";
 
     private String state;
 
-    public CommandProcessorImpl() {
+    public StringCommandProcessorImpl() {
         state = "";
     }
 

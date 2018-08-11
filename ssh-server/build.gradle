@@ -25,6 +25,9 @@ project(':ssh-server') {
 }
 
 project(':ssh-client') {
+    dependencies {
+        compile project(':ssh-server')
+    }
 }
 
 project(':ssh-server-examples') {

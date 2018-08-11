@@ -1,6 +1,7 @@
 package itx.examples.sshd;
 
-import itx.examples.sshd.commands.CommandProcessorImpl;
+import itx.examples.sshd.commands.JsonCommandProcessor;
+import itx.examples.sshd.commands.StringCommandProcessorImpl;
 import itx.ssh.server.SshServerBuilder;
 import itx.ssh.server.auth.KeyPairProviderBuilder;
 import itx.ssh.server.auth.PasswordAuthenticatorBuilder;
@@ -26,11 +27,17 @@ public class ServerApp {
 
     private SshServer sshd;
 
+    public ServerApp() {
+    }
+
     public void startApplication() throws IOException, InterruptedException, UnrecoverableKeyException, CertificateException,
             NoSuchAlgorithmException, KeyStoreException {
         LOG.info("starting ssh server ");
 
         int port = 2222;
+        String prompt = "CMD: ";
+        CommandProcessor stringCommandProcessor = new StringCommandProcessorImpl();
+        JsonCommandProcessor jsonCommandProcessor = new JsonCommandProcessor();
 
         PasswordAuthenticator passwordAuthenticator = new PasswordAuthenticatorBuilder()
                 .addCredentials("user", "secret")
@@ -44,15 +51,16 @@ public class ServerApp {
                 .setKeyPairPassword("secret")
                 .build();
 
-        CommandProcessor commandProcessor = new CommandProcessorImpl();
         KeyMap keyMap = KeyMapProvider.createDefaultKeyMap();
 
         sshd = new SshServerBuilder()
                 .setPort(port)
+                .withKeyMap(keyMap)
                 .withKeyPairProvider(keyPairProvider)
                 .withPasswordAuthenticator(passwordAuthenticator)
-                .withCommandFactory(commandProcessor)
-                .withShellFactory("CMD: ", keyMap, commandProcessor)
+                .withCommandFactory(stringCommandProcessor)
+                .withShellFactory(prompt, stringCommandProcessor)
+                .withSubsystemFactory(jsonCommandProcessor)
                 .build();
         sshd.start();
         LOG.info("Listening on port {}", port);

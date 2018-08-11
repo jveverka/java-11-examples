@@ -1,6 +1,8 @@
 package itx.ssh.client;
 
 import itx.ssh.client.impl.ClientImpl;
+import itx.ssh.server.commands.keymaps.KeyMap;
+import itx.ssh.server.commands.keymaps.KeyMapProvider;
 
 public class ClientBuilder {
 
@@ -8,8 +10,15 @@ public class ClientBuilder {
     private String userName;
     private int port;
     private String password;
+    private KeyMap keyMap;
 
     public ClientBuilder() {
+        this.keyMap = KeyMapProvider.createDefaultKeyMap();
+    }
+
+    public ClientBuilder setKeyMap(KeyMap keyMap) {
+        this.keyMap = keyMap;
+        return this;
     }
 
     public ClientBuilder setHostName(String hostName) {
@@ -33,7 +42,7 @@ public class ClientBuilder {
     }
 
     public Client build() {
-        return new ClientImpl(hostName, port, userName, password);
+        return new ClientImpl(hostName, port, userName, password, keyMap);
     }
 
 }

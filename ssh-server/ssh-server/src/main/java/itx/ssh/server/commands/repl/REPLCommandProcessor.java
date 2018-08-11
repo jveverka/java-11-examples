@@ -41,6 +41,7 @@ public class REPLCommandProcessor implements Runnable {
 
     @Override
     public void run() {
+        LOG.info("starting REPL command listener");
         try {
             Reader r = new InputStreamReader(stdin, charset);
             int intch;
@@ -48,6 +49,7 @@ public class REPLCommandProcessor implements Runnable {
             writePrompt();
             while ((intch = r.read()) != -1) {
                 char ch = (char) intch;
+                //process commands in 'REPL' mode (command line for human interaction)
                 if (intch == keyMap.getEnterKeyCode()) {
                     //on ENTER
                     stdout.write('\n');
@@ -93,7 +95,7 @@ public class REPLCommandProcessor implements Runnable {
                         moveRight(prompt.length() + commandRenderer.getCommand().length());
                         stdout.flush();
                     } else {
-                       LOG.error("Unsupported key sequence {} {} {}", intch, key1, key2);
+                        LOG.error("Unsupported key sequence {} {} {}", intch, key1, key2);
                     }
                 } else {
                     //on normal character
@@ -105,6 +107,7 @@ public class REPLCommandProcessor implements Runnable {
         } catch (IOException e) {
             LOG.error("ERROR: ", e);
         }
+        LOG.info("REPL command listener terminated");
     }
 
     private void renderCommandline(CommandRenderer commandRenderer) throws IOException {

@@ -1,4 +1,4 @@
-package itx.ssh.server.commands.repl;
+package itx.ssh.server.commands.subsystem;
 
 import itx.ssh.server.commands.CommandProcessor;
 import itx.ssh.server.commands.keymaps.KeyMap;
@@ -14,62 +14,55 @@ import java.io.OutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class REPLCommand implements Command {
+public class RobotCommand implements Command {
 
-    final private static Logger LOG = LoggerFactory.getLogger(REPLCommand.class);
+    final private static Logger LOG = LoggerFactory.getLogger(RobotCommand.class);
 
     private InputStream stdin;
     private OutputStream stdout;
     private OutputStream stderr;
     private ExitCallback exitCallback;
-    private ExecutorService executorService;
     private CommandProcessor commandProcessor;
     private KeyMap keyMap;
-    private String prompt;
+    private ExecutorService executorService;
 
-    public REPLCommand(String prompt, KeyMap keyMap, CommandProcessor commandProcessor) {
-        this.executorService = Executors.newSingleThreadExecutor();
-        this.commandProcessor = commandProcessor;
+    public RobotCommand(KeyMap keyMap, CommandProcessor commandProcessor) {
         this.keyMap = keyMap;
-        this.prompt = prompt;
+        this.commandProcessor = commandProcessor;
+        this.executorService = Executors.newSingleThreadExecutor();
     }
 
     @Override
     public void setInputStream(InputStream stdin) {
-        LOG.info("setInputStream");
         this.stdin = stdin;
     }
 
     @Override
     public void setOutputStream(OutputStream stdout) {
-        LOG.info("setOutputStream");
         this.stdout = stdout;
     }
 
     @Override
     public void setErrorStream(OutputStream stderr) {
-        LOG.info("setErrorStream");
         this.stderr = stderr;
     }
 
     @Override
-    public void setExitCallback(ExitCallback callback) {
-        LOG.info("setExitCallback");
-        this.exitCallback = callback;
+    public void setExitCallback(ExitCallback exitCallback) {
+        this.exitCallback = exitCallback;
     }
 
     @Override
     public void start(Environment env) throws IOException {
-        LOG.info("start");
-        REPLCommandProcessor replCommandProcessor = new REPLCommandProcessor(prompt, keyMap, commandProcessor,
-                stdin, stdout, stderr, exitCallback);
-        executorService.submit(replCommandProcessor);
+        RobotCommandProcessor robotCommandProcessor = new RobotCommandProcessor(stdin, stdout, stderr,
+                exitCallback, commandProcessor, keyMap);
+        executorService.submit(robotCommandProcessor);
     }
 
     @Override
     public void destroy() throws Exception {
         LOG.info("destroy");
-        executorService.shutdown();
+        this.executorService.shutdown();
     }
 
 }
