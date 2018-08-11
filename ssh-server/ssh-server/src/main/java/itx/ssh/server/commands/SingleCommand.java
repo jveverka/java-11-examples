@@ -19,9 +19,9 @@ public class SingleCommand implements Command {
     private OutputStream stderr;
     private ExitCallback exitCallback;
     private CommandProcessor commandProcessor;
-    private String command;
+    private byte[] command;
 
-    public SingleCommand(String command, CommandProcessor commandProcessor) {
+    public SingleCommand(byte[] command, CommandProcessor commandProcessor) {
         this.command = command;
         this.commandProcessor = commandProcessor;
     }

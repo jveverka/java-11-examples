@@ -3,6 +3,7 @@ package itx.ssh.server.commands.subsystem;
 import itx.ssh.server.commands.CommandProcessor;
 import itx.ssh.server.commands.CommandResult;
 import itx.ssh.server.commands.keymaps.KeyMap;
+import itx.ssh.server.utils.DataBuffer;
 import org.apache.sshd.server.ExitCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RobotCommandProcessor implements Runnable {
 
@@ -45,19 +44,14 @@ public class RobotCommandProcessor implements Runnable {
         try {
             Reader r = new InputStreamReader(stdin, charset);
             int intch;
-            List<Integer> buffer = new ArrayList<>(256);
+            DataBuffer dataBuffer = new DataBuffer();
             while ((intch = r.read()) != -1) {
                 if (intch == keyMap.getEnterKeyCode()) {
-                    char[] command = new char[buffer.size()];
-                    for (int i = 0; i < buffer.size(); i++) {
-                        command[i] = (char) buffer.get(i).intValue();
-                    }
-                    buffer.clear();
-                    if (!processCommand(String.copyValueOf(command))) {
+                    if (!processCommand(dataBuffer.getAndReset())) {
                         return;
                     }
                 } else {
-                    buffer.add(Integer.valueOf(intch));
+                    dataBuffer.add((byte)intch);
                 }
             }
         } catch (IOException e) {
@@ -66,7 +60,7 @@ public class RobotCommandProcessor implements Runnable {
         LOG.info("robot command listener terminated");
     }
 
-    private boolean processCommand(String command) throws IOException {
+    private boolean processCommand(byte[] command) throws IOException {
         CommandResult commandResult = commandProcessor.processCommand(command, stdout, stderr);
         if (!commandResult.terminateSession()) {
             stdout.flush();

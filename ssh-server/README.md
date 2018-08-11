@@ -1,4 +1,4 @@
-# Java SSH server example
+# Java SSH server + client library and examples
 Simple ssh server and client with examples how to use it. Implementation uses [Apache Mina](https://mina.apache.org/) project.
 Server supports following clients:
 * __ssh terminals__ - like putty or 'OpenSSH SSH client'

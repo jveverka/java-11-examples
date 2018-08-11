@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 public class StringCommandProcessorImpl implements CommandProcessor {
 
@@ -22,10 +23,11 @@ public class StringCommandProcessorImpl implements CommandProcessor {
     }
 
     @Override
-    public CommandResult processCommand(String command, OutputStream stdout, OutputStream stderr) throws IOException {
-        String[] cmdElements = command.split(" ");
+    public CommandResult processCommand(byte[] command, OutputStream stdout, OutputStream stderr) throws IOException {
+        String cmd = new String(command, Charset.forName("UTF-8"));
+        String[] cmdElements = cmd.split(" ");
         if (CMD_SET.equals(cmdElements[0].trim())) {
-            LOG.info("command: {}", command);
+            LOG.info("command: {}", cmd);
             if (cmdElements.length > 1) {
                 state = cmdElements[1].trim();
             } else {
@@ -33,7 +35,7 @@ public class StringCommandProcessorImpl implements CommandProcessor {
             }
             return CommandResult.ok();
         } else if (CMD_GET.equals(cmdElements[0].trim())) {
-            LOG.info("command: {}", command);
+            LOG.info("command: {}", cmd);
             stdout.write("state: ".getBytes());
             stdout.write(state.getBytes());
             stdout.write('\n');
@@ -44,7 +46,7 @@ public class StringCommandProcessorImpl implements CommandProcessor {
             LOG.info("exit");
             return CommandResult.terminateSessionOk();
         } else {
-            LOG.info("unsupported command: {}", command);
+            LOG.info("unsupported command: {}", cmd);
             return CommandResult.from(255);
         }
     }

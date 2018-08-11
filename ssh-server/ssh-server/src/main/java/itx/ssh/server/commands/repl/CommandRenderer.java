@@ -1,5 +1,7 @@
 package itx.ssh.server.commands.repl;
 
+import java.nio.charset.Charset;
+
 /**
  * renders single commandline content
  * supports editing (left, right arrow, backspace)
@@ -11,10 +13,10 @@ public class CommandRenderer {
     private final static char EMPTY = 0;
 
     private int cursorPosition;
-    private char[] cmdBuffer;
+    private byte[] cmdBuffer;
 
     public CommandRenderer() {
-        this.cmdBuffer = new char[BUF_MAX];
+        this.cmdBuffer = new byte[BUF_MAX];
     }
 
     public void onKeyHome() {
@@ -53,7 +55,7 @@ public class CommandRenderer {
         shiftLeft();
     }
 
-    public void onCharInsert(char ch) {
+    public void onCharInsert(byte ch) {
         shiftRight();
         this.cmdBuffer[cursorPosition] = ch;
         if (cursorPosition < cmdBuffer.length) {
@@ -67,15 +69,22 @@ public class CommandRenderer {
         return command;
     }
 
+    public byte[] getCommandBytesAndReset() {
+        byte[] command = getCommandBytes();
+        reset();
+        return command;
+    }
+
     public String getCommand() {
-        StringBuilder sb = new StringBuilder();
-        for (int i=0; i < cmdBuffer.length; i++) {
-            if (cmdBuffer[i] == EMPTY) {
-                break;
-            }
-            sb.append(cmdBuffer[i]);
+        return new String(getCommandBytes(), Charset.forName("UTF-8"));
+    }
+
+    public byte[] getCommandBytes() {
+        byte[] data = new byte[getCommandLength()];
+        for (int i=0; i < data.length; i++) {
+            data[i] = cmdBuffer[i];
         }
-        return sb.toString();
+        return data;
     }
 
     public int getCommandLength() {

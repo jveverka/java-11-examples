@@ -4,6 +4,7 @@ import itx.ssh.client.Message;
 import itx.ssh.client.SshSession;
 import itx.ssh.client.SshSessionListener;
 import itx.ssh.server.commands.keymaps.KeyMap;
+import itx.ssh.server.utils.DataBuffer;
 import org.apache.sshd.client.channel.ChannelSubsystem;
 import org.apache.sshd.client.session.ClientSession;
 import org.slf4j.Logger;
@@ -12,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -42,19 +41,14 @@ public class SshSessionImpl implements SshSession {
             public void run() {
                 LOG.info("starting client listening thread");
                 Reader r = new InputStreamReader(robotChannel.getInvertedOut());
-                List<Integer> buffer = new ArrayList<>(256);
+                DataBuffer dataBuffer = new DataBuffer();
                 try {
                     int ch;
                     while ((ch = r.read()) != -1) {
                         if (ch != keyMap.getEnterKeyCode()) {
-                            buffer.add(Integer.valueOf(ch));
+                            dataBuffer.add((byte)ch);
                         } else {
-                            byte[] message = new byte[buffer.size()];
-                            for (int i=0; i<buffer.size();i++) {
-                                message[i] = buffer.get(i).byteValue();
-                            }
-                            listener.onServerEvent(Message.from(message));
-                            buffer.clear();
+                            listener.onServerEvent(Message.from(dataBuffer.getAndReset()));
                         }
                     }
                 } catch (IOException e) {

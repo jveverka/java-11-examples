@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 public class JsonCommandProcessor implements CommandProcessor {
 
@@ -29,8 +30,8 @@ public class JsonCommandProcessor implements CommandProcessor {
     }
 
     @Override
-    public CommandResult processCommand(String command, OutputStream stdout, OutputStream stderr) throws IOException {
-        LOG.info("processing command: {} ", command);
+    public CommandResult processCommand(byte[] command, OutputStream stdout, OutputStream stderr) throws IOException {
+        LOG.info("processing command: {} ", new String(command, Charset.forName("UTF-8")));
         JsonNode jsonNode = mapper.readTree(command);
         String type = jsonNode.get("type").asText();
         String response = "{}";

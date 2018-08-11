@@ -25,9 +25,9 @@ public class CommandRendererTest {
     @Test
     public void testCommandRendererSimple() {
         CommandRenderer commandRenderer = new CommandRenderer();
-        commandRenderer.onCharInsert('a');
-        commandRenderer.onCharInsert('b');
-        commandRenderer.onCharInsert('c');
+        commandRenderer.onCharInsert((byte)'a');
+        commandRenderer.onCharInsert((byte)'b');
+        commandRenderer.onCharInsert((byte)'c');
         String command = commandRenderer.getCommand();
         Assert.assertNotNull(command);
         Assert.assertEquals(command, "abc");
@@ -35,9 +35,9 @@ public class CommandRendererTest {
         command = commandRenderer.getCommand();
         Assert.assertNotNull(command);
         Assert.assertEquals(command, "");
-        commandRenderer.onCharInsert('D');
-        commandRenderer.onCharInsert('C');
-        commandRenderer.onCharInsert('E');
+        commandRenderer.onCharInsert((byte)'D');
+        commandRenderer.onCharInsert((byte)'C');
+        commandRenderer.onCharInsert((byte)'E');
         command = commandRenderer.getCommand();
         Assert.assertNotNull(command);
         Assert.assertEquals(command, "DCE");
@@ -112,7 +112,7 @@ public class CommandRendererTest {
                     commandRenderer.onKeyEnd();
                     break;
                 default:
-                    commandRenderer.onCharInsert(keys[i]);
+                    commandRenderer.onCharInsert((byte)keys[i]);
                     break;
             }
         }

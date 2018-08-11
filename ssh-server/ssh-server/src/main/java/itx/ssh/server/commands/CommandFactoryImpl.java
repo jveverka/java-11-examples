@@ -5,6 +5,8 @@ import org.apache.sshd.server.command.CommandFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.Charset;
+
 public class CommandFactoryImpl implements CommandFactory {
 
     final private static Logger LOG = LoggerFactory.getLogger(CommandFactoryImpl.class);
@@ -18,7 +20,7 @@ public class CommandFactoryImpl implements CommandFactory {
     @Override
     public Command createCommand(String command) {
         LOG.info("createCommand: {}", command);
-        return new SingleCommand(command, commandProcessor);
+        return new SingleCommand(command.getBytes(Charset.forName("UTF-8")), commandProcessor);
     }
 
 }

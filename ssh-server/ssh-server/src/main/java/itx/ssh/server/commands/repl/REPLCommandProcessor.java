@@ -48,13 +48,13 @@ public class REPLCommandProcessor implements Runnable {
             CommandRenderer commandRenderer = new CommandRenderer();
             writePrompt();
             while ((intch = r.read()) != -1) {
-                char ch = (char) intch;
+                byte ch = (byte) intch;
                 //process commands in 'REPL' mode (command line for human interaction)
                 if (intch == keyMap.getEnterKeyCode()) {
                     //on ENTER
                     stdout.write('\n');
                     stdout.write('\r');
-                    if (!processCommand(commandRenderer.getCommandAndReset())) {
+                    if (!processCommand(commandRenderer.getCommandBytesAndReset())) {
                         return;
                     }
                     writePrompt();
@@ -146,7 +146,7 @@ public class REPLCommandProcessor implements Runnable {
         stdout.flush();
     }
 
-    private boolean processCommand(String command) throws IOException {
+    private boolean processCommand(byte[] command) throws IOException {
         CommandResult commandResult = commandProcessor.processCommand(command, stdout, stderr);
         if (!commandResult.terminateSession()) {
             stdout.flush();
