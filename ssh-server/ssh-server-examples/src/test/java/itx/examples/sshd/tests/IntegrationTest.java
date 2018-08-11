@@ -1,6 +1,7 @@
 package itx.examples.sshd.tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import itx.examples.sshd.Main;
 import itx.examples.sshd.ServerApp;
 import itx.examples.sshd.commands.dto.GetRequest;
 import itx.examples.sshd.commands.dto.GetResponse;
@@ -8,7 +9,9 @@ import itx.examples.sshd.commands.dto.SetRequest;
 import itx.examples.sshd.commands.dto.SetResponse;
 import itx.ssh.client.Client;
 import itx.ssh.client.ClientBuilder;
+import itx.ssh.client.ServerKeyVerifierBuilder;
 import itx.ssh.client.SshSession;
+import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -17,6 +20,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
@@ -38,10 +42,18 @@ public class IntegrationTest {
         this.app = new ServerApp();
         this.app.startApplication();
 
+        InputStream resourceAsStream = Main.class.getClassLoader().getResourceAsStream("client-keystore.jks");
+        ServerKeyVerifier serverKeyVerifier = new ServerKeyVerifierBuilder()
+                .setIs(resourceAsStream)
+                .setPublicKeyAlias("serverkey")
+                .setKeystorePassword("secret")
+                .build();
+
         this.client = new ClientBuilder()
                 .setHostName("127.0.0.1")
                 .setPort(2222).setUserName("user")
                 .setPassword("secret")
+                .withServerKeyVerifier(serverKeyVerifier)
                 .build();
         this.client.start();
     }

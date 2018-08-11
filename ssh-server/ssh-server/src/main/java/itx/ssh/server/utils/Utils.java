@@ -24,7 +24,7 @@ public final class Utils {
     }
 
     /**
-     * Load keypair from JKS keystore.
+     * Load {@link KeyPair} from JKS keystore.
      * @param is keystore data from {@link InputStream}.
      * @param keystorePassword password to open keystore.
      * @param keyPairAlias name of the keystore entry representing the {@link KeyPair}
@@ -36,7 +36,7 @@ public final class Utils {
      * @throws NoSuchAlgorithmException
      * @throws UnrecoverableKeyException
      */
-    public static KeyPair loadKeyStore(InputStream is, String keystorePassword, String keyPairAlias, String keyPairPassword)
+    public static KeyPair loadKeyPair(InputStream is, String keystorePassword, String keyPairAlias, String keyPairPassword)
             throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableKeyException {
         KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
         keystore.load(is, keystorePassword.toCharArray());
@@ -51,7 +51,27 @@ public final class Utils {
     }
 
     /**
-     * Generate fresh server keypair.
+     * Load {@link PublicKey} from JKS keystore.
+     * @param is keystore data from {@link InputStream}.
+     * @param keystorePassword password to open keystore.
+     * @param publicKeyAlias name of the keystore entry representing the {@link PublicKey}
+     * @return instance of {@link PublicKey}
+     * @throws KeyStoreException
+     * @throws CertificateException
+     * @throws NoSuchAlgorithmException
+     * @throws IOException
+     */
+    public static PublicKey loadPublicKey(InputStream is, String keystorePassword, String publicKeyAlias)
+            throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
+        KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+        keystore.load(is, keystorePassword.toCharArray());
+
+        Certificate cert = keystore.getCertificate(publicKeyAlias);
+        return cert.getPublicKey();
+    }
+
+    /**
+     * Generate one-time server keypair.
      * @return
      */
     public static Iterable<KeyPair> generateKeyPairs() {

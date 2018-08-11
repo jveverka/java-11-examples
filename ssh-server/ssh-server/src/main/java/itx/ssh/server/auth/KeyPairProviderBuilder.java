@@ -45,7 +45,7 @@ public class KeyPairProviderBuilder {
 
     public KeyPairProvider build()
             throws UnrecoverableKeyException, CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
-        KeyPair keyPair = Utils.loadKeyStore(is, keystorePassword, keyPairAlias, keyPairPassword);
+        KeyPair keyPair = Utils.loadKeyPair(is, keystorePassword, keyPairAlias, keyPairPassword);
         List<KeyPair> keyPairList = new ArrayList<>();
         keyPairList.add(keyPair);
         return new KeyPairProviderImpl(keyPairList);

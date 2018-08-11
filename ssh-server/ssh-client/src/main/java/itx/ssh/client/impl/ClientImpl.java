@@ -7,13 +7,12 @@ import itx.ssh.server.commands.keymaps.KeyMap;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.channel.ChannelSubsystem;
 import org.apache.sshd.client.future.OpenFuture;
+import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.util.concurrent.TimeUnit;
 
 public class ClientImpl implements Client {
@@ -26,18 +25,24 @@ public class ClientImpl implements Client {
     private final String password;
     private SshClient client;
     private KeyMap keyMap;
+    private ServerKeyVerifier serverKeyVerifier;
 
-    public ClientImpl(String hostName, int port, String userName, String password, KeyMap keyMap) {
+    public ClientImpl(String hostName, int port, String userName, String password,
+                      KeyMap keyMap, ServerKeyVerifier serverKeyVerifier) {
         this.hostName = hostName;
         this.userName = userName;
         this.port = port;
         this.password = password;
         this.keyMap = keyMap;
+        this.serverKeyVerifier = serverKeyVerifier;
     }
 
     @Override
     public void start() {
         this.client = SshClient.setUpDefaultClient();
+        if (serverKeyVerifier != null) {
+            client.setServerKeyVerifier(serverKeyVerifier);
+        }
         this.client.start();
     }
 
@@ -58,13 +63,6 @@ public class ClientImpl implements Client {
 
         ChannelSubsystem robotChannel = session.createSubsystemChannel("robot");
 
-        //PipedOutputStream out = new PipedOutputStream();
-        //PipedInputStream channelIn = new PipedInputStream(out);
-        //PipedOutputStream channelOut = new PipedOutputStream();
-        //PipedOutputStream channelErr = new PipedOutputStream();
-        //robotChannel.setIn(channelIn);
-        //robotChannel.setOut(channelOut);
-        //robotChannel.setErr(channelErr);
         OpenFuture openFuture = robotChannel.open();
 
         while(!openFuture.isOpened()) {
