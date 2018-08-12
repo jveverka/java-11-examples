@@ -2,7 +2,9 @@ package itx.ssh.server.commands.singlecommand;
 
 import itx.ssh.server.commands.CommandProcessor;
 import itx.ssh.server.commands.CommandResult;
+import itx.ssh.server.commands.OutputWriter;
 import itx.ssh.server.commands.subsystem.SshClientSessionCounter;
+import itx.ssh.server.utils.OutputWriterImpl;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.command.Command;
@@ -55,9 +57,10 @@ public class SingleCommand implements Command {
     @Override
     public void start(Environment env) throws IOException {
         long sessionId = sshClientSessionCounter.getNewSessionId();
-        commandProcessor.updateSessionId(sessionId);
+        OutputWriter outputWriter = new OutputWriterImpl(stdout, stderr);
+        commandProcessor.onSessionStart(sessionId, outputWriter);
         LOG.info("start single command processor with sessionId: {}", sessionId);
-        CommandResult commandResult = commandProcessor.processCommand(command, stdout, stderr);
+        CommandResult commandResult = commandProcessor.processCommand(command);
         exitCallback.onExit(commandResult.getReturnCode());
     }
 

@@ -12,26 +12,25 @@ import itx.examples.sshd.commands.dto.StreamResponse;
 import itx.examples.sshd.sessions.SshClientSessionListenerImpl;
 import itx.ssh.server.commands.CommandProcessor;
 import itx.ssh.server.commands.CommandResult;
+import itx.ssh.server.commands.OutputWriter;
 import itx.ssh.server.commands.subsystem.SshClientSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.charset.Charset;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class SshClientCommandProcessor implements CommandProcessor, AutoCloseable {
 
     final private static Logger LOG = LoggerFactory.getLogger(SshClientCommandProcessor.class);
-    final private static int ENTER = 13;
 
     private final ObjectMapper mapper;
 
     private String state;
     private long sessionId;
+    private OutputWriter outputWriter;
     private SshClientSessionListenerImpl sshClientSessionListener;
     private ExecutorService executorService;
 
@@ -43,12 +42,13 @@ public class SshClientCommandProcessor implements CommandProcessor, AutoCloseabl
     }
 
     @Override
-    public void updateSessionId(long sessionId) {
+    public void onSessionStart(long sessionId, OutputWriter outputWriter) {
         this.sessionId = sessionId;
+        this.outputWriter = outputWriter;
     }
 
     @Override
-    public CommandResult processCommand(byte[] command, OutputStream stdout, OutputStream stderr) throws IOException {
+    public CommandResult processCommand(byte[] command) throws IOException {
         LOG.info("processing command: {} ", new String(command, Charset.forName("UTF-8")));
         JsonNode jsonNode = mapper.readTree(command);
         String type = jsonNode.get("type").asText();
@@ -86,8 +86,7 @@ public class SshClientCommandProcessor implements CommandProcessor, AutoCloseabl
             ErrorData errorData = new ErrorData("unsupported command");
             response = mapper.writeValueAsBytes(errorData);
         }
-        stdout.write(response);
-        stdout.write(ENTER);
+        outputWriter.writeMessage(response);
         return CommandResult.ok();
     }
 

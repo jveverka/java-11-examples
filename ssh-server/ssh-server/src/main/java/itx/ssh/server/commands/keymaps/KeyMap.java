@@ -2,30 +2,30 @@ package itx.ssh.server.commands.keymaps;
 
 public interface KeyMap {
 
-    int getEnterKeyCode();
+    byte getEnterKeyCode();
 
-    int getBackSpaceKeyCode();
+    byte getBackSpaceKeyCode();
 
-    int getSequencePrefix();
+    byte getSequencePrefix();
 
-    boolean isKeyLeftSequence(int... sequence);
+    boolean isKeyLeftSequence(byte... sequence);
 
-    boolean isKeyRightSequence(int... sequence);
+    boolean isKeyRightSequence(byte... sequence);
 
-    boolean isKeyDeleteSequence(int... sequence);
+    boolean isKeyDeleteSequence(byte... sequence);
 
-    boolean isKeyHomeSequence(int... sequence);
+    boolean isKeyHomeSequence(byte... sequence);
 
-    boolean isKeyEndSequence(int... sequence);
+    boolean isKeyEndSequence(byte... sequence);
 
-    int[] getKeyLeftSequence();
+    byte[] getKeyLeftSequence();
 
-    int[] getKeyRightSequence();
+    byte[] getKeyRightSequence();
 
-    int[] getKeyDeleteSequence();
+    byte[] getKeyDeleteSequence();
 
-    int[] getKeyHomeSequence();
+    byte[] getKeyHomeSequence();
 
-    int[] getKeyEndSequence();
+    byte[] getKeyEndSequence();
 
 }

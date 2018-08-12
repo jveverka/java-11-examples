@@ -1,8 +1,10 @@
 package itx.ssh.server.commands.repl;
 
 import itx.ssh.server.commands.CommandProcessor;
+import itx.ssh.server.commands.OutputWriter;
 import itx.ssh.server.commands.keymaps.KeyMap;
 import itx.ssh.server.commands.subsystem.SshClientSessionCounter;
+import itx.ssh.server.utils.OutputWriterImpl;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.command.Command;
@@ -64,10 +66,11 @@ public class REPLCommand implements Command {
     @Override
     public void start(Environment env) throws IOException {
         long sessionId = sshClientSessionCounter.getNewSessionId();
-        commandProcessor.updateSessionId(sessionId);
+        OutputWriterImpl outputWriter = new OutputWriterImpl(stdout, stderr);
+        commandProcessor.onSessionStart(sessionId, outputWriter);
         LOG.info("start REPL command processor with sessionId: {}", sessionId);
         REPLCommandProcessor replCommandProcessor = new REPLCommandProcessor(prompt, keyMap, commandProcessor,
-                stdin, stdout, stderr, exitCallback);
+                stdin, outputWriter, exitCallback);
         executorService.submit(replCommandProcessor);
     }
 

@@ -4,33 +4,33 @@ import java.util.Arrays;
 
 public class DefaultKeyMap implements KeyMap {
 
-    final private static int ENTER = 13;
-    final private static int BACKSPACE = 127;
-    final private static int SEQUENCE_PREFIX = 27;
-    final private static int ARROW_PREFIX = 91;
-    final private static int[] ARROW_LEFT_SEQUENCE = { SEQUENCE_PREFIX, ARROW_PREFIX, 68 };
-    final private static int[] ARROW_RIGHT_SEQUENCE = { SEQUENCE_PREFIX, ARROW_PREFIX, 67 };
-    final private static int[] DELETE_SEQUENCE = {SEQUENCE_PREFIX, ARROW_PREFIX, 51 };
-    final private static int[] HOME_SEQUENCE = {SEQUENCE_PREFIX, ARROW_PREFIX, 72 };
-    final private static int[] END_SEQUENCE = {SEQUENCE_PREFIX, ARROW_PREFIX, 70 };
+    final private static byte ENTER = 13;
+    final private static byte BACKSPACE = 127;
+    final private static byte SEQUENCE_PREFIX = 27;
+    final private static byte ARROW_PREFIX = 91;
+    final private static byte[] ARROW_LEFT_SEQUENCE = { SEQUENCE_PREFIX, ARROW_PREFIX, 68 };
+    final private static byte[] ARROW_RIGHT_SEQUENCE = { SEQUENCE_PREFIX, ARROW_PREFIX, 67 };
+    final private static byte[] DELETE_SEQUENCE = {SEQUENCE_PREFIX, ARROW_PREFIX, 51 };
+    final private static byte[] HOME_SEQUENCE = {SEQUENCE_PREFIX, ARROW_PREFIX, 72 };
+    final private static byte[] END_SEQUENCE = {SEQUENCE_PREFIX, ARROW_PREFIX, 70 };
 
     @Override
-    public int getEnterKeyCode() {
+    public byte getEnterKeyCode() {
         return ENTER;
     }
 
     @Override
-    public int getBackSpaceKeyCode() {
+    public byte getBackSpaceKeyCode() {
         return BACKSPACE;
     }
 
     @Override
-    public int getSequencePrefix() {
+    public byte getSequencePrefix() {
         return SEQUENCE_PREFIX;
     }
 
     @Override
-    public boolean isKeyLeftSequence(int... sequence) {
+    public boolean isKeyLeftSequence(byte... sequence) {
         return sequence != null && sequence.length >= 3 &&
                 sequence[0] == ARROW_LEFT_SEQUENCE[0] &&
                 sequence[1] == ARROW_LEFT_SEQUENCE[1] &&
@@ -38,7 +38,7 @@ public class DefaultKeyMap implements KeyMap {
     }
 
     @Override
-    public boolean isKeyRightSequence(int... sequence) {
+    public boolean isKeyRightSequence(byte... sequence) {
         return sequence != null && sequence.length >= 3 &&
                 sequence[0] == ARROW_RIGHT_SEQUENCE[0] &&
                 sequence[1] == ARROW_RIGHT_SEQUENCE[1] &&
@@ -46,7 +46,7 @@ public class DefaultKeyMap implements KeyMap {
     }
 
     @Override
-    public boolean isKeyDeleteSequence(int... sequence) {
+    public boolean isKeyDeleteSequence(byte... sequence) {
         return sequence != null && sequence.length >= 3 &&
                 sequence[0] == DELETE_SEQUENCE[0] &&
                 sequence[1] == DELETE_SEQUENCE[1] &&
@@ -54,7 +54,7 @@ public class DefaultKeyMap implements KeyMap {
     }
 
     @Override
-    public boolean isKeyHomeSequence(int... sequence) {
+    public boolean isKeyHomeSequence(byte... sequence) {
         return sequence != null && sequence.length >= 3 &&
                 sequence[0] == HOME_SEQUENCE[0] &&
                 sequence[1] == HOME_SEQUENCE[1] &&
@@ -62,7 +62,7 @@ public class DefaultKeyMap implements KeyMap {
     }
 
     @Override
-    public boolean isKeyEndSequence(int... sequence) {
+    public boolean isKeyEndSequence(byte... sequence) {
         return sequence != null && sequence.length >= 3 &&
                 sequence[0] == END_SEQUENCE[0] &&
                 sequence[1] == END_SEQUENCE[1] &&
@@ -70,27 +70,27 @@ public class DefaultKeyMap implements KeyMap {
     }
 
     @Override
-    public int[] getKeyLeftSequence() {
+    public byte[] getKeyLeftSequence() {
         return Arrays.copyOf(ARROW_LEFT_SEQUENCE, ARROW_LEFT_SEQUENCE.length);
     }
 
     @Override
-    public int[] getKeyRightSequence() {
+    public byte[] getKeyRightSequence() {
         return Arrays.copyOf(ARROW_RIGHT_SEQUENCE, ARROW_RIGHT_SEQUENCE.length);
     }
 
     @Override
-    public int[] getKeyDeleteSequence() {
+    public byte[] getKeyDeleteSequence() {
         return Arrays.copyOf(DELETE_SEQUENCE, DELETE_SEQUENCE.length);
     }
 
     @Override
-    public int[] getKeyHomeSequence() {
+    public byte[] getKeyHomeSequence() {
         return Arrays.copyOf(HOME_SEQUENCE, HOME_SEQUENCE.length);
     }
 
     @Override
-    public int[] getKeyEndSequence() {
+    public byte[] getKeyEndSequence() {
         return Arrays.copyOf(END_SEQUENCE, END_SEQUENCE.length);
     }
 
