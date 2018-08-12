@@ -24,4 +24,8 @@ public class SshClientSessionListenerImpl implements SshClientSessionListener {
         sessions.put(sshClientSession.getSessionId(), sshClientSession);
     }
 
+    public SshClientSession getSession(long sessionId) {
+        return sessions.get(sessionId);
+    }
+
 }

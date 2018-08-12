@@ -9,6 +9,12 @@ import java.io.OutputStream;
 public interface CommandProcessor {
 
     /**
+     * Set client session ID for this command processor.
+     * @param sessionId
+     */
+    void updateSessionId(long sessionId);
+
+    /**
      * This method is called when new command is available.
      * @param command command data to be processed.
      * @param stdout standard output stream to write processing data in.

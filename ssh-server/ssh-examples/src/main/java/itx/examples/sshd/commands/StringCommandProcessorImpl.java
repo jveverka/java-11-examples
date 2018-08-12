@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
-public class StringCommandProcessorImpl implements CommandProcessor {
+public class StringCommandProcessorImpl implements CommandProcessor, AutoCloseable {
 
     final private static Logger LOG = LoggerFactory.getLogger(StringCommandProcessorImpl.class);
     final private static String CMD_SET = "set";
@@ -17,9 +17,15 @@ public class StringCommandProcessorImpl implements CommandProcessor {
     final private static String CMD_EXIT = "exit";
 
     private String state;
+    private long sessionId;
 
     public StringCommandProcessorImpl() {
         state = "";
+    }
+
+    @Override
+    public void updateSessionId(long sessionId) {
+        this.sessionId = sessionId;
     }
 
     @Override
@@ -49,6 +55,10 @@ public class StringCommandProcessorImpl implements CommandProcessor {
             LOG.info("unsupported command: {}", cmd);
             return CommandResult.from(255);
         }
+    }
+
+    @Override
+    public void close() throws Exception {
     }
 
 }

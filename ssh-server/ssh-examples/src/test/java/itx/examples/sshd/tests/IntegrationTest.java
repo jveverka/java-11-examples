@@ -7,6 +7,8 @@ import itx.examples.sshd.commands.dto.GetRequest;
 import itx.examples.sshd.commands.dto.GetResponse;
 import itx.examples.sshd.commands.dto.SetRequest;
 import itx.examples.sshd.commands.dto.SetResponse;
+import itx.examples.sshd.commands.dto.StartStreamRequest;
+import itx.examples.sshd.commands.dto.StreamResponse;
 import itx.ssh.client.Client;
 import itx.ssh.client.ClientBuilder;
 import itx.ssh.client.ServerKeyVerifierBuilder;
@@ -25,6 +27,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -59,7 +62,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testSshServerApplication() {
+    public void testSshServerAppClientRequests() {
         try {
             ObjectMapper mapper = new ObjectMapper();
             SshSessionListenerImpl sessionListener = new SshSessionListenerImpl();
@@ -90,6 +93,38 @@ public class IntegrationTest {
             Assert.assertNotNull(getResponse);
             Assert.assertEquals(getRequest.getId(), getResponse.getId());
             Assert.assertEquals(setRequest.getData(), getResponse.getData());
+
+            session.close();
+        } catch (Exception e) {
+            Assert.fail("Error", e);
+        }
+    }
+
+    @Test
+    public void testSshServerAppPushToServer() {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            SshSessionListenerImpl sessionListener = new SshSessionListenerImpl();
+            SshSession session = client.getSession(sessionListener);
+
+            CountDownLatch countDownLatch = new CountDownLatch(10);
+            sessionListener.reset(countDownLatch);
+            StartStreamRequest startStreamRequest = new StartStreamRequest(10, 10, "test");
+            session.send(mapper.writeValueAsBytes(startStreamRequest));
+            countDownLatch.await(10, TimeUnit.SECONDS);
+            List<byte[]> messages = sessionListener.getMessages();
+            Assert.assertNotNull(messages);
+            Assert.assertEquals(messages.size(), 10);
+
+            messages.forEach( m -> {
+                try {
+                    StreamResponse streamResponse = mapper.readValue(m, StreamResponse.class);
+                    Assert.assertEquals(startStreamRequest.getId(), streamResponse.getId());
+                    Assert.assertEquals(startStreamRequest.getMessage(), streamResponse.getMessage());
+                } catch (IOException e) {
+                    Assert.fail("Error", e);
+                }
+            });
 
             session.close();
         } catch (Exception e) {

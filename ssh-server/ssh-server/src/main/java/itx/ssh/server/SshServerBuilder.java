@@ -21,16 +21,19 @@ import java.util.List;
 public class SshServerBuilder {
 
     private final SshServer sshd;
+    private final SshClientSessionCounter sshClientSessionCounter;
     private KeyMap keyMap;
 
     public SshServerBuilder() {
         this.sshd = SshServer.setUpDefaultServer();
         this.keyMap = KeyMapProvider.createDefaultKeyMap();
+        this.sshClientSessionCounter = new SshClientSessionCounter();
     }
 
     public SshServerBuilder(SshServer sshd) {
         this.sshd = sshd;
         this.keyMap = KeyMapProvider.createDefaultKeyMap();
+        this.sshClientSessionCounter = new SshClientSessionCounter();
     }
 
     public SshServerBuilder withKeyMap(KeyMap keyMap) {
@@ -55,7 +58,7 @@ public class SshServerBuilder {
      * @return
      */
     public SshServerBuilder withShellFactory(String prompt, CommandProcessor commandProcessor) {
-        sshd.setShellFactory(new ShellFactoryImpl(prompt, keyMap, commandProcessor));
+        sshd.setShellFactory(new ShellFactoryImpl(prompt, keyMap, commandProcessor, sshClientSessionCounter));
         return this;
     }
 
@@ -65,7 +68,7 @@ public class SshServerBuilder {
      * @return
      */
     public SshServerBuilder withCommandFactory(CommandProcessor commandProcessor) {
-        sshd.setCommandFactory(new CommandFactoryImpl(commandProcessor));
+        sshd.setCommandFactory(new CommandFactoryImpl(commandProcessor, sshClientSessionCounter));
         return this;
     }
 
@@ -78,7 +81,6 @@ public class SshServerBuilder {
     public SshServerBuilder withSshClientProcessor(CommandProcessor commandProcessor,
                                                    SshClientSessionListener sshClientSessionListener) {
         List<NamedFactory<Command>> namedFactories = new ArrayList<>();
-        SshClientSessionCounter sshClientSessionCounter = new SshClientSessionCounter();
         namedFactories.add(new SshClientNamedCommandFactory(keyMap, commandProcessor,
                 sshClientSessionListener, sshClientSessionCounter));
         sshd.setSubsystemFactories(namedFactories);

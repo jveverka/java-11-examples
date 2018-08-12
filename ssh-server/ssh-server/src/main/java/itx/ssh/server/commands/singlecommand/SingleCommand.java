@@ -2,6 +2,7 @@ package itx.ssh.server.commands.singlecommand;
 
 import itx.ssh.server.commands.CommandProcessor;
 import itx.ssh.server.commands.CommandResult;
+import itx.ssh.server.commands.subsystem.SshClientSessionCounter;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.command.Command;
@@ -22,10 +23,13 @@ public class SingleCommand implements Command {
     private ExitCallback exitCallback;
     private CommandProcessor commandProcessor;
     private byte[] command;
+    private SshClientSessionCounter sshClientSessionCounter;
 
-    public SingleCommand(byte[] command, CommandProcessor commandProcessor) {
+    public SingleCommand(byte[] command, CommandProcessor commandProcessor,
+                         SshClientSessionCounter sshClientSessionCounter) {
         this.command = command;
         this.commandProcessor = commandProcessor;
+        this.sshClientSessionCounter = sshClientSessionCounter;
     }
 
     @Override
@@ -50,7 +54,9 @@ public class SingleCommand implements Command {
 
     @Override
     public void start(Environment env) throws IOException {
-        LOG.info("start");
+        long sessionId = sshClientSessionCounter.getNewSessionId();
+        commandProcessor.updateSessionId(sessionId);
+        LOG.info("start single command processor with sessionId: {}", sessionId);
         CommandResult commandResult = commandProcessor.processCommand(command, stdout, stderr);
         exitCallback.onExit(commandResult.getReturnCode());
     }

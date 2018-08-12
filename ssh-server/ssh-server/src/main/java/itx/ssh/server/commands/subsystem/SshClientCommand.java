@@ -60,8 +60,11 @@ public class SshClientCommand implements Command {
 
     @Override
     public void start(Environment env) throws IOException {
+        long sessionId = sshClientSessionCounter.getNewSessionId();
+        commandProcessor.updateSessionId(sessionId);
+        LOG.info("start ssh-client command processor with sessionId: {}", sessionId);
         SshClientSession sshClientSession =
-                new SshClientSessionImpl(sshClientSessionCounter.getNewSessionId(), stdout, exitCallback);
+                new SshClientSessionImpl(sessionId, stdout, exitCallback);
         SshClientCommandProcessor robotCommandProcessor = new SshClientCommandProcessor(stdin, stdout, stderr,
                 exitCallback, commandProcessor, keyMap);
         executorService.submit(robotCommandProcessor);

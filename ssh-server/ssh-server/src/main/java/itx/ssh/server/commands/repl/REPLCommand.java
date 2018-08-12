@@ -2,6 +2,7 @@ package itx.ssh.server.commands.repl;
 
 import itx.ssh.server.commands.CommandProcessor;
 import itx.ssh.server.commands.keymaps.KeyMap;
+import itx.ssh.server.commands.subsystem.SshClientSessionCounter;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.command.Command;
@@ -26,12 +27,14 @@ public class REPLCommand implements Command {
     private CommandProcessor commandProcessor;
     private KeyMap keyMap;
     private String prompt;
+    private SshClientSessionCounter sshClientSessionCounter;
 
-    public REPLCommand(String prompt, KeyMap keyMap, CommandProcessor commandProcessor) {
+    public REPLCommand(String prompt, KeyMap keyMap, CommandProcessor commandProcessor, SshClientSessionCounter sshClientSessionCounter) {
         this.executorService = Executors.newSingleThreadExecutor();
         this.commandProcessor = commandProcessor;
         this.keyMap = keyMap;
         this.prompt = prompt;
+        this.sshClientSessionCounter = sshClientSessionCounter;
     }
 
     @Override
@@ -60,7 +63,9 @@ public class REPLCommand implements Command {
 
     @Override
     public void start(Environment env) throws IOException {
-        LOG.info("start");
+        long sessionId = sshClientSessionCounter.getNewSessionId();
+        commandProcessor.updateSessionId(sessionId);
+        LOG.info("start REPL command processor with sessionId: {}", sessionId);
         REPLCommandProcessor replCommandProcessor = new REPLCommandProcessor(prompt, keyMap, commandProcessor,
                 stdin, stdout, stderr, exitCallback);
         executorService.submit(replCommandProcessor);
