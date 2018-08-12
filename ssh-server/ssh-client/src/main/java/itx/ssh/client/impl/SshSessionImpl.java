@@ -38,7 +38,7 @@ public class SshSessionImpl implements SshSession {
         this.executorService.submit(new Runnable() {
             @Override
             public void run() {
-                LOG.info("starting client listening thread");
+                LOG.info("starting ssh-client listener");
                 Reader r = new InputStreamReader(robotChannel.getInvertedOut());
                 DataBuffer dataBuffer = new DataBuffer();
                 try {
@@ -47,13 +47,14 @@ public class SshSessionImpl implements SshSession {
                         if (ch != keyMap.getEnterKeyCode()) {
                             dataBuffer.add((byte)ch);
                         } else {
-                            listener.onServerEvent(dataBuffer.getAndReset());
+                            listener.onMessage(dataBuffer.getAndReset());
                         }
                     }
                 } catch (IOException e) {
                     listener.onSessionClosed();
                     LOG.error("Error: ", e);
                 }
+                LOG.info("ssh-client listening terminated");
             }
         });
     }

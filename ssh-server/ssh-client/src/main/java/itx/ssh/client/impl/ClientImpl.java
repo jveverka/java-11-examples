@@ -61,7 +61,7 @@ public class ClientImpl implements Client {
             }
         }
 
-        ChannelSubsystem robotChannel = session.createSubsystemChannel("robot");
+        ChannelSubsystem robotChannel = session.createSubsystemChannel("ssh-client");
 
         OpenFuture openFuture = robotChannel.open();
 

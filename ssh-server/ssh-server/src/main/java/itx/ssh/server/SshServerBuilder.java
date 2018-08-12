@@ -5,7 +5,10 @@ import itx.ssh.server.commands.CommandProcessor;
 import itx.ssh.server.commands.repl.ShellFactoryImpl;
 import itx.ssh.server.commands.keymaps.KeyMap;
 import itx.ssh.server.commands.keymaps.KeyMapProvider;
-import itx.ssh.server.commands.subsystem.NamedCommandFactory;
+import itx.ssh.server.commands.subsystem.SshClientSession;
+import itx.ssh.server.commands.subsystem.SshClientSessionListener;
+import itx.ssh.server.commands.subsystem.SshClientNamedCommandFactory;
+import itx.ssh.server.commands.subsystem.SshClientSessionCounter;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.SshServer;
@@ -47,7 +50,7 @@ public class SshServerBuilder {
 
     /**
      * Set prompt and {@link CommandProcessor} for REPL interface.
-     * @param prompt
+     * @param prompt implementation of {@link CommandProcessor} dedicated to REPL interface command processing.
      * @param commandProcessor
      * @return
      */
@@ -58,7 +61,7 @@ public class SshServerBuilder {
 
     /**
      * Set {@link CommandProcessor} for single command processing.
-     * @param commandProcessor
+     * @param commandProcessor implementation of {@link CommandProcessor} dedicated to single command processing.
      * @return
      */
     public SshServerBuilder withCommandFactory(CommandProcessor commandProcessor) {
@@ -68,12 +71,16 @@ public class SshServerBuilder {
 
     /**
      * Set {@link CommandProcessor} for ssh-client library processing.
-     * @param commandProcessor
+     * @param commandProcessor implementation of {@link CommandProcessor} dedicated to ssh-client communication.
+     * @param sshClientSessionListener provides instances of {@link SshClientSession} for pushing data to ssh-client.
      * @return
      */
-    public SshServerBuilder withSubsystemFactory(CommandProcessor commandProcessor) {
+    public SshServerBuilder withSshClientProcessor(CommandProcessor commandProcessor,
+                                                   SshClientSessionListener sshClientSessionListener) {
         List<NamedFactory<Command>> namedFactories = new ArrayList<>();
-        namedFactories.add(new NamedCommandFactory(keyMap, commandProcessor));
+        SshClientSessionCounter sshClientSessionCounter = new SshClientSessionCounter();
+        namedFactories.add(new SshClientNamedCommandFactory(keyMap, commandProcessor,
+                sshClientSessionListener, sshClientSessionCounter));
         sshd.setSubsystemFactories(namedFactories);
         return this;
     }

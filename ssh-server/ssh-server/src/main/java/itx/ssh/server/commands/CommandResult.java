@@ -1,9 +1,20 @@
 package itx.ssh.server.commands;
 
+/**
+ * Result of command processed by {@link CommandProcessor}.
+ */
 public interface CommandResult {
 
+    /**
+     * Return code of command.
+     * @return
+     */
     int getReturnCode();
 
+    /**
+     * Session termination flag. Some commands may terminate underlying ssh session, like for instance 'exit' or 'quit' command.
+     * @return true if this command terminates underlying ssh session on server, false otherwise.
+     */
     boolean terminateSession();
 
     static CommandResult from(int returnCode, boolean terminateSession) {

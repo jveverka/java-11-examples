@@ -6,12 +6,12 @@ import java.util.concurrent.CountDownLatch;
 
 public class SshSessionListenerImpl implements SshSessionListener {
 
-    private byte[] serverEvent;
+    private byte[] message;
     private CountDownLatch countDownLatch;
 
     @Override
-    public void onServerEvent(byte[] serverEvent) {
-        this.serverEvent = serverEvent;
+    public void onMessage(byte[] message) {
+        this.message = message;
         countDownLatch.countDown();
     }
 
@@ -22,11 +22,11 @@ public class SshSessionListenerImpl implements SshSessionListener {
 
     public void reset(CountDownLatch countDownLatch) {
         this.countDownLatch = countDownLatch;
-        this.serverEvent = null;
+        this.message = null;
     }
 
     public byte[] getLastMessage() {
-        return serverEvent;
+        return message;
     }
 
 

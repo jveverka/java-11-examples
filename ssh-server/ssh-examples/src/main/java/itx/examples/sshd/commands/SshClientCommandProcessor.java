@@ -16,17 +16,18 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
-public class JsonCommandProcessor implements CommandProcessor {
+public class SshClientCommandProcessor implements CommandProcessor {
 
-    final private static Logger LOG = LoggerFactory.getLogger(JsonCommandProcessor.class);
+    final private static Logger LOG = LoggerFactory.getLogger(SshClientCommandProcessor.class);
     final private static int ENTER = 13;
 
     private final ObjectMapper mapper;
-    private String data;
 
-    public JsonCommandProcessor() {
+    private String state;
+
+    public SshClientCommandProcessor() {
         this.mapper = new ObjectMapper();
-        this.data = "";
+        this.state = "";
     }
 
     @Override
@@ -37,12 +38,12 @@ public class JsonCommandProcessor implements CommandProcessor {
         String response = "{}";
         if (type.equals(GetRequest.class.getName())) {
             GetRequest getRequest = mapper.readValue(command, GetRequest.class);
-            GetResponse getResponse = new GetResponse(getRequest.getId(), data);
+            GetResponse getResponse = new GetResponse(getRequest.getId(), state);
             response = mapper.writeValueAsString(getResponse);
         } else if (type.equals(SetRequest.class.getName())) {
             SetRequest setRequest = mapper.readValue(command, SetRequest.class);
-            data = setRequest.getData();
-            SetResponse setResponse = new SetResponse(setRequest.getId(), data);
+            state = setRequest.getData();
+            SetResponse setResponse = new SetResponse(setRequest.getId(), state);
             response = mapper.writeValueAsString(setResponse);
         } else {
             ErrorData errorData = new ErrorData("unsupported command");

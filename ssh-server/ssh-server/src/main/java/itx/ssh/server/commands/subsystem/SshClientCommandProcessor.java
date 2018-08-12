@@ -15,9 +15,9 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
 
-public class RobotCommandProcessor implements Runnable {
+public class SshClientCommandProcessor implements Runnable {
 
-    final private static Logger LOG = LoggerFactory.getLogger(RobotCommandProcessor.class);
+    final private static Logger LOG = LoggerFactory.getLogger(SshClientCommandProcessor.class);
 
     private InputStream stdin;
     private OutputStream stdout;
@@ -27,8 +27,8 @@ public class RobotCommandProcessor implements Runnable {
     private KeyMap keyMap;
     private Charset charset;
 
-    public RobotCommandProcessor(InputStream stdin, OutputStream stdout, OutputStream stderr,
-                                 ExitCallback exitCallback, CommandProcessor commandProcessor, KeyMap keyMap) {
+    public SshClientCommandProcessor(InputStream stdin, OutputStream stdout, OutputStream stderr,
+                                     ExitCallback exitCallback, CommandProcessor commandProcessor, KeyMap keyMap) {
         this.stdin = stdin;
         this.stdout = stdout;
         this.stderr = stderr;
@@ -40,7 +40,7 @@ public class RobotCommandProcessor implements Runnable {
 
     @Override
     public void run() {
-        LOG.info("starting robot command listener");
+        LOG.info("starting ssh-client command listener");
         try {
             Reader r = new InputStreamReader(stdin, charset);
             int intch;
@@ -57,7 +57,7 @@ public class RobotCommandProcessor implements Runnable {
         } catch (IOException e) {
             LOG.error("ERROR: ", e);
         }
-        LOG.info("robot command listener terminated");
+        LOG.info("ssh-client command listener terminated");
     }
 
     private boolean processCommand(byte[] command) throws IOException {

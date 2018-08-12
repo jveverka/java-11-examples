@@ -14,9 +14,9 @@ import java.io.OutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class RobotCommand implements Command {
+public class SshClientCommand implements Command {
 
-    final private static Logger LOG = LoggerFactory.getLogger(RobotCommand.class);
+    final private static Logger LOG = LoggerFactory.getLogger(SshClientCommand.class);
 
     private InputStream stdin;
     private OutputStream stdout;
@@ -25,11 +25,17 @@ public class RobotCommand implements Command {
     private CommandProcessor commandProcessor;
     private KeyMap keyMap;
     private ExecutorService executorService;
+    private SshClientSessionListener sshClientMessageDispatcherRegistration;
+    private SshClientSessionCounter sshClientSessionCounter;
 
-    public RobotCommand(KeyMap keyMap, CommandProcessor commandProcessor) {
+    public SshClientCommand(KeyMap keyMap, CommandProcessor commandProcessor,
+                            SshClientSessionListener sshClientMessageDispatcherRegistration,
+                            SshClientSessionCounter sshClientSessionCounter) {
         this.keyMap = keyMap;
         this.commandProcessor = commandProcessor;
         this.executorService = Executors.newSingleThreadExecutor();
+        this.sshClientMessageDispatcherRegistration = sshClientMessageDispatcherRegistration;
+        this.sshClientSessionCounter = sshClientSessionCounter;
     }
 
     @Override
@@ -54,9 +60,12 @@ public class RobotCommand implements Command {
 
     @Override
     public void start(Environment env) throws IOException {
-        RobotCommandProcessor robotCommandProcessor = new RobotCommandProcessor(stdin, stdout, stderr,
+        SshClientSession sshClientSession =
+                new SshClientSessionImpl(sshClientSessionCounter.getNewSessionId(), stdout, exitCallback);
+        SshClientCommandProcessor robotCommandProcessor = new SshClientCommandProcessor(stdin, stdout, stderr,
                 exitCallback, commandProcessor, keyMap);
         executorService.submit(robotCommandProcessor);
+        sshClientMessageDispatcherRegistration.onNewSession(sshClientSession);
     }
 
     @Override

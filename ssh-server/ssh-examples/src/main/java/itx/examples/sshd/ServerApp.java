@@ -1,13 +1,15 @@
 package itx.examples.sshd;
 
-import itx.examples.sshd.commands.JsonCommandProcessor;
+import itx.examples.sshd.commands.SshClientCommandProcessor;
 import itx.examples.sshd.commands.StringCommandProcessorImpl;
+import itx.examples.sshd.sessions.SshClientSessionListenerImpl;
 import itx.ssh.server.SshServerBuilder;
 import itx.ssh.server.auth.KeyPairProviderBuilder;
 import itx.ssh.server.auth.PasswordAuthenticatorBuilder;
 import itx.ssh.server.commands.CommandProcessor;
 import itx.ssh.server.commands.keymaps.KeyMap;
 import itx.ssh.server.commands.keymaps.KeyMapProvider;
+import itx.ssh.server.commands.subsystem.SshClientSessionListener;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.password.PasswordAuthenticator;
@@ -37,7 +39,7 @@ public class ServerApp {
         int port = 2222;
         String prompt = "CMD: ";
         CommandProcessor stringCommandProcessor = new StringCommandProcessorImpl();
-        JsonCommandProcessor jsonCommandProcessor = new JsonCommandProcessor();
+        SshClientCommandProcessor jsonCommandProcessor = new SshClientCommandProcessor();
 
         PasswordAuthenticator passwordAuthenticator = new PasswordAuthenticatorBuilder()
                 .addCredentials("user", "secret")
@@ -52,6 +54,7 @@ public class ServerApp {
                 .build();
 
         KeyMap keyMap = KeyMapProvider.createDefaultKeyMap();
+        SshClientSessionListener sshClientSessionListener = new SshClientSessionListenerImpl();
 
         sshd = new SshServerBuilder()
                 .setPort(port)
@@ -60,7 +63,7 @@ public class ServerApp {
                 .withPasswordAuthenticator(passwordAuthenticator)
                 .withCommandFactory(stringCommandProcessor)
                 .withShellFactory(prompt, stringCommandProcessor)
-                .withSubsystemFactory(jsonCommandProcessor)
+                .withSshClientProcessor(jsonCommandProcessor, sshClientSessionListener)
                 .build();
         sshd.start();
         LOG.info("Listening on port {}", port);
