@@ -1,0 +1,25 @@
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = 10
+targetCompatibility = 10
+        
+repositories {
+   mavenCentral()
+}
+
+dependencies {
+   compile 'org.slf4j:slf4j-api:1.8.0-beta2'
+   compile 'org.slf4j:slf4j-simple:1.8.0-beta2'
+   testCompile 'org.testng:testng:6.14.3'
+}
+
+test {
+   // enable TestNG support (default is JUnit)
+   useTestNG()
+   testLogging {
+      events "passed", "skipped", "failed"
+   }
+}
+
