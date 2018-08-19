@@ -1,0 +1,16 @@
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "itx.hazelcast.cluster.dto";
+
+message InstanceInfo {
+    string id = 1;
+    Address address = 2;
+    int32 webServerPort = 3;
+}
+
+message Address {
+    string hostName = 1;
+    int32 port = 2;
+}

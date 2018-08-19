@@ -1,0 +1,39 @@
+subprojects {
+
+    apply plugin: "java"
+
+    /*
+      target compatibility should be 11, but due to several issues with gradle / asm
+      is for now target compatibility set to 10
+      https://github.com/gradle/gradle/issues/5120
+      https://github.com/gradle/gradle/issues/5731
+    */
+    targetCompatibility = '10'
+    sourceCompatibility = '10'
+  
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile 'org.slf4j:slf4j-api:1.8.0-beta2'
+        compile 'org.slf4j:slf4j-simple:1.8.0-beta2'
+    }
+}
+
+project(':common') {
+}
+
+project(':server-node') {
+    dependencies {
+        compile project(':common')
+    }
+}
+
+project(':it-tests') {
+    dependencies {
+        compile project(':common')
+        compile project(':server-node')
+    }
+}
+
