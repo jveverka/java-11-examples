@@ -20,6 +20,9 @@ targetCompatibility = 10
 dependencies {
    compile 'org.slf4j:slf4j-api:1.8.0-beta2'
    compile 'org.slf4j:slf4j-simple:1.8.0-beta2'
+
+   compile 'org.eclipse.jetty.websocket:websocket-client:9.4.11.v20180605'
+
    testCompile 'org.testng:testng:6.14.3'
 }
 

@@ -14,6 +14,7 @@ import itx.hazelcast.cluster.server.hazelcast.serializers.InstanceInfoSerializer
 import itx.hazelcast.cluster.server.rest.RestApplication;
 import itx.hazelcast.cluster.server.services.DataService;
 import itx.hazelcast.cluster.server.services.DataServiceImpl;
+import itx.hazelcast.cluster.server.websocket.WsServlet;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
@@ -45,22 +46,23 @@ public class ServerApp {
     public void startServer() throws Exception {
         LOG.info("starting hazelcast ...");
         executorService = Executors.newSingleThreadExecutor();
-
+        // Register serializers in hazelcast configuration
         SerializerConfig sc = new SerializerConfig()
                 .setImplementation(new InstanceInfoSerializer())
                 .setTypeClass(InstanceInfo.class);
         Config config = new Config();
         config.getSerializationConfig().addSerializerConfig(sc);
-
+        // Create hazelcast instance
         hazelcastInstance = Hazelcast.newHazelcastInstance(config);
         MembershipListener membershipListener = new MembershipListenerImpl();
+        // listen on cluster events
         Cluster cluster = hazelcastInstance.getCluster();
         cluster.addMembershipListener(membershipListener);
-
+        // populate clusterInfo map
         Map<String, InstanceInfo> clusterInfo = hazelcastInstance.getMap( "clusterInfo" );
         InstanceInfo instanceInfo = createInstanceInfo(cluster.getLocalMember(), clusterInfo);
         clusterInfo.put(instanceInfo.getId(), instanceInfo);
-
+        // register leadership listener
         GateKeepingListener gateKeepingListener = new GateKeepingListenerImpl();
         GateKeeperRunnable gateKeeperRunnable = new GateKeeperRunnable(executorService, hazelcastInstance, gateKeepingListener);
         executorService.submit(gateKeeperRunnable);
@@ -76,13 +78,15 @@ public class ServerApp {
         ServletContainer restServletContainer = new ServletContainer(resourceConfig);
         ServletHolder restServletHolder = new ServletHolder(restServletContainer);
         context.addServlet(restServletHolder, "/rest");
-
+        // Register websocket handlers
+        ServletHolder webSocketHolder = new ServletHolder(new WsServlet());
+        context.addServlet(webSocketHolder, "/websocket");
+        // Setup http connectors
         HttpConfiguration httpConfig = new HttpConfiguration();
         HttpConnectionFactory httpConnectionFactory = new HttpConnectionFactory(httpConfig);
         ServerConnector http = new ServerConnector(server, httpConnectionFactory);
         http.setPort(instanceInfo.getWebServerPort());
         server.addConnector(http);
-
         server.start();
         LOG.info("init sequence done.");
     }
@@ -93,8 +97,8 @@ public class ServerApp {
             server.stop();
         }
         if (hazelcastInstance != null) {
-            ISemaphore semaphore = hazelcastInstance.getSemaphore("gatekeeper");
-            semaphore.release();
+            //ISemaphore semaphore = hazelcastInstance.getSemaphore("gatekeeper");
+            //semaphore.release();
             //hazelcastInstance.shutdown();
         }
         executorService.shutdown();
@@ -102,11 +106,13 @@ public class ServerApp {
 
     private InstanceInfo createInstanceInfo(Member member, Map<String, InstanceInfo> clusterinfo) throws UnknownHostException {
         LOG.info("clusterinfo size {}", clusterinfo.size());
-        int webServerPort = 8080;
+        int webServerPort = 8080; //let's start with 8080 and check if this port is free
         InetSocketAddress inetSocketAddress = member.getAddress().getInetSocketAddress();
         for (InstanceInfo i: clusterinfo.values()) {
             if (inetSocketAddress.getHostName().equals(i.getAddress().getHostName())) {
-                webServerPort++;
+                if (webServerPort == i.getWebServerPort()) {
+                    webServerPort = i.getWebServerPort() + 1;
+                }
             }
         }
 
