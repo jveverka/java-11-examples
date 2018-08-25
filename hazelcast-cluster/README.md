@@ -22,4 +22,17 @@ First server-node started will use port 8080, second server-node in cluster will
 third will use 8082 an so on.
 
 ## Run integration tests
-TODO
+In order to run integration tests, JDK 11 and tmux has to be installed.
+1. Build project and distribution.
+   ```
+   gradle clean build installDist
+   ```
+2. Start 3-node cluster in new terminal using script below.
+   Wait till cluster is formed.
+   ```
+   ./start-3-node-cluster.sh
+   ```    
+3. While cluster is running, run integration tests in new terminal window.
+   ```
+   gradle clean test -Dtest.profile=integration
+   ```

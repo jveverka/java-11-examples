@@ -1,5 +1,6 @@
 package itx.hazelcast.cluster.client.wsclient;
 
+import itx.hazelcast.cluster.dto.MessageWrapper;
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
 
@@ -33,8 +34,8 @@ public class WsClient {
         socket.sendTextMessage(message);
     }
 
-    public void sendByteMessage(byte[] message) throws IOException {
-        socket.sendByteMessage(message);
+    public void sendMessageWrapper(MessageWrapper messageWrapper) throws IOException {
+        socket.sendByteMessage(messageWrapper.toByteArray());
     }
 
     public void stop() throws Exception {

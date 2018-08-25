@@ -1,5 +1,6 @@
 package itx.hazelcast.cluster.client.wsclient;
 
+import itx.hazelcast.cluster.dto.MessageWrapper;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.StatusCode;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -49,10 +50,10 @@ public class SimpleWebSocket {
 
     @OnWebSocketConnect
     public void onConnect(Session session) {
-        LOG.info("Got connect: {}",session);
+        LOG.info("onConnect");
         this.session = session;
-        this.sessionListener.onSessionReady();
         this.openLatch.countDown();
+        this.sessionListener.onSessionReady();
     }
 
     @OnWebSocketMessage
@@ -62,9 +63,10 @@ public class SimpleWebSocket {
     }
 
     @OnWebSocketMessage
-    public void onMessage(InputStream stream) {
+    public void onMessage(InputStream inputStream) {
         try {
-            this.sessionListener.onByteMessage(stream.readAllBytes());
+            MessageWrapper messageWrapper = MessageWrapper.parseFrom(inputStream.readAllBytes());
+            this.sessionListener.onMessageWrapper(messageWrapper);
         } catch (IOException e) {
             LOG.error("Error: ", e);
         }

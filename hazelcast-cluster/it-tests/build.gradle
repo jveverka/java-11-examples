@@ -12,6 +12,10 @@ test {
    testLogging {
       events "passed", "skipped", "failed"
    }
+
+   if (System.properties['test.profile'] != 'integration') {
+      exclude '**/*ITTest*'
+   }
 }
 
 sourceCompatibility = 10

@@ -14,3 +14,44 @@ message Address {
     string hostName = 1;
     int32 port = 2;
 }
+
+message SubscribeToTopicRequest {
+    string topicId = 1;
+    int64 requestId = 2;
+}
+
+message SubscribeToTopicResponse {
+    int64 requestId = 2;
+    string subscriptionId = 3;
+}
+
+message UnsubscribeFromTopicRequest {
+    int64 requestId = 1;
+    string subscriptionId = 2;
+}
+
+message UnsubscribeFromTopicResponse {
+    int64 requestId = 1;
+}
+
+message DataMessage {
+    string topicId = 1;
+    string message = 2;
+}
+
+message DataMessageEvent {
+    string topicId = 1;
+    string message = 2;
+    string subscriptionId = 3;
+}
+
+message MessageWrapper {
+    oneof payload {
+        SubscribeToTopicRequest subscribeToTopicRequest = 1;
+        SubscribeToTopicResponse subscribeToTopicResponse = 2;
+        UnsubscribeFromTopicRequest unsubscribeFromTopicRequest = 3;
+        UnsubscribeFromTopicResponse unsubscribeFromTopicResponse = 4;
+        DataMessage dataMessage = 5;
+        DataMessageEvent dataMessageEvent = 6;
+    }
+}

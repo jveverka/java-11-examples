@@ -2,7 +2,9 @@ package itx.hazelcast.cluster.server.tests;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import itx.hazelcast.cluster.dto.Address;
+import itx.hazelcast.cluster.dto.DataMessage;
 import itx.hazelcast.cluster.dto.InstanceInfo;
+import itx.hazelcast.cluster.dto.MessageWrapper;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -25,7 +27,26 @@ public class SerializationTests {
         Assert.assertEquals(deserializeInstanceInfo.getAddress().getHostName(), instanceInfo.getAddress().getHostName());
         Assert.assertTrue(deserializeInstanceInfo.getAddress().getPort() == instanceInfo.getAddress().getPort());
         Assert.assertTrue(deserializeInstanceInfo.getWebServerPort() == instanceInfo.getWebServerPort());
+    }
 
+    @Test
+    public void messageWrapperSerializationAndDeserializationTest() throws InvalidProtocolBufferException {
+        DataMessage dataMessage = DataMessage.newBuilder()
+                .setTopicId("topic1")
+                .setMessage("hello")
+                .build();
+        MessageWrapper messageWrapper = MessageWrapper.newBuilder()
+                .setDataMessage(dataMessage)
+                .build();
+
+        byte[] bytes = messageWrapper.toByteArray();
+
+        MessageWrapper deserializedMessageWrapper = MessageWrapper.parseFrom(bytes);
+        Assert.assertNotNull(deserializedMessageWrapper);
+        DataMessage deserializedDataMessage = deserializedMessageWrapper.getDataMessage();
+        Assert.assertNotNull(deserializedDataMessage);
+        Assert.assertEquals(dataMessage.getTopicId(), deserializedDataMessage.getTopicId());
+        Assert.assertEquals(dataMessage.getMessage(), deserializedDataMessage.getMessage());
     }
 
 }
