@@ -33,9 +33,26 @@ See also attached postman [file](docs/jetty-http2.postman_collection.json).
 ## TODO
 Http2 stream full-duplex communication is not fully implemented for MassageService.
 
-## Build and Run - Java 11
-Build from commandline: ```gradle clean installDist distZip```
-Run server: ```./build/install/jetty-servlet4-http2/bin/jetty-servlet4-http2```
+## Build and Run 
+Build from commandline: 
+```
+gradle clean build installDist distZip
+```
 
-### UnitTesting
-First start server manually, than start unit integration tests.
+Run server: 
+```
+./build/install/jetty-servlet4-http2/bin/jetty-servlet4-http2
+```
+
+### Run Integration Tests
+Integration tests in this demo are designed to run as http client against running server instance.
+It is expected that server runs on localhost, ports 8080 for http and 8443 for https.
+Follow this procedure to run integration tests:
+1. Start server manually in new terminal window.
+```
+./build/install/jetty-servlet4-http2/bin/jetty-servlet4-http2
+```
+2. Start unit integration tests in new terminal window.
+```
+gradle clean test -Dtest.profile=integration
+```

@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import java.security.KeyStore;
 
-public class SystemInfoTest {
+public class SystemInfoITTest {
 
     @Test
     public void getSystemInfoTest() throws Exception {

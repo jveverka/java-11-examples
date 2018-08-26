@@ -9,7 +9,7 @@ import java.security.KeyStore;
 import java.util.Arrays;
 import java.util.List;
 
-public class EchoServiceTest {
+public class EchoServiceITTest {
 
     @Test
     public void echoTest() throws Exception {

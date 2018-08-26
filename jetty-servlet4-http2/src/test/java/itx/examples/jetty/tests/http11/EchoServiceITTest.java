@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import java.security.KeyStore;
 
-public class EchoServiceTest {
+public class EchoServiceITTest {
 
     @Test
     public void echoTestHttp() throws Exception {
