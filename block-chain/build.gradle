@@ -1,12 +1,26 @@
 
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = 10
 targetCompatibility = 10
         
 repositories {
    mavenCentral()
+   mavenLocal()
+}
+
+publishing {
+   publications {
+      maven(MavenPublication) {
+         groupId = 'itx.blockchain'
+         artifactId = 'blockchain'
+         version = '1.0.0'
+
+         from components.java
+      }
+   }
 }
 
 dependencies {
