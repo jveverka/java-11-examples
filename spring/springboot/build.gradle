@@ -14,14 +14,11 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-//apply plugin: 'application'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'itx.examples.springboot'
 version = '0.0.1-SNAPSHOT'
-
-//mainClassName = 'itx.examples.springboot.demo.DemoApplication'
 
 sourceCompatibility = 10
 targetCompatibility = 10
@@ -35,5 +32,6 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('io.springfox:springfox-swagger2:2.9.2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

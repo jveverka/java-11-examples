@@ -8,6 +8,9 @@ This is simple spring-boot application demo.
 { "data": "message" }
 ```
 
+### Swagger API docs
+* __GET__ http://localhost:8080/v2/api-docs
+
 ### Build and run
 ```
 gradle clean build
