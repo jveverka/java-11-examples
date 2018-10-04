@@ -1,4 +1,12 @@
 # Simple Spring Boot 2.0 demo
+This is simple spring-boot application demo. 
+
+### Rest Endpoints
+* __GET__ http://localhost:8080/data/info
+* __POST__ http://localhost:8080/data/message 
+```
+{ "data": "message" }
+```
 
 ### Build and run
 ```
