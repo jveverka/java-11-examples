@@ -1,7 +1,14 @@
 package itx.examples.springboot.demo.rest;
 
 import itx.examples.springboot.demo.dto.DataMessage;
+import itx.examples.springboot.demo.dto.generic.ComplexDataPayload;
+import itx.examples.springboot.demo.dto.generic.DataMarker;
+import itx.examples.springboot.demo.dto.generic.GenericRequest;
+import itx.examples.springboot.demo.dto.generic.GenericResponse;
 import itx.examples.springboot.demo.dto.SystemInfo;
+import itx.examples.springboot.demo.dto.generic.SimpleDataPayload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/data")
 public class DataServiceRest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DataServiceRest.class);
 
     @GetMapping(path = "/info", produces = MediaType.APPLICATION_JSON_VALUE )
     public SystemInfo getSystemInfo() {
@@ -34,6 +43,21 @@ public class DataServiceRest {
     public ResponseEntity<DataMessage> getEcho(@PathVariable String message) {
         DataMessage responseMessage = new DataMessage(message);
         return new ResponseEntity<DataMessage>(responseMessage, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/generics", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public GenericResponse<? extends DataMarker> getGenericResponse(@RequestBody GenericRequest<? extends DataMarker> request) {
+        LOG.info("getGenericResponse");
+        if (request.getData() instanceof SimpleDataPayload) {
+            SimpleDataPayload payload = (SimpleDataPayload) request.getData();
+            return new GenericResponse<>(request.getName(), payload);
+        } else if (request.getData() instanceof ComplexDataPayload) {
+            ComplexDataPayload payload = (ComplexDataPayload) request.getData();
+            return new GenericResponse<>(request.getName(), payload);
+        } else {
+            throw new UnsupportedOperationException("Unsupported type");
+        }
+
     }
 
 }
