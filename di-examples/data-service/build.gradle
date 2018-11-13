@@ -1,0 +1,14 @@
+
+test {
+
+    dependencies {
+        testCompile 'org.testng:testng:6.14.3'
+    }
+
+    // enable TestNG support (default is JUnit)
+    useTestNG()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+
+}

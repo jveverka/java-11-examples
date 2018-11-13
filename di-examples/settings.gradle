@@ -1,0 +1,8 @@
+include "data-service"
+include "di-spring"
+include "di-guice"
+include "di-dagger"
+include "app-simple"
+include "app-spring"
+include "app-guice"
+include "app-dagger"
