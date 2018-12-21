@@ -10,10 +10,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
@@ -28,6 +32,9 @@ public class FileServerController {
     public static final String URI_PREFIX = "/services/files";
     public static final String LIST_PREFIX = "/list/";
     public static final String DOWNLOAD_PREFIX = "/download/";
+    public static final String UPLOAD_PREFIX = "/upload/";
+    public static final String DELETE_PREFIX = "/delete/";
+    public static final String CREATEDIR_PREFIX = "/createdir/";
 
     @Autowired
     private FileService fileService;
@@ -52,7 +59,7 @@ public class FileServerController {
         }
     }
 
-    @GetMapping(FileServerController.LIST_PREFIX + "**")
+    @GetMapping(LIST_PREFIX + "**")
     public ResponseEntity<FileList> getFiles() {
         try {
             String contextPath = httpServletRequest.getRequestURI();
@@ -60,6 +67,49 @@ public class FileServerController {
             LOG.info("getFiles: {}", filePath);
             FileList fileInfo = fileService.getFilesInfo(filePath);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(fileInfo);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping(UPLOAD_PREFIX + "**")
+    public ResponseEntity<Resource> fileUpload(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes) {
+        try {
+            String contextPath = httpServletRequest.getRequestURI();
+            String filePath = contextPath.substring((URI_PREFIX + UPLOAD_PREFIX).length());
+            LOG.info("upload: {}", filePath);
+            fileService.saveFile(filePath, file.getInputStream());
+            redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+            return ResponseEntity.ok().build();
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @DeleteMapping(DELETE_PREFIX + "**")
+    public ResponseEntity<Resource> delete() {
+        try {
+            String contextPath = httpServletRequest.getRequestURI();
+            String filePath = contextPath.substring((URI_PREFIX + DELETE_PREFIX).length());
+            LOG.info("delete: {}", filePath);
+            fileService.delete(filePath);
+            return ResponseEntity.ok().build();
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping(CREATEDIR_PREFIX + "**")
+    public ResponseEntity<Resource> createDirectory() {
+        try {
+            String contextPath = httpServletRequest.getRequestURI();
+            String filePath = contextPath.substring((URI_PREFIX + CREATEDIR_PREFIX).length());
+            LOG.info("createDirectory: {}", filePath);
+            fileService.createDirectory(filePath);
+            return ResponseEntity.ok().build();
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

@@ -10,9 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,6 +33,7 @@ public class FileServiceImpl implements FileService {
 
     @Autowired
     public FileServiceImpl(FileServerConfig fileServerConfig) {
+        LOG.info("fileStorageLocation={}", fileServerConfig.getHome());
         fileStorageLocation = Paths.get(fileServerConfig.getHome())
                 .toAbsolutePath().normalize();
     }
@@ -65,6 +71,36 @@ public class FileServiceImpl implements FileService {
             });
         }
         return fileList;
+    }
+
+    @Override
+    public void saveFile(String filePath, InputStream inputStream) throws IOException {
+        LOG.info("saveFile: {}", filePath);
+        Path resolvedFilePath = this.fileStorageLocation.resolve(filePath).normalize();
+        byte[] buffer = new byte[inputStream.available()];
+        inputStream.read(buffer);
+        File targetFile = resolvedFilePath.toFile();
+        OutputStream outStream = new FileOutputStream(targetFile);
+        outStream.write(buffer);
+    }
+
+    @Override
+    public void delete(String filePath) throws IOException {
+        LOG.info("delete: {}", filePath);
+        Path resolvedFilePath = this.fileStorageLocation.resolve(filePath).normalize();
+        LOG.info("deleting: {}", resolvedFilePath.toString());
+        if (Files.isDirectory(resolvedFilePath)) {
+            FileSystemUtils.deleteRecursively(resolvedFilePath);
+        } else {
+            Files.delete(resolvedFilePath);
+        }
+    }
+
+    @Override
+    public void createDirectory(String filePath) throws IOException {
+        LOG.info("createDirectory: {}", filePath);
+        Path resolvedFilePath = this.fileStorageLocation.resolve(filePath).normalize();
+        Files.createDirectories(resolvedFilePath);
     }
 
 }
