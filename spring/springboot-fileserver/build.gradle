@@ -20,8 +20,8 @@ apply plugin: 'io.spring.dependency-management'
 group = 'itx.examples.springboot.fileserver'
 version = '0.0.1-SNAPSHOT'
 
-sourceCompatibility = 11
-targetCompatibility = 11
+sourceCompatibility = 10
+targetCompatibility = 10
 
 repositories {
 	mavenCentral()
@@ -32,6 +32,5 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('io.springfox:springfox-swagger2:2.9.2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -1,7 +1,9 @@
 # Simple FileServer demo
-This is simple spring-boot FileServer demo. This server makes specified directory accessible via REST APIs.
+This is simple spring-boot FileServer demo. This server makes specified *base directory* accessible via REST APIs allowing you 
+to list, download, upload and delete files and create empty directories.
 
 ### Rest Endpoints
+All REST endpoints use 'dynamic' path. This means that path ``**`` is used as relative path in *base directory*.  
 * __GET__ http://localhost:8888/services/files/list/** - list content directory or subdirectory  
   ``curl -X GET http://localhost:8888/services/files/list/``
 * __GET__ http://localhost:8888/services/files/download/** - download file on path. file must exist.   
@@ -20,7 +22,7 @@ This is simple spring-boot FileServer demo. This server makes specified director
   ``curl -X POST http://localhost:8888/services/files/createdir/path/to/directory``
 
 ### Build and run
-Variable ``file.server.home`` in ``application.properties`` file defines root directory to be exposed via REST APIs.
+Variable ``file.server.home`` in ``application.properties`` file defines *base directory* to be exposed via REST APIs.
 ```
 gradle clean build
 java -jar build/libs/springboot-fileserver-0.0.1-SNAPSHOT.jar --spring.config.location=file:./src/main/resources/application.properties

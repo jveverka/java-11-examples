@@ -39,7 +39,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Resource loadFileAsResource(String filePath) throws FileNotFoundException {
+    public Path getBasePath() {
+        return fileStorageLocation;
+    }
+
+    @Override
+    public Resource loadFileAsResource(Path filePath) throws FileNotFoundException {
         LOG.info("loadFileAsResource: {}", filePath);
         try {
             Path resolvedFilePath = this.fileStorageLocation.resolve(filePath).normalize();
@@ -55,9 +60,9 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public FileList getFilesInfo(String filePath) throws IOException {
+    public FileList getFilesInfo(Path filePath) throws IOException {
         LOG.info("getFilesInfo: {}", filePath);
-        FileList fileList = new FileList(filePath);
+        FileList fileList = new FileList(filePath.toString());
         Path resolvedFilePath = this.fileStorageLocation.resolve(filePath).normalize();
         try (Stream<Path> filesWalk = Files.walk(resolvedFilePath, 1)) {
             filesWalk.forEach(fw -> {
@@ -74,7 +79,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void saveFile(String filePath, InputStream inputStream) throws IOException {
+    public void saveFile(Path filePath, InputStream inputStream) throws IOException {
         LOG.info("saveFile: {}", filePath);
         Path resolvedFilePath = this.fileStorageLocation.resolve(filePath).normalize();
         byte[] buffer = new byte[inputStream.available()];
@@ -85,7 +90,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void delete(String filePath) throws IOException {
+    public void delete(Path filePath) throws IOException {
         LOG.info("delete: {}", filePath);
         Path resolvedFilePath = this.fileStorageLocation.resolve(filePath).normalize();
         LOG.info("deleting: {}", resolvedFilePath.toString());
@@ -97,7 +102,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void createDirectory(String filePath) throws IOException {
+    public void createDirectory(Path filePath) throws IOException {
         LOG.info("createDirectory: {}", filePath);
         Path resolvedFilePath = this.fileStorageLocation.resolve(filePath).normalize();
         Files.createDirectories(resolvedFilePath);

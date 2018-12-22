@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 @RequestMapping(path = FileServerController.URI_PREFIX)
@@ -46,7 +47,7 @@ public class FileServerController {
     public ResponseEntity<Resource> downloadFile() {
         try {
             String contextPath = httpServletRequest.getRequestURI();
-            String filePath = contextPath.substring((URI_PREFIX + DOWNLOAD_PREFIX).length());
+            Path filePath = Paths.get(contextPath.substring((URI_PREFIX + DOWNLOAD_PREFIX).length()));
             LOG.info("downloadFile: {}", filePath);
             Resource resource = fileService.loadFileAsResource(filePath);
             String contentType = "application/octet-stream";
@@ -63,7 +64,7 @@ public class FileServerController {
     public ResponseEntity<FileList> getFiles() {
         try {
             String contextPath = httpServletRequest.getRequestURI();
-            String filePath = contextPath.substring((URI_PREFIX + LIST_PREFIX).length());
+            Path filePath = Paths.get(contextPath.substring((URI_PREFIX + LIST_PREFIX).length()));
             LOG.info("getFiles: {}", filePath);
             FileList fileInfo = fileService.getFilesInfo(filePath);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(fileInfo);
@@ -73,16 +74,12 @@ public class FileServerController {
     }
 
     @PostMapping(UPLOAD_PREFIX + "**")
-    public ResponseEntity<Resource> fileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+    public ResponseEntity<Resource> fileUpload(@RequestParam("file") MultipartFile file) {
         try {
             String contextPath = httpServletRequest.getRequestURI();
-            String filePath = contextPath.substring((URI_PREFIX + UPLOAD_PREFIX).length());
+            Path filePath = Paths.get(contextPath.substring((URI_PREFIX + UPLOAD_PREFIX).length()));
             LOG.info("upload: {}", filePath);
             fileService.saveFile(filePath, file.getInputStream());
-            redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
-
             return ResponseEntity.ok().build();
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -93,7 +90,7 @@ public class FileServerController {
     public ResponseEntity<Resource> delete() {
         try {
             String contextPath = httpServletRequest.getRequestURI();
-            String filePath = contextPath.substring((URI_PREFIX + DELETE_PREFIX).length());
+            Path filePath = Paths.get(contextPath.substring((URI_PREFIX + DELETE_PREFIX).length()));
             LOG.info("delete: {}", filePath);
             fileService.delete(filePath);
             return ResponseEntity.ok().build();
@@ -106,7 +103,7 @@ public class FileServerController {
     public ResponseEntity<Resource> createDirectory() {
         try {
             String contextPath = httpServletRequest.getRequestURI();
-            String filePath = contextPath.substring((URI_PREFIX + CREATEDIR_PREFIX).length());
+            Path filePath = Paths.get(contextPath.substring((URI_PREFIX + CREATEDIR_PREFIX).length()));
             LOG.info("createDirectory: {}", filePath);
             fileService.createDirectory(filePath);
             return ResponseEntity.ok().build();
