@@ -43,7 +43,7 @@ public class UserAccessServiceImpl implements UserAccessService {
 
     @Override
     public void logout(String sessionId) {
-        LOG.info("logout: {} {}", sessionId);
+        LOG.info("logout: {}", sessionId);
         sessions.remove(sessionId);
     }
 
