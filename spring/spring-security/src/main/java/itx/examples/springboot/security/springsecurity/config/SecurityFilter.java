@@ -1,9 +1,12 @@
 package itx.examples.springboot.security.springsecurity.config;
 
 import itx.examples.springboot.security.springsecurity.services.UserAccessService;
+import itx.examples.springboot.security.springsecurity.services.dto.UserData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,7 +15,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Optional;
 
 public class SecurityFilter implements Filter {
 
@@ -28,7 +33,12 @@ public class SecurityFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest)request;
         String sessionId = httpServletRequest.getSession(true).getId();
-        if (userAccessService.isAuthorized(sessionId)) {
+        Optional<UserData> userData = userAccessService.isAuthorized(sessionId);
+        if (userData.isPresent()) {
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(new AuthenticationImpl(userData.get().getUserName(), userData.get().getRoles()));
+            HttpSession session = httpServletRequest.getSession();
+            session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
             chain.doFilter(request, response);
         } else {
             LOG.error("session is not authorized: {}", sessionId);

@@ -2,6 +2,7 @@ package itx.examples.springboot.security.springsecurity.rest;
 
 import itx.examples.springboot.security.springsecurity.services.UserAccessService;
 import itx.examples.springboot.security.springsecurity.services.dto.LoginRequest;
+import itx.examples.springboot.security.springsecurity.services.dto.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/services/security/")
-public class SecurityResource {
+public class SecurityRestController {
 
     @Autowired
     private UserAccessService userAccessService;
@@ -24,9 +26,10 @@ public class SecurityResource {
     private HttpSession httpSession;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequest loginRequest) {
-        if (userAccessService.login(httpSession.getId(), loginRequest)) {
-            return ResponseEntity.ok().build();
+    public ResponseEntity<UserData> login(@RequestBody LoginRequest loginRequest) {
+        Optional<UserData> userData = userAccessService.login(httpSession.getId(), loginRequest);
+        if (userData.isPresent()) {
+            return ResponseEntity.ok().body(userData.get());
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
