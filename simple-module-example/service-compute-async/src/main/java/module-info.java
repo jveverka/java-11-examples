@@ -4,4 +4,6 @@ module itx.examples.java.eleven.computeasync {
     requires itx.examples.java.eleven.compute;
     requires itx.examples.java.eleven.tasks;
     requires org.slf4j;
+    uses itx.examples.java.eleven.compute.api.ComputeService;
+    uses itx.examples.java.eleven.tasks.api.TasksService;
 }
