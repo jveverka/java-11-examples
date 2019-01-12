@@ -7,7 +7,7 @@ Enjoy !
 
 ### Environment setup
 * [OpenJDK 11](https://jdk.java.net/11/) or [Oracle JDK 11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html)
-* Gradle [4.10 or later](https://gradle.org/install/)
+* Gradle [5.1.1 or later](https://gradle.org/install/)
 
 ### New Features of JDK11
 * JDK9 [Feature list](https://openjdk.java.net/projects/jdk9/)
