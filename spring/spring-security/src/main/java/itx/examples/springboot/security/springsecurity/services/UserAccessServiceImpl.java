@@ -22,8 +22,8 @@ public class UserAccessServiceImpl implements UserAccessService {
     public UserAccessServiceImpl() {
         this.sessions = new ConcurrentHashMap<>();
         this.users = new HashMap<>();
-        this.users.put("joe", new UserData("joe", "secret", "USER"));
-        this.users.put("jane", new UserData("jane", "secret", "ADMIN", "USER"));
+        this.users.put("joe", new UserData("joe", "secret", "ROLE_USER"));
+        this.users.put("jane", new UserData("jane", "secret", "ROLE_ADMIN", "ROLE_USER"));
     }
 
     @Override

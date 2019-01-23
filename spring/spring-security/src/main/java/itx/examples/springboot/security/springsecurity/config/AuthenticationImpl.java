@@ -15,6 +15,8 @@ public class AuthenticationImpl implements Authentication {
     private final String name;
     private final Collection<GrantedAuthorityImpl> grantedAuthorities;
 
+    private boolean isAuthenticated;
+
     public AuthenticationImpl(String name, Set<RoleId> roles) {
         this.name = name;
         List<GrantedAuthorityImpl> authorities = new ArrayList<>();
@@ -22,6 +24,7 @@ public class AuthenticationImpl implements Authentication {
             authorities.add(new GrantedAuthorityImpl(r.getId()));
         });
         this.grantedAuthorities = Collections.unmodifiableCollection(authorities);
+        this.isAuthenticated = true;
     }
 
 
@@ -42,21 +45,22 @@ public class AuthenticationImpl implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return null;
+        return name;
     }
 
     @Override
     public boolean isAuthenticated() {
-        return true;
+        return isAuthenticated;
     }
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
+        this.isAuthenticated = isAuthenticated;
     }
 
     @Override
     public String getName() {
         return name;
     }
+
 }

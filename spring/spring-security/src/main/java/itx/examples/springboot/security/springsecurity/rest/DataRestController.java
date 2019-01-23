@@ -6,8 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,13 +22,12 @@ public class DataRestController {
     private DataService dataService;
 
     @GetMapping("/all")
-    public ResponseEntity<ServerData> getData() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        LOG.info("getData: authentication={}", securityContext.getAuthentication().getName());
-        securityContext.getAuthentication().getAuthorities().forEach(a->{
-            LOG.info("authority={}", a.getAuthority());
+    public ResponseEntity<ServerData> getData(Authentication authentication) {
+        LOG.info("getData: authentication={}", authentication.getName());
+        authentication.getAuthorities().forEach(a->{
+            LOG.info("  authority={}", a.getAuthority());
         });
-        return ResponseEntity.ok().body(dataService.getSecuredData("Secured for " + securityContext.getAuthentication().getName()));
+        return ResponseEntity.ok().body(dataService.getSecuredData("Secured for " + authentication.getName()));
     }
 
 }
