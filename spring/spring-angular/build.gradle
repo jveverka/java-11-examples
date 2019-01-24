@@ -16,11 +16,11 @@ subprojects {
 }
 
 project(':server') {
+    dependencies {
+        compile project(':client')
+    }
 }
 
 project(':client') {
-    dependencies {
-        compile project(':server')
-    }
 }
 

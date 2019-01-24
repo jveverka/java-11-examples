@@ -23,8 +23,16 @@ repositories {
 	mavenCentral()
 }
 
-
 dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
+/**
+ * This will add previously compiled angular UI files 
+ */
+processResources {
+	from ("${rootDir}/client/dist/client") {
+		into "static"
+	}
 }
