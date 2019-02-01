@@ -15,19 +15,21 @@ public class SimpleClient {
 
     private final ManagedChannel channel;
     private final GreeterGrpc.GreeterBlockingStub blockingStub;
+    private final GreeterGrpc.GreeterStub greeterStub;
 
     /** Construct client connecting to HelloWorld server at {@code host:port}. */
     public SimpleClient(String host, int port) {
         this(ManagedChannelBuilder.forAddress(host, port)
                 // Channels are secure by default (via SSL/TLS). For the example we disable TLS to avoid
                 // needing certificates.
-                .usePlaintext(true)
+                .usePlaintext()
                 .build());
     }
 
     private SimpleClient(ManagedChannel channel) {
         this.channel = channel;
-        blockingStub = GreeterGrpc.newBlockingStub(channel);
+        this.blockingStub = GreeterGrpc.newBlockingStub(channel);
+        this.greeterStub = GreeterGrpc.newStub(channel);
     }
 
     public void shutdown() throws InterruptedException {
@@ -52,9 +54,16 @@ public class SimpleClient {
         return blockingStub.getData(dataMessage);
     }
 
+    public DataMessages getBulkData(DataMessages dataMessages) {
+        return blockingStub.getBulkData(dataMessages);
+    }
+
     public StreamObserver<DataMessage> getDataChannel(StreamObserver<DataMessage> responseObserver) {
-        GreeterGrpc.GreeterStub greeterStub = GreeterGrpc.newStub(channel);
         return greeterStub.dataChannel(responseObserver);
+    }
+
+    public StreamObserver<DataMessages> getBulkDataChannel(StreamObserver<DataMessages> responseObserver) {
+        return greeterStub.bulkDataChannel(responseObserver);
     }
 
 }

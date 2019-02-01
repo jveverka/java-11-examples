@@ -59,6 +59,10 @@ protobuf {
    }
 }
 
+applicationDistribution.from("src/main/scripts/") {
+   into "bin"
+}
+
 idea {
    module {
       // Not using generatedSourceDirs because of

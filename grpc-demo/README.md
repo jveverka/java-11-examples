@@ -40,6 +40,14 @@ Example shows getDataSync with 500 warm-up messages and 1k data messages. Test i
 on stdout when done.  
 ```./build/install/grpc-demo/bin/grpc-demo --host localhost --port 50051 getDataAsync -w 500 -c 1000 -m hi -r 5```
 
+#### getBulkDataSync
+Same test as __getDataSync__, but messages are send in groups rather than individually.
+```./build/install/grpc-demo/bin/grpc-demo --host localhost --port 50051 getBulkDataSync -w 500 -c 1000 -m hi -r 5 -b 10```
+
+#### getBulkDataAsync
+Same test as __getDataAsync__, but messages are send in groups rather than individually.
+```./build/install/grpc-demo/bin/grpc-demo --host localhost --port 50051 getBuklDataAsync -w 500 -c 1000 -m hi -r 5 -b 10```
+
 Performance measurements
 ------------------------
 Here are some performance measurements of for synchronous and asynchronous message sending.  

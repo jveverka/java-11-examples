@@ -58,24 +58,33 @@ public class SimpleServer {
     static class GreeterImpl extends GreeterGrpc.GreeterImplBase {
 
         @Override
-        public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
-            HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
+        public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
+            HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + request.getName()).build();
             LOG.debug("reply: {}", reply.getMessage());
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
         }
 
         @Override
-        public void getData(DataMessage req, StreamObserver<DataMessage> responseObserver) {
-            DataMessage reply = DataMessage.newBuilder().mergeFrom(req).build();
-            LOG.debug("reply: {} {}", reply.getIndex(), reply.getMessage());
-            responseObserver.onNext(reply);
+        public void getData(DataMessage request, StreamObserver<DataMessage> responseObserver) {
+            responseObserver.onNext(request);
             responseObserver.onCompleted();
         }
 
         @Override
         public StreamObserver<DataMessage> dataChannel(StreamObserver<DataMessage> responseObserver) {
-            return new ServerDataChannelStreamObserver<DataMessage>(responseObserver);
+            return new ServerDataChannelStreamObserver(responseObserver);
+        }
+
+        @Override
+        public void getBulkData(DataMessages request, StreamObserver<DataMessages> responseObserver) {
+            responseObserver.onNext(request);
+            responseObserver.onCompleted();
+        }
+
+        @Override
+        public StreamObserver<DataMessages> bulkDataChannel(StreamObserver<DataMessages> responseObserver) {
+            return new ServerBulkDataChannelStreamObserver(responseObserver);
         }
 
     }

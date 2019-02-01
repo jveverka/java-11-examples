@@ -7,11 +7,20 @@ option objc_class_prefix = "HLW";
 
 service Greeter {
 
+    // sayHello scenario
     rpc SayHello (HelloRequest) returns (HelloReply) {}
 
+    // getDataSync scenario
     rpc GetData (DataMessage) returns (DataMessage) {}
 
+    // getDataAsync scenario
     rpc DataChannel (stream DataMessage) returns (stream DataMessage) {}
+
+    // getBulkData scenario
+    rpc GetBulkData (DataMessages) returns (DataMessages) {}
+
+    // getBulkDataAsync scenario
+    rpc BulkDataChannel (stream DataMessages) returns (stream DataMessages) {}
 
 }
 
@@ -26,4 +35,8 @@ message HelloReply {
 message DataMessage {
     uint64 index = 1;
     string message = 2;
+}
+
+message DataMessages {
+    repeated DataMessage messages = 1;
 }

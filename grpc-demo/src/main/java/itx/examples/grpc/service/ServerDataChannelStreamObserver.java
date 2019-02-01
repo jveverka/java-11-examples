@@ -8,45 +8,30 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class ServerDataChannelStreamObserver<V extends DataMessage> implements StreamObserver<V> {
+public class ServerDataChannelStreamObserver implements StreamObserver<DataMessage> {
 
     final private static Logger LOG = LoggerFactory.getLogger(ServerDataChannelStreamObserver.class);
-    final private static String CLOSE_COMMAND = "CLOSE";
 
-    private StreamObserver<DataMessage> responseObserver;
-    private ExecutorService executorService;
+    private final StreamObserver<DataMessage> responseObserver;
 
     public ServerDataChannelStreamObserver(StreamObserver<DataMessage> responseObserver) {
-        LOG.info("server observer started.");
+        LOG.info("DataChannel server observer started.");
         this.responseObserver = responseObserver;
-        this.executorService = Executors.newFixedThreadPool(8);
     }
 
     @Override
-    public void onNext(V value) {
-        if (CLOSE_COMMAND.equals(value.getMessage())) {
-            try {
-                responseObserver.onNext(DataMessage.newBuilder().mergeFrom(value).build());
-                executorService.shutdown();
-                executorService.awaitTermination(20, TimeUnit.SECONDS);
-                responseObserver.onCompleted();
-                LOG.info("closing server observer.");
-            } catch (InterruptedException e) {
-                LOG.error("InterruptedException: ", e);
-            }
-        } else {
-            executorService.submit(new ServerReplyTask(responseObserver, value));
-        }
+    public void onNext(DataMessage value) {
+        responseObserver.onNext(value);
     }
 
     @Override
     public void onError(Throwable t) {
-        LOG.info("onError");
+        responseObserver.onError(t);
     }
 
     @Override
     public void onCompleted() {
-        LOG.info("onCompleted");
+        responseObserver.onCompleted();
     }
 
 }

@@ -5,17 +5,19 @@ import io.grpc.stub.StreamObserver;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class ClientDataChannelStreamObserver implements StreamObserver<DataMessage> {
+public class ClientBulkDataChannelStreamObserver implements StreamObserver<DataMessages> {
 
     private final CountDownLatch countDownLatch;
 
-    public ClientDataChannelStreamObserver(int expectedMessages) {
+    public ClientBulkDataChannelStreamObserver(int expectedMessages) {
         this.countDownLatch = new CountDownLatch(expectedMessages);
     }
 
     @Override
-    public void onNext(DataMessage value) {
-        countDownLatch.countDown();
+    public void onNext(DataMessages value) {
+        for (int i = 0; i<value.getMessagesCount(); i++) {
+            countDownLatch.countDown();
+        }
     }
 
     @Override
