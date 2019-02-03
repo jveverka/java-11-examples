@@ -26,6 +26,8 @@ Supported client scenarios
 Client sends single hello message to server synchronously and ends. Server responds with hello reply message.  
 ```./build/install/grpc-demo/bin/grpc-demo --host localhost --port 50051 sayHello -m hi```
 
+![test scenarios](docs/sequence-diagrams.svg)
+
 #### getDataSync
 Client sends synchronously several warm-up messages and than number of data messages to server synchronously and ends. 
 Server replies with sending back same message for every received message.
@@ -51,22 +53,16 @@ Same test as __getDataAsync__, but messages are send in groups rather than indiv
 Performance measurements
 ------------------------
 Here are some performance measurements of for synchronous and asynchronous message sending.  
-DataMessage exchanged between client and server in those tests looks like this: ```{ index: $i, message: "data" }```
+DataMessage exchanged between client and server in those tests looks like this: ```{ index: $i, message: "payload" }```
 
-| Scenario    | Parameters            | Server       | Client         | Network   | Result [msg/s] |
-|-------------|-----------------------|--------------|----------------|:---------:|---------------:|
-| getDataAsync|-c 100000 -r 20 -m data|i7-3632QM CPU | i7-3632QM CPU  | localhost | 39 000         |
-| getDataSync |-c 100000 -r 20 -m data|i7-3632QM CPU | i7-3632QM CPU  | localhost |  6 400         |
-| getDataAsync|-c 100000 -r 20 -m data|i7-3632QM CPU | Odroid C1 SBC  | 1 Gb/s    | 11 000         |
-| getDataSync |-c 100000 -r 20 -m data|i7-3632QM CPU | Odroid C1 SBC  | 1 Gb/s    |    860         |
-| getDataAsync|-c 100000 -r 20 -m data|i7-3632QM CPU | i7-4810MQ CPU  | 1 Gb/s    | 92 000         |
-| getDataSync |-c 100000 -r 20 -m data|i7-3632QM CPU | i7-4810MQ CPU  | 1 Gb/s    |  1 600         |
-| getDataAsync|-c 100000 -r 20 -m data|i7-3632QM CPU |     J1900 CPU  | 1 Gb/s    | 26 000         |
-| getDataSync |-c 100000 -r 20 -m data|i7-3632QM CPU |     J1900 CPU  | 1 Gb/s    |  1 200         |
-| getDataAsync|-c 100000 -r 20 -m data|i7-3632QM CPU | RaspberryPi B+ | 100 Mb/s  |  1 300         |
-| getDataSync |-c 100000 -r 20 -m data|i7-3632QM CPU | RaspberryPi B+ | 100 Mb/s  |    200         |
-| getDataAsync|-c 100000 -r 20 -m data|i7-3632QM CPU | RaspberryPi 0  | 100 Mb/s  |  2 000         |
-| getDataSync |-c 100000 -r 20 -m data|i7-3632QM CPU | RaspberryPi 0  | 100 Mb/s  |    260         |
-| getDataAsync|-c 100000 -r 20 -m data|i7-3632QM CPU | RaspberryPiW0  | wifi      |  1 900         |
-| getDataSync |-c 100000 -r 20 -m data|i7-3632QM CPU | RaspberryPiW0  | wifi      |    150         |
+| Scenario        | Test Parameters                | Server       | Client         | Network   |  Result [msg/s] |
+|-----------------|--------------------------------|--------------|----------------|:---------:|----------------:|
+| getDataSync     |-c 100000 -r 20 -m payload      |i7-4810MQ CPU | i7-4810MQ CPU  | localhost |   9 000         |
+| getDataAsync    |-c 100000 -r 20 -m payload      |i7-4810MQ CPU | i7-4810MQ CPU  | localhost |  42 000         |
+| getBulkDataSync |-c 100000 -r 20 -m payload -b 10|i7-4810MQ CPU | i7-4810MQ CPU  | localhost |  88 000         |
+| getBulkDataAsync|-c 100000 -r 20 -m payload -b 10|i7-4810MQ CPU | i7-4810MQ CPU  | localhost | 400 000         |
+| getDataSync     |-c 100000 -r 20 -m payload      |i7-3632QM CPU | i7-4810MQ CPU  | 1 Gb/s    |   1 600         |
+| getDataAsync    |-c 100000 -r 20 -m payload      |i7-3632QM CPU | i7-4810MQ CPU  | 1 Gb/s    |  37 000         |
+| getBulkDataSync |-c 100000 -r 20 -m payload -b 10|i7-3632QM CPU | i7-3632QM CPU  | 1 Gb/s    |  16 000         |
+| getBulkDataAsync|-c 100000 -r 20 -m payload -b 10|i7-3632QM CPU | i7-3632QM CPU  | 1 Gb/s    | 345 000         |
 
