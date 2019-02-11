@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/services/public/")
+@RequestMapping("/services/public")
 public class PublicRestController {
 
     private static final Logger LOG = LoggerFactory.getLogger(PublicRestController.class);
@@ -19,7 +19,7 @@ public class PublicRestController {
     @Autowired
     private DataService dataService;
 
-    @GetMapping("/all")
+    @GetMapping("/data/all")
     public ResponseEntity<ServerData> getData() {
         LOG.info("getData: ");
         return ResponseEntity.ok().body(dataService.getSecuredData("Public"));
