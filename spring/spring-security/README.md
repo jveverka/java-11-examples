@@ -1,8 +1,11 @@
 # Simple SpringBoot security demo
 
 Really simple spring security demo. Public data is accessible without login.
-Private data is accessible only after login. Session timeout is set to 5 minutes.
+Protected data is accessible only after login. Session timeout is set to 5 minutes.
 After login, each request must use same cookie JSESSIONID, because server is tracking http sessions by this cookie.
+
+* __Authentication__ is handled by internal service ``itx.examples.springboot.security.springsecurity.services.UserAccessService``
+* __Authorization__ is handled by Spring's Method Security, RBAC model is used.
 
 ### Login
 * __POST__ http://localhost:8888/services/security/login

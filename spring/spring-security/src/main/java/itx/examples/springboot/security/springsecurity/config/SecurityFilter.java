@@ -33,7 +33,7 @@ public class SecurityFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest)request;
         String sessionId = httpServletRequest.getSession(true).getId();
-        Optional<UserData> userData = userAccessService.isAuthorized(sessionId);
+        Optional<UserData> userData = userAccessService.isAuthenticated(sessionId);
         if (userData.isPresent()) {
             SecurityContext securityContext = SecurityContextHolder.getContext();
             securityContext.setAuthentication(new AuthenticationImpl(userData.get().getUserName(), userData.get().getRoles()));

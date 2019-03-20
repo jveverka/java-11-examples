@@ -40,7 +40,7 @@ public class UserAccessServiceImpl implements UserAccessService {
     }
 
     @Override
-    public Optional<UserData> isAuthorized(String sessionId) {
+    public Optional<UserData> isAuthenticated(String sessionId) {
         return Optional.ofNullable(sessions.get(sessionId));
     }
 

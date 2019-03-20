@@ -9,7 +9,7 @@ public interface UserAccessService {
 
     Optional<UserData> login(String sessionId, LoginRequest loginRequest);
 
-    Optional<UserData> isAuthorized(String sessionId);
+    Optional<UserData> isAuthenticated(String sessionId);
 
     void logout(String sessionId);
 

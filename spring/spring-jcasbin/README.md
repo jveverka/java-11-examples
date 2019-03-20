@@ -4,7 +4,8 @@ Really simple spring security demo. Protected data is accessible only after logi
 After login, each request must use same cookie JSESSIONID, because server is tracking http sessions by this cookie.
 
 * __Authentication__ is handled by internal service ``itx.examples.springboot.security.services.UserAccessService``
-* __Authorization__ is handles by [jCasbin](https://github.com/casbin/jcasbin) library using RBAC model example.
+* __Authorization__ is handled by [jCasbin](https://github.com/casbin/jcasbin) library using RBAC model example in 
+combination with Spring's Method Security.
 
 ### Login
 * __POST__ http://localhost:8888/services/security/login
