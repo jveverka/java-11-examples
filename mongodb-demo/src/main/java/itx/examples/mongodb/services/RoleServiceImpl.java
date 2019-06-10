@@ -18,7 +18,7 @@ public class RoleServiceImpl implements RoleService {
 
     final private static Logger LOG = LoggerFactory.getLogger(RoleServiceImpl.class);
 
-    private MongoDatabase database;
+    private final MongoDatabase database;
 
     public RoleServiceImpl(MongoDatabase database) {
         this.database = database;
