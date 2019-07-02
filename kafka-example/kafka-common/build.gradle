@@ -1,0 +1,36 @@
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+repositories {
+   mavenLocal()
+   mavenCentral()
+}
+
+test {
+   useTestNG()
+   //testLogging.showStandardStreams = true
+   testLogging {
+      events "passed", "skipped", "failed"
+   }
+}
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+publishing {
+   publications {
+      maven(MavenPublication) {
+         groupId = 'itx.examples.kafka'
+         artifactId = 'kafka-common'
+         version = '1.0.0'
+
+         from components.java
+      }
+   }
+}
+
+dependencies {
+   testCompile 'org.testng:testng:6.14.3'
+}
+

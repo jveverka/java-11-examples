@@ -1,0 +1,32 @@
+subprojects {
+
+    apply plugin: "java"
+
+    targetCompatibility = '11'
+    sourceCompatibility = '11'
+  
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile 'org.slf4j:slf4j-api:1.8.0-beta4'
+        compile 'org.slf4j:slf4j-simple:1.8.0-beta4'
+    }
+}
+
+project(':kafka-common') {
+}
+
+project(':kafka-client') {
+    dependencies {
+        compile project(':kafka-common')
+    }
+}
+
+project(':kafka-service') {
+    dependencies {
+        compile project(':kafka-common')
+    }
+}
+

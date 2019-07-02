@@ -1,0 +1,4 @@
+include "kafka-common"
+include "kafka-client"
+include "kafka-service"
+
