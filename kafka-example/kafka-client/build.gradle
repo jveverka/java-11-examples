@@ -1,6 +1,9 @@
 
 apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'maven-publish'
+
+mainClassName = 'itx.examples.kafka.client.ClientApp'
 
 repositories {
    mavenLocal()

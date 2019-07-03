@@ -26,13 +26,15 @@ public class ProcessingServiceBackend implements Closeable {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProcessingServiceBackend.class);
 
+    private final String serviceId;
     private final KafkaProducer<String, Bytes> producer;
     private final Consumer<String, Bytes> consumer;
     private final DataMapper dataMapper;
 
     private boolean running;
 
-    public ProcessingServiceBackend() {
+    public ProcessingServiceBackend(String serviceId) {
+        this.serviceId = serviceId;
         Properties producerSettings = new Properties();
         producerSettings.put("bootstrap.servers", KAFKA_BROKERS);
         producerSettings.put("client.id", "client-id");
@@ -55,7 +57,7 @@ public class ProcessingServiceBackend implements Closeable {
     public void start() {
         Collection<String> topics = Collections.singletonList(TOPIC_SERVICE_REQUESTS);
         this.consumer.subscribe(topics);
-        LOG.info("waiting for requests ...");
+        LOG.info("Waiting for requests {} ...", serviceId);
         this.running = true;
         while (running) {
             ConsumerRecords<String, Bytes> records = consumer.poll(Duration.ofMillis(10));
@@ -75,11 +77,12 @@ public class ProcessingServiceBackend implements Closeable {
                 }
             }
         }
-        LOG.info("shutdown.");
+        LOG.info("done {}.", serviceId);
     }
 
     @Override
     public void close() throws IOException {
+        LOG.info("closing {}.", serviceId);
         this.running = false;
         this.producer.close();
         this.consumer.close();
