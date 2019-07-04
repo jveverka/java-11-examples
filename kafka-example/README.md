@@ -48,7 +48,7 @@ kafka-service/build/install/kafka-service/bin/kafka-service -i service-01
 kafka-service/build/install/kafka-service/bin/kafka-service -i service-02 
 kafka-service/build/install/kafka-service/bin/kafka-service -i service-03 
 ```
-4. Run clients, you may rum more client in parallel.
+4. Run clients, you may run more client in parallel.
 ```
 kafka-client/build/install/kafka-client/bin/kafka-client -i client-01
 kafka-client/build/install/kafka-client/bin/kafka-client -i client-02

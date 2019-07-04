@@ -23,7 +23,7 @@ public class ClientApp {
                 .parse(args);
 
         LOG.info("Kafka client started {} ...", arguments.getClientId());
-        try (ProcessingServiceClient processingService = new ProcessingServiceClient()) {
+        try (ProcessingServiceClient processingService = new ProcessingServiceClient(arguments.getClientId())) {
             processingService.init();
             String taskId = UUID.randomUUID().toString();
             for (int i = 0; i < 10; i++) {
@@ -33,11 +33,21 @@ public class ClientApp {
                 Future<ServiceResponse> process = processingService.process(serviceRequest);
                 ServiceResponse serviceResponse = process.get();
                 float delay = (System.nanoTime() - timeStamp) / 1_000_000F;
-                LOG.info("Response[{}]: {}:{}:{} {}ms", i, serviceResponse.getTaskId(), serviceResponse.getData(), serviceResponse.getResponse(), delay);
-                Thread.sleep(6000);
+                String eval = checkResponse(serviceRequest, serviceResponse);
+                LOG.info("Response[{}]: {}:{}:{} {} {}ms", i, serviceResponse.getTaskId(), serviceResponse.getData(), serviceResponse.getResponse(), eval, delay);
+                Thread.sleep(3000);
             }
             LOG.info("kafka client done.");
         }
+    }
+
+    public static String checkResponse(ServiceRequest request, ServiceResponse response) {
+        if (request.getTaskId().equals(response.getTaskId())
+                && request.getClientId().equals(response.getClientId())
+                && request.getData().equals(response.getData())) {
+            return "OK";
+        }
+        return "ERROR";
     }
 
 }

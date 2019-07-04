@@ -29,6 +29,7 @@ public class SingleRecordConsumerJob implements Callable<ServiceResponse> {
 
     @Override
     public ServiceResponse call() throws Exception {
+        LOG.info("Consumer thread started.");
         while (true) {
             ConsumerRecords<String, Bytes> records = consumer.poll(Duration.ofMillis(10));
             if (!records.isEmpty()) {
