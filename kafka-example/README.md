@@ -31,6 +31,9 @@ Create single topic 'test'.
 bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 3 --topic service-requests
 bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic service-responses
 bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+bin/kafka-topics.sh --describe --bootstrap-server localhost:9092
+bin/kafka-topics.sh --delete --bootstrap-server localhost:9092 --topic service-requests
+bin/kafka-topics.sh --delete --bootstrap-server localhost:9092 --topic service-responses
 ``` 
 
 ## Compile and run
@@ -47,5 +50,8 @@ kafka-service/build/install/kafka-service/bin/kafka-service -i service-03
 ```
 4. Run clients, you may rum more client in parallel.
 ```
-kafka-client/build/install/kafka-client/bin/kafka-client
+kafka-client/build/install/kafka-client/bin/kafka-client -i client-01
+kafka-client/build/install/kafka-client/bin/kafka-client -i client-02
+kafka-client/build/install/kafka-client/bin/kafka-client -i client-03
+kafka-client/build/install/kafka-client/bin/kafka-client -i client-04
 ```

@@ -63,10 +63,11 @@ public class ProcessingServiceBackend implements Closeable {
             ConsumerRecords<String, Bytes> records = consumer.poll(Duration.ofMillis(10));
             if (!records.isEmpty()) {
                 for (ConsumerRecord<String, Bytes> record: records) {
-                    LOG.info("Received Request: {}", record.key());
                     try {
                         ServiceRequest request = dataMapper.deserialize(record.value(), ServiceRequest.class);
-                        ServiceResponse response = new ServiceResponse(request.getTaskId(), request.getData(), "response:" + request.getData());
+                        LOG.info("Received Request: {}:{}:{}", record.key(), request.getClientId(), request.getTaskId());
+                        ServiceResponse response =
+                                new ServiceResponse(request.getTaskId(), request.getClientId(), request.getData(), "response:" + request.getData());
                         Bytes bytes = dataMapper.serialize(response);
                         ProducerRecord<String, Bytes> recordReply = new ProducerRecord<>(TOPIC_SERVICE_RESPONSES, response.getTaskId(), bytes);
                         producer.send(recordReply);

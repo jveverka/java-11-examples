@@ -36,6 +36,7 @@ publishing {
 dependencies {
    compile 'org.apache.kafka:kafka-clients:2.3.0'
    compile 'org.apache.kafka:kafka-streams:2.3.0'
+   compile 'com.beust:jcommander:1.72'
    testCompile 'org.testng:testng:6.14.3'
 }
 
