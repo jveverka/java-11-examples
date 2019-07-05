@@ -33,17 +33,17 @@ public class ProcessingServiceBackend implements Closeable {
 
     private boolean running;
 
-    public ProcessingServiceBackend(String serviceId) {
+    public ProcessingServiceBackend(String serviceId, String brokers) {
         this.serviceId = serviceId;
         Properties producerSettings = new Properties();
-        producerSettings.put("bootstrap.servers", KAFKA_BROKERS);
+        producerSettings.put("bootstrap.servers", brokers);
         producerSettings.put("client.id", "client-id");
         producerSettings.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         producerSettings.put("value.serializer", "org.apache.kafka.common.serialization.BytesSerializer");
         this.producer = new KafkaProducer<>(producerSettings);
 
         Properties consumerSettings = new Properties();
-        consumerSettings.put("bootstrap.servers", KAFKA_BROKERS);
+        consumerSettings.put("bootstrap.servers", brokers);
         consumerSettings.put("client.id", "client-id");
         consumerSettings.put("group.id", "consumer-group");
         consumerSettings.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");

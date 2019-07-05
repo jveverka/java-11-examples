@@ -23,10 +23,11 @@ public class ClientApp {
                 .parse(args);
 
         LOG.info("Kafka client started {} ...", arguments.getClientId());
-        try (ProcessingServiceClient processingService = new ProcessingServiceClient(arguments.getClientId())) {
+        try (ProcessingServiceClient processingService = new ProcessingServiceClient(arguments.getClientId(), arguments.getBrokers())) {
             processingService.init();
             String taskId = UUID.randomUUID().toString();
-            for (int i = 0; i < 10; i++) {
+            float delays = 0;
+            for (int i = 0; i < arguments.getMessageCount(); i++) {
                 long timeStamp = System.nanoTime();
                 ServiceRequest serviceRequest = new ServiceRequest(taskId, arguments.getClientId(),"hi[" + i + "]");
                 LOG.info("Request: {}:{}:{}", arguments.getClientId(), serviceRequest.getTaskId(), serviceRequest.getData());
@@ -35,9 +36,13 @@ public class ClientApp {
                 float delay = (System.nanoTime() - timeStamp) / 1_000_000F;
                 String eval = checkResponse(serviceRequest, serviceResponse);
                 LOG.info("Response[{}]: {}:{}:{} {} {}ms", i, serviceResponse.getTaskId(), serviceResponse.getData(), serviceResponse.getResponse(), eval, delay);
-                Thread.sleep(3000);
+                delays = delays + delay;
+                if (arguments.getMessageDelay() > 0) {
+                    Thread.sleep(arguments.getMessageDelay());
+                }
             }
-            LOG.info("kafka client done.");
+            LOG.info("Client {} send messages {} with avg. latency: {}ms", arguments.getClientId(), arguments.getMessageCount(), (delays/arguments.getMessageCount()));
+            LOG.info("Kafka client done.");
         }
     }
 

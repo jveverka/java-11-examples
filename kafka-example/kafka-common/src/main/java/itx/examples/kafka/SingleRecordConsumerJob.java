@@ -34,8 +34,8 @@ public class SingleRecordConsumerJob implements Callable<ServiceResponse> {
             ConsumerRecords<String, Bytes> records = consumer.poll(Duration.ofMillis(10));
             if (!records.isEmpty()) {
                 for (ConsumerRecord<String, Bytes> record: records) {
-                    LOG.info("Record: {}", record.key());
                     if (key.equals(record.key())) {
+                        LOG.info("Record: {}", record.key());
                         LOG.info("received response");
                         return dataMapper.deserialize(record.value(), ServiceResponse.class);
                     }

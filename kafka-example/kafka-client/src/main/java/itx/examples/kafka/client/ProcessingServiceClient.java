@@ -34,16 +34,16 @@ public class ProcessingServiceClient implements ProcessingService, Closeable {
     private final ExecutorService executor;
     private final DataMapper dataMapper;
 
-    public ProcessingServiceClient(String clientId) {
+    public ProcessingServiceClient(String clientId, String brokers) {
         Properties producerSettings = new Properties();
-        producerSettings.put("bootstrap.servers", KAFKA_BROKERS);
+        producerSettings.put("bootstrap.servers", brokers);
         producerSettings.put("client.id", clientId);
         producerSettings.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         producerSettings.put("value.serializer", "org.apache.kafka.common.serialization.BytesSerializer");
         this.producer = new KafkaProducer<>(producerSettings);
 
         Properties consumerSettings = new Properties();
-        consumerSettings.put("bootstrap.servers", KAFKA_BROKERS);
+        consumerSettings.put("bootstrap.servers", brokers);
         consumerSettings.put("client.id", "client-id");
         consumerSettings.put("group.id", "consumer-group-" + clientId);
         consumerSettings.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");

@@ -16,7 +16,7 @@ public class ServiceApp {
                 .parse(args);
 
         LOG.info("Started kafka service {}", arguments.getServiceId());
-        ProcessingServiceBackend processingServiceBackend = new ProcessingServiceBackend(arguments.getServiceId());
+        ProcessingServiceBackend processingServiceBackend = new ProcessingServiceBackend(arguments.getServiceId(), arguments.getBrokers());
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {

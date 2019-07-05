@@ -10,7 +10,8 @@ Each client filters responses by request key and waits for it's result.
 ![architecture](docs/architecture-01.svg)
 
 ### Demo properties
-* kafka-client does not know which kafka-service will process it's request. That is determined by kafka based on key hash.
+* kafka-client does not know which kafka-service will process it's request. 
+  That is determined by kafka based on key hash of data record.
 * messages with same key are processed by same kafka-service instance.
 * each kafka-client receives response by consuming same topic and filtering responses by request key.
 * to scale backend (kafka-service) horizontally, add more instances of kafka-service and add more topic partitions in service-requests topic.
@@ -48,10 +49,11 @@ kafka-service/build/install/kafka-service/bin/kafka-service -i service-01
 kafka-service/build/install/kafka-service/bin/kafka-service -i service-02 
 kafka-service/build/install/kafka-service/bin/kafka-service -i service-03 
 ```
-4. Run clients, you may run more client in parallel.
+4. Run clients, you may run more client in parallel.Examples below send 1000 
+messages with zero delay between them.
 ```
-kafka-client/build/install/kafka-client/bin/kafka-client -i client-01
-kafka-client/build/install/kafka-client/bin/kafka-client -i client-02
-kafka-client/build/install/kafka-client/bin/kafka-client -i client-03
-kafka-client/build/install/kafka-client/bin/kafka-client -i client-04
+kafka-client/build/install/kafka-client/bin/kafka-client -i client-01 -d 0 -c 1000
+kafka-client/build/install/kafka-client/bin/kafka-client -i client-02 -d 0 -c 1000
+kafka-client/build/install/kafka-client/bin/kafka-client -i client-03 -d 0 -c 1000
+kafka-client/build/install/kafka-client/bin/kafka-client -i client-04 -d 0 -c 1000
 ```
