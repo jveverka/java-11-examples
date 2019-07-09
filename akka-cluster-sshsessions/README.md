@@ -1,6 +1,7 @@
 # Akka cluster demo
 This is the demo of clustered service which provides 
-ssh connection to clients and runs in [akka](https://akka.io/) cluster.
+ssh connection to clients and runs in [akka](https://akka.io/) 
+[cluster](https://doc.akka.io/docs/akka/current/cluster-usage.html).
 
 ![00](docs/00-architecture.svg)
 
