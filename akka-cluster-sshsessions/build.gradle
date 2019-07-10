@@ -18,12 +18,21 @@ repositories {
 dependencies {
    compile 'org.slf4j:slf4j-api:1.8.0-beta4'
    compile 'org.slf4j:slf4j-simple:1.8.0-beta4'
+
    compile 'com.typesafe.akka:akka-actor_2.12:2.5.23'
    compile 'com.typesafe.akka:akka-cluster_2.12:2.5.23'
    compile 'com.typesafe.akka:akka-remote_2.12:2.5.23'
    compile 'com.typesafe.akka:akka-cluster-tools_2.12:2.5.23'
+   compile 'com.typesafe.akka:akka-discovery_2.12:2.5.21'
+
+   compile 'com.lightbend.akka.management:akka-management_2.12:1.0.1'
+   compile 'com.lightbend.akka.management:akka-management-cluster-http_2.12:1.0.1'
+   compile 'com.lightbend.akka.management:akka-management-cluster-bootstrap_2.12:1.0.1'
+
    compile 'com.google.guava:guava:28.0-jre'
    compile 'org.apache.sshd:sshd-core:2.2.0'
+   compile 'com.beust:jcommander:1.72'
+
    testCompile 'org.testng:testng:6.14.3'
    testCompile 'com.jayway.awaitility:awaitility:1.7.0'
 }

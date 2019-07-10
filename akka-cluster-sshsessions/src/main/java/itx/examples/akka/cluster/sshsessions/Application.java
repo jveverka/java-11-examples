@@ -4,6 +4,10 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.PoisonPill;
 import akka.actor.Props;
+import akka.http.javadsl.model.Uri;
+import akka.management.cluster.bootstrap.ClusterBootstrap;
+import akka.management.javadsl.AkkaManagement;
+import com.beust.jcommander.JCommander;
 import com.typesafe.config.ConfigFactory;
 import itx.examples.akka.cluster.sshsessions.client.SshClientService;
 import itx.examples.akka.cluster.sshsessions.client.SshClientServiceImpl;
@@ -19,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.concurrent.CompletionStage;
 
 /**
  * Created by juraj on 3/18/17.
@@ -27,14 +32,15 @@ public class Application {
 
     private static final Logger LOG = LoggerFactory.getLogger(Application.class);
 
-    private ActorSystem actorSystem;
+    private final ActorSystem actorSystem;
+    private final SshSessionFactory sshSessionFactory;
+
     private ActorRef sshClusterManagerActor;
     private ActorRef sshLocalManagerActor;
     private SshClientService sshClientService;
 
     private SshClusterManagerImpl sshClusterManager;
     private SshLocalManagerImpl sshLocalManager;
-    private SshSessionFactory sshSessionFactory;
 
     public Application(ActorSystem actorSystem, SshSessionFactory sshSessionFactory) {
         this.actorSystem = actorSystem;
@@ -76,18 +82,34 @@ public class Application {
     }
 
     public static void main(String[] args) {
+        Arguments arguments = new Arguments();
+        JCommander.newBuilder()
+                .addObject(arguments)
+                .build()
+                .parse(args);
+
         LOG.info("Application start ...");
-        if (args.length < 1) {
+        if (arguments.getConfigPath().isEmpty()) {
             LOG.error("Error: expected first parameter /path/to/akka.conf file");
             System.exit(1);
         }
-        File akkaConfigFile = new File(args[0]);
+        File akkaConfigFile = new File(arguments.getConfigPath());
         if (!akkaConfigFile.exists()) {
-            LOG.error("Error: config file not found {}", args[0]);
+            LOG.error("Error: config file not found {}", arguments.getConfigPath());
             System.exit(1);
         }
-        LOG.info("akkaConfigPath = {}", args[0]);
+        LOG.info("akkaConfigPath = {}", arguments.getConfigPath());
         ActorSystem actorSystem = ActorSystem.create(Utils.CLUSTER_NAME, ConfigFactory.parseFile(akkaConfigFile));
+        AkkaManagement management = AkkaManagement.get(actorSystem);
+        management.start();
+        if (Arguments.CLUSTER_TYPE_DYNAMIC.equals(arguments.getClusterType())) {
+            LOG.info("starting dynamic cluster ...");
+            ClusterBootstrap clusterBootstrap = ClusterBootstrap.get(actorSystem);
+            clusterBootstrap.start();
+        } else {
+            LOG.info("starting static cluster ...");
+        }
+
         SshSessionFactory sshSessionFactory = new SshSessionFactoryImpl();
         Application application = new Application(actorSystem, sshSessionFactory);
         application.init();
@@ -97,6 +119,7 @@ public class Application {
                     @Override
                     public void run() {
                         LOG.info("shutting down ...");
+                        management.stop();
                         application.destroy();
                         actorSystem.terminate();
                         LOG.info("bye.");
