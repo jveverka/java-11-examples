@@ -4,10 +4,10 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.PoisonPill;
 import akka.actor.Props;
-import akka.http.javadsl.model.Uri;
 import akka.management.cluster.bootstrap.ClusterBootstrap;
 import akka.management.javadsl.AkkaManagement;
 import com.beust.jcommander.JCommander;
+import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import itx.examples.akka.cluster.sshsessions.client.SshClientService;
 import itx.examples.akka.cluster.sshsessions.client.SshClientServiceImpl;
@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.concurrent.CompletionStage;
 
 /**
  * Created by juraj on 3/18/17.
@@ -99,7 +98,8 @@ public class Application {
             System.exit(1);
         }
         LOG.info("akkaConfigPath = {}", arguments.getConfigPath());
-        ActorSystem actorSystem = ActorSystem.create(Utils.CLUSTER_NAME, ConfigFactory.parseFile(akkaConfigFile));
+        Config config = ConfigFactory.parseFile(akkaConfigFile);
+        ActorSystem actorSystem = ActorSystem.create(Utils.CLUSTER_NAME, config);
         AkkaManagement management = AkkaManagement.get(actorSystem);
         management.start();
         if (Arguments.CLUSTER_TYPE_DYNAMIC.equals(arguments.getClusterType())) {

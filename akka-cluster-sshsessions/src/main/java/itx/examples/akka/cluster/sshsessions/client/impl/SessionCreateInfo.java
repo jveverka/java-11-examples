@@ -8,8 +8,8 @@ import itx.examples.akka.cluster.sshsessions.client.SshClientSession;
  */
 public class SessionCreateInfo {
 
-    private SettableFuture<SshClientSession> sessionSettableFuture;
-    private SshClientSessionImpl sshClientSession;
+    private final SettableFuture<SshClientSession> sessionSettableFuture;
+    private final SshClientSessionImpl sshClientSession;
 
     public SessionCreateInfo(SettableFuture<SshClientSession> sessionSettableFuture, SshClientSessionImpl sshClientSession) {
         this.sessionSettableFuture = sessionSettableFuture;

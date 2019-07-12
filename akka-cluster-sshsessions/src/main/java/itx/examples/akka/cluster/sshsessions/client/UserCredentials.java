@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 public class UserCredentials implements Serializable {
 
-    private String userName;
-    private String password;
+    private final String userName;
+    private final String password;
 
     public UserCredentials(String userName, String password) {
         this.userName = userName;

@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 public class SessionError implements Serializable {
 
-    private String clientId;
-    private String error;
+    private final String clientId;
+    private final String error;
 
     public SessionError(String clientId, String error) {
         this.clientId = clientId;

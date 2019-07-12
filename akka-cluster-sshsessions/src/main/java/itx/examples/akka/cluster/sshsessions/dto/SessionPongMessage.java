@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 public class SessionPongMessage implements Serializable {
 
-    private String sessionId;
-    private String memberAddress;
+    private final String sessionId;
+    private final String memberAddress;
 
     public SessionPongMessage(String memberAddress, String sessionId) {
         this.sessionId = sessionId;

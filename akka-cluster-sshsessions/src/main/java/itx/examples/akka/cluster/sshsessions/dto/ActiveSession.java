@@ -7,9 +7,9 @@ import java.io.Serializable;
  */
 public class ActiveSession implements Serializable {
 
-    private String sessionId;
-    private String clientId;
-    private String clientSessionActorAddress;
+    private final String sessionId;
+    private final String clientId;
+    private final String clientSessionActorAddress;
 
     public ActiveSession(String sessionId, String clientId, String clientSessionActorAddress) {
         this.sessionId = sessionId;

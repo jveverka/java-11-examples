@@ -5,7 +5,7 @@ package itx.examples.akka.cluster.sshsessions.dto;
  */
 public class SessionCreateError {
 
-    private String clientId;
+    private final String clientId;
 
     public SessionCreateError(String clientId) {
         this.clientId = clientId;

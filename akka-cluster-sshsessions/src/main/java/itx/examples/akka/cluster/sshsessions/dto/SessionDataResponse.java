@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class SessionDataResponse implements Serializable {
 
-    private String data;
+    private final String data;
 
     public SessionDataResponse(String data) {
         this.data = data;

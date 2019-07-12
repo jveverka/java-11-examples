@@ -7,9 +7,9 @@ import java.io.Serializable;
  */
 public class SessionCloseRequest implements Serializable {
 
-    private String clientId;
-    private String sshSessionId;
-    private String sessionActorAddress;
+    private final String clientId;
+    private final String sshSessionId;
+    private final String sessionActorAddress;
 
     public SessionCloseRequest(String clientId, String sshSessionId, String sessionActorAddress) {
         this.clientId = clientId;

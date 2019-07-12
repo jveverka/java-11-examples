@@ -7,9 +7,9 @@ import java.io.Serializable;
  */
 public class SessionCloseResponse implements Serializable {
 
-    private String sessionId;
-    private String clientId;
-    private String clientActorAddress;
+    private final String sessionId;
+    private final String clientId;
+    private final String clientActorAddress;
 
     public SessionCloseResponse(String sessionId, String clientId, String clientActorAddress) {
         this.sessionId = sessionId;

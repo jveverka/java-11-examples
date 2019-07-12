@@ -8,8 +8,8 @@ import java.util.List;
  */
 public class GetActiveSessionsResponse implements Serializable {
 
-    private String memberAddress;
-    private List<ActiveSession> activeSessions;
+    private final String memberAddress;
+    private final List<ActiveSession> activeSessions;
 
     public GetActiveSessionsResponse(String memberAddress, List<ActiveSession> activeSessions) {
         this.memberAddress = memberAddress;

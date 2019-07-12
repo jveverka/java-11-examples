@@ -5,9 +5,9 @@ package itx.examples.akka.cluster.sshsessions.cluster;
  */
 public class SessionCreateInfo {
 
-    private String clientId;
-    private String memberAddress;
-    private String clientActorAddress;
+    private final String clientId;
+    private final String memberAddress;
+    private final String clientActorAddress;
 
     public SessionCreateInfo(String clientId, String memberAddress, String clientActorAddress) {
         this.clientId = clientId;

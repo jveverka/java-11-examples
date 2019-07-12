@@ -11,6 +11,10 @@ mainClassName = "itx.examples.akka.cluster.sshsessions.Application"
 group    = 'itx.examples.akka.cluster'
 version  = '1.0.0'
 
+application {
+   applicationDefaultJvmArgs = ['-Dconfig.override_with_env_vars=true' ]
+}
+
 repositories {
    mavenCentral()
 }

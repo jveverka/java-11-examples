@@ -7,10 +7,10 @@ import java.io.Serializable;
  */
 public class SessionCreateResponse implements Serializable {
 
-    private String sessionId;
-    private String clientId;
-    private String sessionActorAddress;
-    private String sshLocalSessionManagerActorAddress;
+    private final String sessionId;
+    private final String clientId;
+    private final String sessionActorAddress;
+    private final String sshLocalSessionManagerActorAddress;
 
     public SessionCreateResponse(String sessionId, String clientId,
                                  String sessionActorAddress, String sshLocalSessionManagerActorAddress) {

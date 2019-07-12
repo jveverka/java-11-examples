@@ -48,5 +48,6 @@ Each node has [akka management](https://doc.akka.io/docs/akka-management/current
 See also [Cluster HTTP Management](https://doc.akka.io/docs/akka-management/current/cluster-http-management.html).
 Cluster status of each node is visible at URL:
 
-__GET__  http://127.0.0.1:{http_port}/management/cluster/members/
+__GET__ http://127.0.0.1:{http_port}/management/cluster/members/
 
+__GET__ http://127.0.0.1:{http_port}/management/bootstrap/seed-nodes

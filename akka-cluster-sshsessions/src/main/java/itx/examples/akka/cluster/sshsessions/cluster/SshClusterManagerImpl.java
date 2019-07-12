@@ -177,6 +177,7 @@ public class SshClusterManagerImpl implements SshClusterManager {
     }
 
     private void killOrphanedClientsAndSessions(MemberInfo removedMember) {
+        LOG.info("killOrphanedClientsAndSessions {}", removedMember.getMemberAddress());
         //TODO: close orphaned clients and sessions
     }
 

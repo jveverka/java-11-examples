@@ -5,10 +5,10 @@ package itx.examples.akka.cluster.sshsessions.cluster;
  */
 public class SessionInfo {
 
-    private String clientSessionActorAddress;
-    private String clientId;
-    private String sshLocalSessionManagerActorAddress;
-    private String sshSessionId;
+    private final String clientSessionActorAddress;
+    private final String clientId;
+    private final String sshLocalSessionManagerActorAddress;
+    private final String sshSessionId;
 
     public SessionInfo(String clientSessionActorAddress, String clientId,
                        String sshLocalSessionManagerActorAddress, String sshSessionId) {

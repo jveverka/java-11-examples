@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MemberInfo {
 
-    private String memberAddress;
-    private Map<String, SessionInfo> sessions; //indexed by sessionId
+    private final String memberAddress;
+    private final Map<String, SessionInfo> sessions; //indexed by sessionId
 
     public MemberInfo(String memberAddress) {
         this.memberAddress = memberAddress;

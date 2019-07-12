@@ -10,10 +10,10 @@ import java.io.Serializable;
  */
 public class SessionCreateRequest implements Serializable {
 
-    private String clientId;
-    private String clientActorAddress;
-    private HostData hostData;
-    private UserCredentials userCredentials;
+    private final String clientId;
+    private final String clientActorAddress;
+    private final HostData hostData;
+    private final UserCredentials userCredentials;
 
     public SessionCreateRequest(String clientId, String clientActorAddress,
                                 HostData hostData, UserCredentials userCredentials) {

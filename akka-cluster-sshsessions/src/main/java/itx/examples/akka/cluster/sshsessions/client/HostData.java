@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 public class HostData implements Serializable {
 
-    private String hostName;
-    private int port;
+    private final String hostName;
+    private final int port;
 
     public HostData(String hostName, int port) {
         this.hostName = hostName;
