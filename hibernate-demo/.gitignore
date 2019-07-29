@@ -8,4 +8,6 @@ target
 .project
 .idea
 *.iml
+derby.log
+
 

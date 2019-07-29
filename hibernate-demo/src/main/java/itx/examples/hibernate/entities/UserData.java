@@ -9,7 +9,7 @@ public class UserData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    long id;
+    Long id;
 
     @Column(name = "first_name")
     private String firstName;

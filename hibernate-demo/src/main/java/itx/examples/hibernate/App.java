@@ -11,7 +11,7 @@ import java.util.Collection;
 
 public class App {
 
-    final private static Logger LOG = LoggerFactory.getLogger(App.class);
+    private static final Logger LOG = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) throws Exception {
         DataAccessService dataAccessService = new DataAccessServiceImpl(HibernateUtil.getPostgresql10Properties());

@@ -13,7 +13,7 @@ import java.util.Properties;
 
 public class DataAccessServiceImpl implements DataAccessService {
 
-    final private static Logger LOG = LoggerFactory.getLogger(DataAccessServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DataAccessServiceImpl.class);
 
     private final SessionFactory sessionFactory;
 
