@@ -26,8 +26,15 @@ Create user to access the database
 ./createdb username
 ./psql -U username
 \password
+
 # set password for username
 SELECT * FROM pg_catalog.pg_tables;
+
 # create database userdata
 create database userdata;
+GRANT ALL PRIVILEGES ON DATABASE userdata TO username;
+
+# select data from userdata database and table userdata
+\c userdata;
+select * from userdata;
 ```

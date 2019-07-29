@@ -20,6 +20,10 @@ public class UserData {
     @Column(name = "email")
     private String email;
 
+    public UserData(long id) {
+        this.id = id;
+    }
+
     public UserData() {
     }
 
@@ -67,4 +71,15 @@ public class UserData {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return "UserData{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
 }
