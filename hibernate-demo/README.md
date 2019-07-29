@@ -28,4 +28,6 @@ Create user to access the database
 \password
 # set password for username
 SELECT * FROM pg_catalog.pg_tables;
+# create database userdata
+create database userdata;
 ```

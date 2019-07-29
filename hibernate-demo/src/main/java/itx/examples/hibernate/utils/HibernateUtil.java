@@ -18,9 +18,9 @@ public final class HibernateUtil {
         Configuration configuration = new Configuration();
         Properties properties = new Properties();
 
-        //TODO: set properties
         properties.put(Environment.DRIVER, "org.postgresql.Driver");
-        properties.put(Environment.URL, "");
+        // jdbc:postgresql://host:port/database
+        properties.put(Environment.URL, "jdbc:postgresql://127.0.0.1:5432/userdata");
         properties.put(Environment.USER, "juraj");
         properties.put(Environment.PASS, "secret");
         properties.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQL10Dialect");
