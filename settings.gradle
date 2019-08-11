@@ -20,3 +20,5 @@ project(":di-dagger").projectDir = new File("di-examples/di-dagger")
 project(":di-guice").projectDir = new File("di-examples/di-guice")
 project(":di-spring").projectDir = new File("di-examples/di-spring")
 */
+
+include "futures-demo"
