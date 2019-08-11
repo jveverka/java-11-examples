@@ -22,3 +22,4 @@ project(":di-spring").projectDir = new File("di-examples/di-spring")
 */
 
 include "futures-demo"
+include "grpc-demo"
