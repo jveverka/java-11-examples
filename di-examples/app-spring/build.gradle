@@ -20,8 +20,8 @@ apply plugin: 'io.spring.dependency-management'
 group = 'itx.examples.di.app.spring'
 version = '0.0.1-SNAPSHOT'
 
-sourceCompatibility = 10
-targetCompatibility = 10
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
     mavenCentral()

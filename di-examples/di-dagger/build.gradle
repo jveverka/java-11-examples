@@ -5,8 +5,8 @@ plugins {
 }
 
 dependencies {
-    compile 'com.google.dagger:dagger:2.19'
-    apt 'com.google.dagger:dagger-compiler:2.19'
+    compile 'com.google.dagger:dagger:2.24'
+    apt 'com.google.dagger:dagger-compiler:2.24'
 }
 
 idea {
@@ -16,4 +16,10 @@ idea {
         sourceDirs += file("${projectDir}/build/generated/source/apt/main/java");
         sourceDirs += file("${projectDir}/build/generated/source/apt/main/test");
     }
+}
+
+//compileJava.CompileOptions.annotationProcessorPath = 'itx.examples.di.dagger'
+
+compileJava {
+    options.annotationProcessorPath = configurations.apt
 }

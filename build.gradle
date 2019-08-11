@@ -1,0 +1,13 @@
+subprojects {
+    apply plugin: "java"
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+project(':block-chain') {}
+
+project(':akka-cluster-sshsessions') {}
+
+//project(':di-examples') {}
