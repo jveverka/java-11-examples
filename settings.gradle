@@ -31,3 +31,5 @@ include "server-node"
 project(":common").projectDir = new File("hazelcast-cluster/common")
 project(":it-tests").projectDir = new File("hazelcast-cluster/it-tests")
 project(":server-node").projectDir = new File("hazelcast-cluster/server-node")
+
+include "hibernate-demo"

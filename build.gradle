@@ -12,3 +12,4 @@ project(':akka-cluster-sshsessions') {}
 project(':futures-demo') {}
 project(':grpc-demo') {}
 project(':hazelcast-cluster') {}
+project(':hibernate-demo') {}
