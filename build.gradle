@@ -9,5 +9,6 @@ subprojects {
 project(':block-chain') {}
 project(':akka-cluster-sshsessions') {}
 //project(':di-examples') {}
-project(':futures-demo')
-project(':grpc-demo')
+project(':futures-demo') {}
+project(':grpc-demo') {}
+project(':hazelcast-cluster') {}
