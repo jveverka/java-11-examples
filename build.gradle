@@ -14,3 +14,4 @@ project(':grpc-demo') {}
 project(':hazelcast-cluster') {}
 project(':hibernate-demo') {}
 project(':jetty-servlet4-http2') {}
+project(':kafka-example') {}

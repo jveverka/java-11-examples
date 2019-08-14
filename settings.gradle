@@ -34,3 +34,11 @@ project(":server-node").projectDir = new File("hazelcast-cluster/server-node")
 
 include "hibernate-demo"
 include "jetty-servlet4-http2"
+
+include "kafka-common"
+include "kafka-client"
+include "kafka-service"
+project(":kafka-common").projectDir = new File("kafka-example/kafka-common")
+project(":kafka-client").projectDir = new File("kafka-example/kafka-client")
+project(":kafka-service").projectDir = new File("kafka-example/kafka-service")
+include "kafka-example"
