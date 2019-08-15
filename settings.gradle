@@ -42,3 +42,5 @@ project(":kafka-common").projectDir = new File("kafka-example/kafka-common")
 project(":kafka-client").projectDir = new File("kafka-example/kafka-client")
 project(":kafka-service").projectDir = new File("kafka-example/kafka-service")
 include "kafka-example"
+
+include "mongodb-demo"
