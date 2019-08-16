@@ -44,3 +44,13 @@ project(":kafka-service").projectDir = new File("kafka-example/kafka-service")
 include "kafka-example"
 
 include "mongodb-demo"
+
+include "service-compute"
+include "service-tasks"
+include "service-compute-async"
+include "application"
+project(":service-compute").projectDir = new File("simple-module-example/service-compute")
+project(":service-tasks").projectDir = new File("simple-module-example/service-tasks")
+project(":service-compute-async").projectDir = new File("simple-module-example/service-compute-async")
+project(":application").projectDir = new File("simple-module-example/application")
+include "simple-module-example"
