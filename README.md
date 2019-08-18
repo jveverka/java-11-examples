@@ -2,14 +2,14 @@
 [![Build Status](https://travis-ci.org/jveverka/java-11-examples.svg?branch=master)](https://travis-ci.org/jveverka/java-11-examples)
 
 # Java 11 examples
-
 This repository contains various simple java 11 examples.
 Examples are demonstrating not only new java 11 language features, 
 but also new JDK 11 possibilities. 
 
 ### Environment setup
-* [OpenJDK 11](https://jdk.java.net/11/) or [Oracle JDK 11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html)
-* Gradle [5.1.1 or later](https://gradle.org/install/)
+Make sure following software is installed on your PC.
+* [OpenJDK 11](https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot)
+* Gradle [5.6 or later](https://gradle.org/install/)
 
 ### Compile all examples
 ```
