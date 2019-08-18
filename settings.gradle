@@ -54,3 +54,13 @@ project(":service-tasks").projectDir = new File("simple-module-example/service-t
 project(":service-compute-async").projectDir = new File("simple-module-example/service-compute-async")
 project(":application").projectDir = new File("simple-module-example/application")
 include "simple-module-example"
+
+include "ssh-client"
+include "ssh-server"
+include "ssh-examples"
+include "ssh-jcommander"
+project(":ssh-client").projectDir = new File("ssh-server-demo/ssh-client")
+project(":ssh-server").projectDir = new File("ssh-server-demo/ssh-server")
+project(":ssh-examples").projectDir = new File("ssh-server-demo/ssh-examples")
+project(":ssh-jcommander").projectDir = new File("ssh-server-demo/ssh-jcommander")
+include "ssh-server-demo"

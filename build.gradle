@@ -22,3 +22,4 @@ project(':jetty-servlet4-http2') {}
 project(':kafka-example') {}
 project(':mongodb-demo') {}
 project(':simple-module-example')
+project(':ssh-server-demo')
