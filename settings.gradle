@@ -65,5 +65,8 @@ project(":ssh-examples").projectDir = new File("ssh-server-demo/ssh-examples")
 project(":ssh-jcommander").projectDir = new File("ssh-server-demo/ssh-jcommander")
 include "ssh-server-demo"
 
+include "springboot"
+project(":springboot").projectDir = new File("spring/springboot")
+
 include "springboot-fileserver"
 project(":springboot-fileserver").projectDir = new File("spring/springboot-fileserver")

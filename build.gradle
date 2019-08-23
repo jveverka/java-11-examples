@@ -23,4 +23,5 @@ project(':kafka-example') {}
 project(':mongodb-demo') {}
 project(':simple-module-example')
 project(':ssh-server-demo')
+project(':springboot')
 project(':springboot-fileserver')
