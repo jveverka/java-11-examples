@@ -70,3 +70,6 @@ project(":springboot").projectDir = new File("spring/springboot")
 
 include "springboot-fileserver"
 project(":springboot-fileserver").projectDir = new File("spring/springboot-fileserver")
+
+include "spring-security"
+project(":spring-security").projectDir = new File("spring/spring-security")
