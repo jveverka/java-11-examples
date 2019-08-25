@@ -73,3 +73,6 @@ project(":springboot-fileserver").projectDir = new File("spring/springboot-files
 
 include "spring-security"
 project(":spring-security").projectDir = new File("spring/spring-security")
+
+include "spring-jcasbin"
+project(":spring-jcasbin").projectDir = new File("spring/spring-jcasbin")
