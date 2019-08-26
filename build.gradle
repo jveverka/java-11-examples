@@ -27,3 +27,4 @@ project(':springboot') {}
 project(':springboot-fileserver') {}
 project(':spring-security') {}
 project(':spring-jcasbin') {}
+project(':spring-di') {}

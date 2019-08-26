@@ -76,3 +76,6 @@ project(":spring-security").projectDir = new File("spring/spring-security")
 
 include "spring-jcasbin"
 project(":spring-jcasbin").projectDir = new File("spring/spring-jcasbin")
+
+include "spring-di"
+project(":spring-di").projectDir = new File("spring/spring-di")
