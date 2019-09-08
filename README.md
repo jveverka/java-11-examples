@@ -9,9 +9,11 @@ but also new JDK 11 possibilities.
 ### Environment setup
 Make sure following software is installed on your PC.
 * [OpenJDK 11](https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot)
-* Gradle [5.6 or later](https://gradle.org/install/)
+* [Gradle 5.6](https://gradle.org/install/) or later
+* [protoc 3.8](https://github.com/protocolbuffers/protobuf/releases/tag/v3.8.0) - google protocol buffers
 
-### Compile all examples
+### Compile examples
+Most examples are build by top-level gradle project.
 ```
 gradle clean build test
 ```
