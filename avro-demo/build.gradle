@@ -1,0 +1,33 @@
+plugins {
+    id "com.commercehub.gradle.plugin.avro" version "0.9.1"
+}
+group 'itx.avro'
+version '1.0-SNAPSHOT'
+apply plugin: 'java'
+
+sourceCompatibility = 11
+
+dependencies {
+    compile "org.apache.avro:avro:1.9.1"
+    compile 'org.slf4j:slf4j-api:1.8.0-beta2'
+    compile 'org.slf4j:slf4j-simple:1.8.0-beta2'
+    testCompile 'org.testng:testng:6.14.3'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+avro {
+    createSetters = false
+    fieldVisibility = "PRIVATE"
+}
+
+test {
+    // enable TestNG support (default is JUnit)
+    useTestNG()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}

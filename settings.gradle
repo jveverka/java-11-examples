@@ -79,3 +79,5 @@ project(":spring-jcasbin").projectDir = new File("spring/spring-jcasbin")
 
 include "spring-di"
 project(":spring-di").projectDir = new File("spring/spring-di")
+
+include "avro-demo"
