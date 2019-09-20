@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.1.1.RELEASE'
+		springBootVersion = '2.1.8.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -20,8 +20,8 @@ apply plugin: 'io.spring.dependency-management'
 group = 'itx.examples.springboot.fileserver'
 version = '0.0.1-SNAPSHOT'
 
-sourceCompatibility = 10
-targetCompatibility = 10
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
 	mavenCentral()
