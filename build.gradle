@@ -29,3 +29,4 @@ project(':spring-security') {}
 project(':spring-jcasbin') {}
 project(':spring-di') {}
 project(':avro-demo') {}
+project(':imageprocessing-demo') {}
