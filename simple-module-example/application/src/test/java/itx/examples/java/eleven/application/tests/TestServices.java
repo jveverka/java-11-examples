@@ -48,7 +48,7 @@ public class TestServices {
         Assert.assertNotNull(upcommingResult);
         Float result = upcommingResult.get();
         Assert.assertNotNull(result);
-        Assert.assertEquals(result, 10F);
+        Assert.assertEquals(result, Float.valueOf(10F));
     }
 
     @Test
