@@ -10,8 +10,8 @@ repositories {
 sourceCompatibility = 11
 targetCompatibility = 11
 
-def jettyVersion = '9.4.11.v20180605'
-def jerseyVersion = '2.27'
+def jettyVersion = '9.4.19.v20190610'
+def jerseyVersion = '2.28'
 
 mainClassName = 'itx.hazelcast.cluster.server.Main'
 
@@ -24,8 +24,8 @@ dependencies {
    compile "org.eclipse.jetty.websocket:websocket-server:${jettyVersion}"
    compile "org.eclipse.jetty.websocket:websocket-client:${jettyVersion}"
 
-   compile "com.fasterxml.jackson.core:jackson-databind:2.9.6"
-   compile "javax.xml.bind:jaxb-api:2.3.0"
+   compile "com.fasterxml.jackson.core:jackson-databind:2.9.9"
+   compile "javax.xml.bind:jaxb-api:2.3.1"
 
    compile "org.glassfish.jersey.core:jersey-server:${jerseyVersion}"
    compile "org.glassfish.jersey.containers:jersey-container-jetty-http:${jerseyVersion}"
@@ -33,7 +33,7 @@ dependencies {
    compile "org.glassfish.jersey.media:jersey-media-json-jackson:${jerseyVersion}"
    compile "org.glassfish.jersey.inject:jersey-hk2:${jerseyVersion}"
 
-   compile "org.jboss.resteasy:resteasy-servlet-initializer:3.6.0.Final"
+   compile "org.jboss.resteasy:resteasy-servlet-initializer:4.0.0.Final"
    compile "javax.servlet:javax.servlet-api:4.0.1"
 
    compile 'org.slf4j:slf4j-api:1.8.0-beta2'
