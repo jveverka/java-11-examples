@@ -10,7 +10,7 @@ repositories {
 sourceCompatibility = 11
 targetCompatibility = 11
 
-def jettyVersion = '9.4.19.v20190610'
+def jettyVersion = '9.4.20.v20190813'
 def jerseyVersion = '2.28'
 
 mainClassName = 'itx.hazelcast.cluster.server.Main'
