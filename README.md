@@ -18,6 +18,27 @@ Most examples are build by top-level gradle project.
 gradle clean build test
 ```
 
+### Examples
+* [akka clustering demo](akka-cluster-sshsessions)
+* [apache avro demo](avro-demo)
+* [blockchain demo](block-chain)
+* [dependency injection examples](di-examples)
+* [futures demo](futures-demo)
+* [grpc demo](grpc-demo)
+* [hazelcast cluster demo](hazelcast-cluster)
+* [hibernate demo](hibernate-demo)
+* [image processing demo](imageprocessing-demo)
+* [jetty server demo](jetty-servlet4-http2)
+* [kafka example](kafka-example)
+* [mongodb demo](mongodb-demo)
+* [RxJava demo](rxjava-demo)
+* [simple JNI demo](simple-jni-demo)
+* [JPMS demo](simple-module-example)
+* [spring demos](spring)
+* [ssh server demo](ssh-server-demo)
+
+What's next ? Check [this wish list](TBD-LIST.md). 
+
 ### New Features of JDK11
 * JDK9 [Feature list](https://openjdk.java.net/projects/jdk9/)
 * JDK10 [Feature list](https://openjdk.java.net/projects/jdk/10/)
