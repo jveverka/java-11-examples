@@ -3,7 +3,7 @@ This list of java examples / demos will be implemented at some point in the futu
 
 * PKI demo - X.509 certificates, CA, document signing, document encryption
 * ElasticSearch demo
-* RabbitMQ demo
+* RabbitMQ demo, MQTT demo
 * lightweight frameworks: atomix.io, microprofile.io, undertow.io 
 * GraalVM demo - quarkus.io, AOT compiled application
 * JavaFx demo - simple ui 
