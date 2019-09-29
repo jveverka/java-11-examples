@@ -2,8 +2,6 @@ package itx.elastic.demo.tests;
 
 import itx.elastic.demo.DataServiceImpl;
 import itx.elastic.demo.Utils;
-import itx.elastic.demo.dto.EventData;
-import itx.elastic.demo.dto.EventId;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.testng.Assert;
@@ -12,12 +10,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Optional;
 
-public class DataServiceTestsIT {
+import static itx.elastic.demo.tests.TestUtils.INDEX_NAME;
 
-    private final static String INDEX_NAME = "testindex";
+public class DataServiceIndexTestsIT {
+
     private DataServiceImpl dataService;
 
     @BeforeClass
@@ -34,6 +32,11 @@ public class DataServiceTestsIT {
 
     @Test
     public void testDataServiceIndexCreateDelete() throws IOException {
+        try {
+            dataService.deleteIndex(INDEX_NAME);
+        } catch (Exception e) {
+        }
+
         Optional<CreateIndexResponse> createIndexResponse = dataService.createIndex(INDEX_NAME, Utils.createMapping());
         Assert.assertTrue(createIndexResponse.isPresent());
         Assert.assertTrue(createIndexResponse.get().isAcknowledged());
@@ -56,6 +59,13 @@ public class DataServiceTestsIT {
         if (dataService != null) {
             dataService.close();
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        DataServiceIndexTestsIT testsIT = new DataServiceIndexTestsIT();
+        testsIT.init();
+        //testsIT.testCreateDeleteDocuments();
+        testsIT.shutdown();
     }
 
 }

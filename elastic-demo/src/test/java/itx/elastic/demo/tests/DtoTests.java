@@ -36,7 +36,7 @@ public class DtoTests {
 
     @Test
     public void deserializationTest() {
-        EventData eventData = Utils.createFromSource(TestUtils.createSourceData());
+        EventData eventData = Utils.createFromSource("01", TestUtils.createSourceData());
         Assert.assertNotNull(eventData);
         Assert.assertNotNull(eventData.getId());
         Assert.assertNotNull(eventData.getId().getId());

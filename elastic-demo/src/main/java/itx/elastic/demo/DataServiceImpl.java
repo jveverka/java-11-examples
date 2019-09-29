@@ -1,6 +1,7 @@
 package itx.elastic.demo;
 
 import itx.elastic.demo.dto.EventData;
+import itx.elastic.demo.dto.EventDataInfo;
 import itx.elastic.demo.dto.EventId;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -52,8 +53,19 @@ public class DataServiceImpl implements DataService, DataAdmin, Closeable {
         IndexRequest indexRequest = new IndexRequest(INDEX_NAME);
         indexRequest.id(eventData.getId().getId());
         indexRequest.source(Utils.createContent(eventData));
-        IndexResponse index = client.index(indexRequest, RequestOptions.DEFAULT);
-        return RestStatus.CREATED.equals(index.status());
+        IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
+        return RestStatus.CREATED.equals(indexResponse.status());
+    }
+
+    @Override
+    public Optional<EventId> saveData(EventDataInfo eventDataInfo) throws IOException {
+        IndexRequest indexRequest = new IndexRequest(INDEX_NAME);
+        indexRequest.source(Utils.createContent(eventDataInfo));
+        IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
+        if (RestStatus.CREATED.equals(indexResponse.status())) {
+            return Optional.of(new EventId(indexResponse.getId()));
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -61,7 +73,7 @@ public class DataServiceImpl implements DataService, DataAdmin, Closeable {
         GetRequest getRequest = new GetRequest(INDEX_NAME, id.getId());
         GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);
         if (getResponse.isExists()) {
-            return Optional.of(Utils.createFromSource(getResponse.getSource()));
+            return Optional.of(Utils.createFromSource(getResponse.getId(), getResponse.getSource()));
         }
         return Optional.empty();
     }
@@ -69,14 +81,12 @@ public class DataServiceImpl implements DataService, DataAdmin, Closeable {
     @Override
     public Collection<EventData> getDataAll() throws IOException {
         SearchRequest searchRequest = new SearchRequest(INDEX_NAME);
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
         List<EventData> results = new ArrayList<>();
         Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
         while (iterator.hasNext()) {
             SearchHit hit = iterator.next();
-            EventData eventData = Utils.createFromSource(hit.getSourceAsMap());
+            EventData eventData = Utils.createFromSource(hit.getId(), hit.getSourceAsMap());
             results.add(eventData);
         }
         return results;
@@ -90,8 +100,19 @@ public class DataServiceImpl implements DataService, DataAdmin, Closeable {
     }
 
     @Override
-    public Collection<EventData> getData() {
-        return Collections.emptyList();
+    public Collection<EventData> getData(SearchSourceBuilder searchSourceBuilder) throws IOException {
+        SearchRequest searchRequest = new SearchRequest(INDEX_NAME);
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+        searchResponse.getHits();
+        List<EventData> results = new ArrayList<>();
+        Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
+        while (iterator.hasNext()) {
+            SearchHit hit = iterator.next();
+            EventData eventData = Utils.createFromSource(hit.getId(), hit.getSourceAsMap());
+            results.add(eventData);
+        }
+        return results;
     }
 
     @Override

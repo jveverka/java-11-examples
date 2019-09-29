@@ -1,6 +1,7 @@
 package itx.elastic.demo;
 
 import itx.elastic.demo.dto.EventData;
+import itx.elastic.demo.dto.EventDataInfo;
 import itx.elastic.demo.dto.EventId;
 import itx.elastic.demo.dto.GeoLocation;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -22,20 +23,6 @@ public final class Utils {
         {
             builder.startObject("properties");
             {
-                builder.startObject("id");
-                {
-                    builder.field("type", "nested");
-                    builder.startObject("properties");
-                    {
-                        builder.startObject("id");
-                        {
-                            builder.field("type", "keyword");
-                        }
-                        builder.endObject();
-                    }
-                    builder.endObject();
-                }
-                builder.endObject();
                 builder.startObject("name");
                 {
                     builder.field("type", "text");
@@ -81,11 +68,6 @@ public final class Utils {
         XContentBuilder builder = XContentFactory.jsonBuilder();
         builder.startObject();
         {
-            builder.startObject("id");
-            {
-                builder.field("id", eventData.getId().getId());
-            }
-            builder.endObject();
             builder.field("name", eventData.getName());
             builder.field("description", eventData.getDescription());
             builder.field("timeStamp", eventData.getTimeStamp());
@@ -111,6 +93,35 @@ public final class Utils {
         return builder;
     }
 
+    public static XContentBuilder createContent(EventDataInfo eventDataInfo) throws IOException {
+        XContentBuilder builder = XContentFactory.jsonBuilder();
+        builder.startObject();
+        {
+            builder.field("name", eventDataInfo.getName());
+            builder.field("description", eventDataInfo.getDescription());
+            builder.field("timeStamp", eventDataInfo.getTimeStamp());
+            builder.startObject("geoLocation");
+            {
+                builder.field("lon", eventDataInfo.getGeoLocation().getLongitude());
+                builder.field("lat", eventDataInfo.getGeoLocation().getLatitude());
+            }
+            builder.endObject();
+            builder.startArray("related");
+            {
+                for (EventId event: eventDataInfo.getRelated()) {
+                    builder.startObject();
+                    {
+                        builder.field("id", event.getId());
+                    }
+                    builder.endObject();
+                }
+            }
+            builder.endArray();
+        }
+        builder.endObject();
+        return builder;
+    }
+
     public static EventData createEventData(String idString, String name, String description, float longitude, float latitude, long timeStamp, String ... relatedIds) {
         EventId id = new EventId(idString);
         GeoLocation geoLocation = new GeoLocation(longitude, latitude);
@@ -123,8 +134,18 @@ public final class Utils {
         return new EventData(id, name, description, related, geoLocation, timeStamp);
     }
 
-    public static EventData createFromSource(Map<String, Object> source) {
-        String id = ((Map<String, Object>)source.get("id")).get("id").toString();
+    public static EventDataInfo createEventDataInfo(String name, String description, float longitude, float latitude, long timeStamp, String ... relatedIds) {
+        GeoLocation geoLocation = new GeoLocation(longitude, latitude);
+        List<EventId> related = new ArrayList<>();
+        if (relatedIds != null) {
+            for (String relatedId : relatedIds) {
+                related.add(new EventId(relatedId));
+            }
+        }
+        return new EventDataInfo(name, description, related, geoLocation, timeStamp);
+    }
+
+    public static EventData createFromSource(String id, Map<String, Object> source) {
         Map<String, Object> geoLocationMap = (Map<String, Object>)source.get("geoLocation");
         EventId eventId = new EventId(id);
         List<EventId> related = new ArrayList<>();

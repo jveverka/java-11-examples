@@ -2,6 +2,7 @@ package itx.elastic.demo.tests;
 
 import itx.elastic.demo.Utils;
 import itx.elastic.demo.dto.EventData;
+import itx.elastic.demo.dto.EventDataInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +15,18 @@ public final class TestUtils {
     private TestUtils() {
     }
 
+    public final static String INDEX_NAME = "events";
+
     public static EventData createEventData() {
         return Utils.createEventData(UUID.randomUUID().toString(), "event1", "special event 1", 45.5F, 55.4F, 123456987L, new String[] {});
     }
 
     public static EventData createEventData(int counter) {
         return Utils.createEventData(UUID.randomUUID().toString(), "event" + counter, "special event " + counter, 45.5F + counter, 55.4F + counter, 123456987L + counter, new String[] { "event" + (counter - 1) });
+    }
+
+    public static EventDataInfo createEventDataInfo(int counter) {
+        return Utils.createEventDataInfo("event" + counter, "special event " + counter, 45.5F + counter, 55.4F + counter, 123456987L + counter, new String[] { "event" + (counter - 1) });
     }
 
     public static Map<String, Object> createSourceData() {

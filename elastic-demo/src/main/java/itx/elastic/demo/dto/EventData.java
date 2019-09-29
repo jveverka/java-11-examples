@@ -21,6 +21,15 @@ public class EventData {
         this.timeStamp = timeStamp;
     }
 
+    public EventData(EventId id, EventDataInfo eventDataInfo) {
+        this.id = id;
+        this.name = eventDataInfo.getName();
+        this.description = eventDataInfo.getDescription();
+        this.related = eventDataInfo.getRelated();
+        this.geoLocation = eventDataInfo.getGeoLocation();
+        this.timeStamp = eventDataInfo.getTimeStamp();
+    }
+
     public EventId getId() {
         return id;
     }
