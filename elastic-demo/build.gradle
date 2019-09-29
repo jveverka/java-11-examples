@@ -1,0 +1,27 @@
+
+apply plugin: 'java'
+
+sourceCompatibility = 11
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.8.0-beta2'
+    compile 'org.slf4j:slf4j-simple:1.8.0-beta2'
+    compile 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.2'
+    testCompile 'org.testng:testng:7.0.0'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+test {
+    // enable TestNG support (default is JUnit)
+    if (System.properties['test.profile'] != 'integration') {
+        exclude '**/*TestsIT*'
+    }
+    useTestNG()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}

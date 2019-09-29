@@ -83,3 +83,4 @@ project(":spring-di").projectDir = new File("spring/spring-di")
 include "avro-demo"
 include "imageprocessing-demo"
 include "rxjava-demo"
+include "elastic-demo"

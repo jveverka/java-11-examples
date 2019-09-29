@@ -31,3 +31,4 @@ project(':spring-di') {}
 project(':avro-demo') {}
 project(':imageprocessing-demo') {}
 project(':rxjava-demo') {}
+project(':elastic-demo') {}
