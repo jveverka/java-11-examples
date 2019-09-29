@@ -1,24 +1,46 @@
 package itx.elastic.demo;
 
-import itx.elastic.demo.dto.DataQuery;
 import itx.elastic.demo.dto.EventData;
 import itx.elastic.demo.dto.EventId;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 
 public interface DataService {
 
-    void saveData(EventData eventData);
+    /**
+     * Save document data using index provided within {@link EventData} object.
+     * Make sure that index of the document is unique. (client generated index)
+     * @param eventData
+     * @return
+     * @throws IOException
+     */
+    boolean saveData(EventData eventData) throws IOException;
 
-    Optional<EventData> getDataById(EventId id);
+    /**
+     * Get document by it's id.
+     * @param id
+     * @return
+     * @throws IOException
+     */
+    Optional<EventData> getDataById(EventId id) throws IOException;
 
-    void deleteData(EventData eventData);
+    /**
+     * Get all documents synchronously. (not suitable for big indices)
+     * @return
+     * @throws IOException
+     */
+    Collection<EventData> getDataAll() throws IOException;
 
-    void deleteAll();
+    /**
+     * Delete document by given Id
+     * @param id
+     * @return
+     * @throws IOException
+     */
+    boolean deleteData(EventId id) throws IOException;
 
-    void deleteData(Collection<EventId> ids);
-
-    Collection<EventData> getData(DataQuery dataQuery);
+    Collection<EventData> getData(/*query filter*/);
 
 }

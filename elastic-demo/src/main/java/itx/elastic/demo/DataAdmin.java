@@ -8,10 +8,26 @@ import java.util.Optional;
 
 public interface DataAdmin {
 
+    /**
+     * Check if given index exists.
+     * @param indexName
+     * @return
+     */
     Optional<Boolean> isIndexCreated(String indexName);
 
-    Optional<CreateIndexResponse> createIndex(String indexName);
+    /**
+     * Create index with mapping.
+     * @param indexName
+     * @param mapping
+     * @return
+     */
+    Optional<CreateIndexResponse> createIndex(String indexName, XContentBuilder mapping);
 
+    /**
+     * Remove index.
+     * @param indexName
+     * @return
+     */
     Optional<AcknowledgedResponse> deleteIndex(String indexName);
 
 }

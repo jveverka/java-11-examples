@@ -1,6 +1,9 @@
 package itx.elastic.demo.tests;
 
 import itx.elastic.demo.DataServiceImpl;
+import itx.elastic.demo.Utils;
+import itx.elastic.demo.dto.EventData;
+import itx.elastic.demo.dto.EventId;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.testng.Assert;
@@ -9,6 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Optional;
 
 public class DataServiceTestsIT {
@@ -29,8 +33,8 @@ public class DataServiceTestsIT {
     }
 
     @Test
-    public void testDataServiceIndexCreateDelete() {
-        Optional<CreateIndexResponse> createIndexResponse = dataService.createIndex(INDEX_NAME);
+    public void testDataServiceIndexCreateDelete() throws IOException {
+        Optional<CreateIndexResponse> createIndexResponse = dataService.createIndex(INDEX_NAME, Utils.createMapping());
         Assert.assertTrue(createIndexResponse.isPresent());
         Assert.assertTrue(createIndexResponse.get().isAcknowledged());
 
