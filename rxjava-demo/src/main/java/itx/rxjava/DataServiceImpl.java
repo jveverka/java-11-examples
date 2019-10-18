@@ -2,11 +2,15 @@ package itx.rxjava;
 
 import io.reactivex.rxjava3.core.BackpressureStrategy;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 import itx.rxjava.dto.DataItem;
 import itx.rxjava.dto.DataQuery;
+import itx.rxjava.producer.CompletableDataItem;
 import itx.rxjava.producer.FlowableDataProducer;
 import itx.rxjava.producer.ObservableDataProducer;
+import itx.rxjava.producer.SingleOnSubscribeDataProducer;
 
 import java.util.concurrent.Executor;
 
@@ -26,6 +30,21 @@ public class DataServiceImpl implements DataService {
     @Override
     public Observable<DataItem> getDataFlow(DataQuery dataQuery) {
         return Observable.create(new ObservableDataProducer(executor, dataQuery));
+    }
+
+    @Override
+    public Single<DataItem> getSingle(DataQuery dataQuery) {
+        return Single.create(new SingleOnSubscribeDataProducer(executor, dataQuery));
+    }
+
+    @Override
+    public CompletableDataItem getCompletable(DataQuery dataQuery) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Maybe<DataItem> getMaybe(DataQuery dataQuery) {
+        throw new UnsupportedOperationException();
     }
 
 }
