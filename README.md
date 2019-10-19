@@ -37,8 +37,6 @@ gradle clean build test
 * [spring demos](spring)
 * [ssh server demo](ssh-server-demo)
 
-What's next ? Check [this wish list](TBD-LIST.md). 
-
 ### New Features of JDK11
 * JDK9 [Feature list](https://openjdk.java.net/projects/jdk9/)
 * JDK10 [Feature list](https://openjdk.java.net/projects/jdk/10/)
