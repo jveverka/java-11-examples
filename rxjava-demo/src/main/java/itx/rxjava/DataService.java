@@ -6,6 +6,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import itx.rxjava.dto.DataItem;
 import itx.rxjava.dto.DataQuery;
+import itx.rxjava.dto.SingleDataQuery;
 import itx.rxjava.producer.CompletableDataItem;
 
 public interface DataService {
@@ -13,21 +14,26 @@ public interface DataService {
     /**
      * This method returns data flow to client. Client thread is not blocked.
      * @param dataQuery query parameters for data flow.
-     * @return consumable data flow with back pressure.
+     * @return {@link Flowable} consumable data flow with back pressure.
      */
     Flowable<DataItem> getDataFlowWithBackPressure(DataQuery dataQuery);
 
     /**
      * This method returns data flow to client. Client thread is not blocked.
      * @param dataQuery query parameters for data flow.
-     * @return consumable data flow.
+     * @return {@link Observable} consumable data flow.
      */
     Observable<DataItem> getDataFlow(DataQuery dataQuery);
 
-    Single<DataItem> getSingle(DataQuery dataQuery);
+    /**
+     * This method returns single result.
+     * @param dataQuery query parameters for single result.
+     * @return {@link Single} consumable.
+     */
+    Single<DataItem> getSingle(SingleDataQuery dataQuery);
 
-    CompletableDataItem getCompletable(DataQuery dataQuery);
+    CompletableDataItem getCompletable(SingleDataQuery dataQuery);
 
-    Maybe<DataItem> getMaybe(DataQuery dataQuery);
+    Maybe<DataItem> getMaybe(SingleDataQuery dataQuery);
 
 }

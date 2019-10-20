@@ -42,7 +42,7 @@ public class DataProducerTask implements Runnable, Cancellable, Disposable {
     public void run() {
         LOG.info("DataProducerTask: {} {}", query.getData(), query.getResults());
         for (int i=0; i < query.getResults(); i++) {
-            emitter.onNext(new DataItem(query.getData(), i));
+            emitter.onNext(new DataItem(query.getData(), query.getData() + "-" + i, i));
         }
         emitter.onComplete();
         LOG.info("DataProducerTask: done.");

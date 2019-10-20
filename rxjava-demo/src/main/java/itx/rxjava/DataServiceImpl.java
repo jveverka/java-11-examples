@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import itx.rxjava.dto.DataItem;
 import itx.rxjava.dto.DataQuery;
+import itx.rxjava.dto.SingleDataQuery;
 import itx.rxjava.producer.CompletableDataItem;
 import itx.rxjava.producer.FlowableDataProducer;
 import itx.rxjava.producer.ObservableDataProducer;
@@ -33,17 +34,17 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public Single<DataItem> getSingle(DataQuery dataQuery) {
+    public Single<DataItem> getSingle(SingleDataQuery dataQuery) {
         return Single.create(new SingleOnSubscribeDataProducer(executor, dataQuery));
     }
 
     @Override
-    public CompletableDataItem getCompletable(DataQuery dataQuery) {
+    public CompletableDataItem getCompletable(SingleDataQuery dataQuery) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Maybe<DataItem> getMaybe(DataQuery dataQuery) {
+    public Maybe<DataItem> getMaybe(SingleDataQuery dataQuery) {
         throw new UnsupportedOperationException();
     }
 

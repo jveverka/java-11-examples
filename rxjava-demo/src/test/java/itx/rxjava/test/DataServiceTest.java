@@ -2,10 +2,12 @@ package itx.rxjava.test;
 
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 import itx.rxjava.DataService;
 import itx.rxjava.DataServiceImpl;
 import itx.rxjava.dto.DataItem;
 import itx.rxjava.dto.DataQuery;
+import itx.rxjava.dto.SingleDataQuery;
 import itx.rxjava.test.consumer.SynchronousDataObserver;
 import itx.rxjava.test.consumer.SynchronousDataSubscriber;
 import org.slf4j.Logger;
@@ -81,6 +83,18 @@ public class DataServiceTest {
         Assert.assertTrue(dataObserver.getErrors().size() == 0);
         Assert.assertTrue(dataObserver.getResults().size() == 10);
         Assert.assertTrue(dataObserver.isCompleted());
+    }
+
+    @Test
+    public void testDataServiceSingle() {
+        DataService dataService = new DataServiceImpl(executor);
+        Single<DataItem> single = dataService.getSingle(new SingleDataQuery("single-query"));
+        DataItem dataItem = single.blockingGet();
+
+        Assert.assertNotNull(dataItem);
+        Assert.assertEquals(dataItem.getRequest(), "single-query");
+        Assert.assertEquals(dataItem.getResult(), "single-data-result");
+        Assert.assertTrue(dataItem.getOrdinal() == 1);
     }
 
     @AfterClass
