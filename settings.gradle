@@ -33,6 +33,7 @@ project(":it-tests").projectDir = new File("hazelcast-cluster/it-tests")
 project(":server-node").projectDir = new File("hazelcast-cluster/server-node")
 
 include "hibernate-demo"
+include "jdbc-demo"
 include "jetty-servlet4-http2"
 
 include "kafka-common"
