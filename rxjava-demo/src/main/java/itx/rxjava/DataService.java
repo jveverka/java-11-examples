@@ -34,12 +34,17 @@ public interface DataService {
     Single<DataItem> getSingle(SingleDataQuery dataQuery);
 
     /**
-     * This method notifies client that task has been completed.
+     * This method notifies client that task has been completed or has failed.
      * @param dataQuery query parameters for completable task;
      * @return {@link Completable}.
      */
     CompletableDataItem getCompletable(SingleDataQuery dataQuery);
 
+    /**
+     * This method returns single result.
+     * @param dataQuery query parameters for completable task;
+     * @return {@link Maybe} consumable.
+     */
     Maybe<DataItem> getMaybe(SingleDataQuery dataQuery);
 
 }

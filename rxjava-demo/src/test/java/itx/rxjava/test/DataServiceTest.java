@@ -1,6 +1,7 @@
 package itx.rxjava.test;
 
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import itx.rxjava.DataService;
@@ -12,6 +13,7 @@ import itx.rxjava.producer.CompletableDataItem;
 import itx.rxjava.test.consumer.SynchronousCompletableObserver;
 import itx.rxjava.test.consumer.SynchronousDataObserver;
 import itx.rxjava.test.consumer.SynchronousDataSubscriber;
+import itx.rxjava.test.consumer.SynchronousMaybeObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -111,6 +113,23 @@ public class DataServiceTest {
         Assert.assertTrue(completableObserver.isSubscribed());
         Assert.assertTrue(completableObserver.isCompleted());
         Assert.assertFalse(completableObserver.hasErrors());
+    }
+
+    @Test
+    public void testMaybe() throws InterruptedException {
+        DataService dataService = new DataServiceImpl(executor);
+        Maybe<DataItem> maybe = dataService.getMaybe(new SingleDataQuery("maybe-query"));
+        SynchronousMaybeObserver maybeObserver = new SynchronousMaybeObserver();
+
+        maybe.subscribe(maybeObserver);
+        maybeObserver.await(10, TimeUnit.SECONDS);
+
+        Assert.assertTrue(maybeObserver.isCompleted());
+        Assert.assertFalse(maybeObserver.hasErrors());
+        Assert.assertNotNull(maybeObserver.getDataItem());
+        Assert.assertEquals(maybeObserver.getDataItem().getRequest(), "maybe-query");
+        Assert.assertEquals(maybeObserver.getDataItem().getResult(), "maybe-data-result");
+        Assert.assertTrue(maybeObserver.getDataItem().getOrdinal() == 1);
     }
 
     @AfterClass

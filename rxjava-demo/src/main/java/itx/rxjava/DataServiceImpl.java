@@ -10,6 +10,7 @@ import itx.rxjava.dto.DataQuery;
 import itx.rxjava.dto.SingleDataQuery;
 import itx.rxjava.producer.CompletableDataItem;
 import itx.rxjava.producer.FlowableDataProducer;
+import itx.rxjava.producer.MaybeOnSubscribeDataProducer;
 import itx.rxjava.producer.ObservableDataProducer;
 import itx.rxjava.producer.SingleOnSubscribeDataProducer;
 
@@ -45,7 +46,7 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public Maybe<DataItem> getMaybe(SingleDataQuery dataQuery) {
-        throw new UnsupportedOperationException();
+        return Maybe.create(new MaybeOnSubscribeDataProducer(executor, dataQuery));
     }
 
 }
