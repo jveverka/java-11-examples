@@ -40,7 +40,7 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public CompletableDataItem getCompletable(SingleDataQuery dataQuery) {
-        throw new UnsupportedOperationException();
+        return new CompletableDataItem(executor, dataQuery);
     }
 
     @Override

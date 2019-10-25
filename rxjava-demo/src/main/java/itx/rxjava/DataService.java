@@ -1,5 +1,6 @@
 package itx.rxjava;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Observable;
@@ -32,6 +33,11 @@ public interface DataService {
      */
     Single<DataItem> getSingle(SingleDataQuery dataQuery);
 
+    /**
+     * This method notifies client that task has been completed.
+     * @param dataQuery query parameters for completable task;
+     * @return {@link Completable}.
+     */
     CompletableDataItem getCompletable(SingleDataQuery dataQuery);
 
     Maybe<DataItem> getMaybe(SingleDataQuery dataQuery);

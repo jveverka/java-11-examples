@@ -8,6 +8,8 @@ import itx.rxjava.DataServiceImpl;
 import itx.rxjava.dto.DataItem;
 import itx.rxjava.dto.DataQuery;
 import itx.rxjava.dto.SingleDataQuery;
+import itx.rxjava.producer.CompletableDataItem;
+import itx.rxjava.test.consumer.SynchronousCompletableObserver;
 import itx.rxjava.test.consumer.SynchronousDataObserver;
 import itx.rxjava.test.consumer.SynchronousDataSubscriber;
 import org.slf4j.Logger;
@@ -95,6 +97,20 @@ public class DataServiceTest {
         Assert.assertEquals(dataItem.getRequest(), "single-query");
         Assert.assertEquals(dataItem.getResult(), "single-data-result");
         Assert.assertTrue(dataItem.getOrdinal() == 1);
+    }
+
+    @Test
+    public void testCompletable() throws InterruptedException {
+        DataService dataService = new DataServiceImpl(executor);
+        CompletableDataItem completable = dataService.getCompletable(new SingleDataQuery("completable-query"));
+        SynchronousCompletableObserver completableObserver = new SynchronousCompletableObserver();
+
+        completable.subscribe(completableObserver);
+        completableObserver.await(10, TimeUnit.SECONDS);
+
+        Assert.assertTrue(completableObserver.isSubscribed());
+        Assert.assertTrue(completableObserver.isCompleted());
+        Assert.assertFalse(completableObserver.hasErrors());
     }
 
     @AfterClass
