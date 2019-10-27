@@ -6,21 +6,18 @@ import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
-public class SynchronousDataSubscriber implements Subscriber<DataItem>  {
+
+public class SynchronousDataSubscriber extends AbstractObserver implements Subscriber<DataItem>  {
 
     private final List<DataItem> items;
     private final List<Throwable> errors;
-    private final CountDownLatch cl;
 
     private Subscription s;
 
     public SynchronousDataSubscriber() {
         items = new ArrayList<>();
         errors = new ArrayList<>();
-        cl = new CountDownLatch(1);
     }
 
     @Override
@@ -40,17 +37,13 @@ public class SynchronousDataSubscriber implements Subscriber<DataItem>  {
 
     @Override
     public void onComplete() {
-        cl.countDown();
+        getCl().countDown();
     }
 
     public void request(long n) {
         if (s != null) {
             s.request(n);
         }
-    }
-
-    public boolean await(long timeout, TimeUnit unit) throws InterruptedException {
-        return cl.await(timeout, unit);
     }
 
     public List<DataItem> getResults() {
@@ -65,7 +58,4 @@ public class SynchronousDataSubscriber implements Subscriber<DataItem>  {
         return s;
     }
 
-    public boolean isCompleted() {
-        return cl.getCount() == 0;
-    }
 }

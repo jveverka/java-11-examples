@@ -6,21 +6,18 @@ import itx.rxjava.dto.DataItem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
-public class SynchronousDataObserver implements Observer<DataItem> {
+
+public class SynchronousDataObserver extends AbstractObserver implements Observer<DataItem> {
 
     private final List<DataItem> items;
     private final List<Throwable> errors;
-    private final CountDownLatch cl;
 
     private Disposable d;
 
     public SynchronousDataObserver() {
         items = new ArrayList<>();
         errors = new ArrayList<>();
-        cl = new CountDownLatch(1);
     }
 
     @Override
@@ -40,11 +37,7 @@ public class SynchronousDataObserver implements Observer<DataItem> {
 
     @Override
     public void onComplete() {
-        cl.countDown();
-    }
-
-    public boolean await(long timeout, TimeUnit unit) throws InterruptedException {
-        return cl.await(timeout, unit);
+        getCl().countDown();
     }
 
     public List<DataItem> getResults() {
@@ -57,10 +50,6 @@ public class SynchronousDataObserver implements Observer<DataItem> {
 
     public Disposable getDisposable() {
         return d;
-    }
-
-    public boolean isCompleted() {
-        return cl.getCount() == 0;
     }
 
 }

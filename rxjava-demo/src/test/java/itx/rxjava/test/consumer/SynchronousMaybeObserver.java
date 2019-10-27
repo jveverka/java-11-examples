@@ -4,20 +4,14 @@ import io.reactivex.rxjava3.core.MaybeObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import itx.rxjava.dto.DataItem;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
-
-public class SynchronousMaybeObserver implements MaybeObserver<DataItem> {
-
-    private final CountDownLatch cl;
+public class SynchronousMaybeObserver extends AbstractObserver implements MaybeObserver<DataItem> {
 
     private boolean subscribed;
     private DataItem dataItem;
     private Throwable e;
 
     public SynchronousMaybeObserver() {
-        this.cl = new CountDownLatch(1);
         this.subscribed = false;
     }
 
@@ -29,26 +23,18 @@ public class SynchronousMaybeObserver implements MaybeObserver<DataItem> {
     @Override
     public void onSuccess(DataItem dataItem) {
         this.dataItem = dataItem;
-        cl.countDown();
+        this.getCl().countDown();
     }
 
     @Override
     public void onError(Throwable e) {
         this.e = e;
-        cl.countDown();
+        this.getCl().countDown();
     }
 
     @Override
     public void onComplete() {
-        cl.countDown();
-    }
-
-    public boolean await(long timeout, TimeUnit unit) throws InterruptedException {
-        return this.cl.await(timeout, unit);
-    }
-
-    public boolean isCompleted() {
-        return cl.getCount() == 0;
+        this.getCl().countDown();
     }
 
     public boolean hasErrors() {
