@@ -1,0 +1,6 @@
+
+apply plugin: "java"
+
+dependencies {
+    compile 'io.reactivex.rxjava3:rxjava:3.0.0-RC6'
+}

@@ -33,3 +33,4 @@ project(':avro-demo') {}
 project(':imageprocessing-demo') {}
 project(':rxjava-demo') {}
 project(':elastic-demo') {}
+project(':rabbitmq-demo') {}
