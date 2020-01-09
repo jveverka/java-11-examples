@@ -37,7 +37,7 @@ dependencies {
    compile 'org.apache.sshd:sshd-core:2.2.0'
    compile 'com.beust:jcommander:1.72'
 
-   testCompile 'org.testng:testng:7.0.0'
+   testCompile 'org.testng:testng:7.1.0'
    testCompile 'com.jayway.awaitility:awaitility:1.7.0'
 }
 

@@ -40,7 +40,7 @@ dependencies {
    compile 'org.slf4j:slf4j-simple:1.8.0-beta4'
    compile 'com.hazelcast:hazelcast:3.10.4'
 
-   testCompile 'org.testng:testng:7.0.0'
+   testCompile 'org.testng:testng:7.1.0'
 }
 
 test {

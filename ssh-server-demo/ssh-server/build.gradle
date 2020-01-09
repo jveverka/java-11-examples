@@ -35,6 +35,6 @@ dependencies {
    compile 'org.slf4j:slf4j-simple:1.8.0-beta4'
    compile 'org.apache.mina:mina-core:2.0.19'
    compile 'org.apache.sshd:sshd-core:2.0.0'
-   testCompile 'org.testng:testng:7.0.0'
+   testCompile 'org.testng:testng:7.1.0'
 }
 

@@ -59,7 +59,7 @@ dependencies {
    compile "org.slf4j:slf4j-api:${slf4jVersion}"
    compile "org.slf4j:slf4j-simple:${slf4jVersion}"
 
-   testCompile "org.testng:testng:7.0.0"
+   testCompile "org.testng:testng:7.1.0"
 }
 
 
