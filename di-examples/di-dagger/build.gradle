@@ -1,12 +1,12 @@
 
 plugins {
-    id "net.ltgt.apt" version "0.10"
+    id "net.ltgt.apt" version "0.19"
     id "idea"
 }
 
 dependencies {
-    compile 'com.google.dagger:dagger:2.24'
-    apt 'com.google.dagger:dagger-compiler:2.24'
+    compile 'com.google.dagger:dagger:2.25.4'
+    apt 'com.google.dagger:dagger-compiler:2.25.4'
 }
 
 idea {
