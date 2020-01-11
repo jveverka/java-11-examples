@@ -2,4 +2,6 @@ dist: xenial
 language: java
 jdk:
   - openjdk11
-script: gradle clean build test
+script:
+  - gradle clean build test
+  - gradle --build-file di-examples/build.gradle clean test
