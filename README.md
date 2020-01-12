@@ -16,6 +16,7 @@ Make sure following software is installed on your PC.
 Most examples are build by top-level gradle project.
 ```
 gradle clean build test
+gradle --build-file di-examples/build.gradle clean test
 ```
 
 ### Examples
