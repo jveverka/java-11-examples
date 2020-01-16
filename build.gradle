@@ -34,3 +34,4 @@ project(':imageprocessing-demo') {}
 project(':rxjava-demo') {}
 project(':elastic-demo') {}
 project(':rabbitmq-demo') {}
+project(':spring-bank') {}
