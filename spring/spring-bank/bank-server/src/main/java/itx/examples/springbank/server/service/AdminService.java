@@ -13,4 +13,6 @@ public interface AdminService {
 
     Collection<Client> getClients();
 
+    void deleteClient(ClientId id);
+
 }

@@ -21,4 +21,9 @@ public class AdminServiceImpl implements AdminService {
         return null;
     }
 
+    @Override
+    public void deleteClient(ClientId id) {
+
+    }
+
 }
