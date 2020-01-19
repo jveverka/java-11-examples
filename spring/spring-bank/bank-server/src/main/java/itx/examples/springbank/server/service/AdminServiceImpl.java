@@ -1,6 +1,5 @@
 package itx.examples.springbank.server.service;
 
-import itx.examples.springbank.common.dto.Account;
 import itx.examples.springbank.common.dto.Client;
 import itx.examples.springbank.common.dto.CreateClientRequest;
 import itx.examples.springbank.common.dto.ClientId;
@@ -8,6 +7,7 @@ import itx.examples.springbank.common.dto.ServiceException;
 import itx.examples.springbank.server.repository.ClientRepository;
 import itx.examples.springbank.server.repository.model.AccountEntity;
 import itx.examples.springbank.server.repository.model.ClientEntity;
+import itx.examples.springbank.server.utils.DTS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,11 +41,7 @@ public class AdminServiceImpl implements AdminService {
         List<Client> clients = new ArrayList<>();
         List<ClientEntity> allClientEntities = clientRepository.findAll();
         allClientEntities.forEach(c -> {
-            AccountEntity accountEntity = c.getAccount();
-            Account account = new Account(accountEntity.getCredit());
-            ClientId id = new ClientId(c.getId().toString());
-            Client client = new Client(id, c.getFirstName(), c.getLastName(), account);
-            clients.add(client);
+            clients.add(DTS.transform(c));
         });
         return clients;
     }
