@@ -6,10 +6,15 @@ import itx.examples.springbank.common.dto.DepositRequest;
 import itx.examples.springbank.common.dto.ServiceException;
 import itx.examples.springbank.common.dto.TransactionRequest;
 import itx.examples.springbank.common.dto.WithdrawRequest;
+import itx.examples.springbank.server.repository.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BankServiceImpl implements BankService {
+
+    @Autowired
+    private ClientRepository clientRepository;
 
     @Override
     public void transferFunds(TransactionRequest transactionRequest) throws ServiceException {

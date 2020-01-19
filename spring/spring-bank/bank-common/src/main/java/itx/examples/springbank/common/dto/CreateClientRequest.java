@@ -1,11 +1,16 @@
 package itx.examples.springbank.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CreateClientRequest {
 
     private final String firstName;
     private final String lastName;
 
-    public CreateClientRequest(String firstName, String lastName) {
+    @JsonCreator
+    public CreateClientRequest(@JsonProperty("firstName") String firstName,
+                               @JsonProperty("lastName") String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }

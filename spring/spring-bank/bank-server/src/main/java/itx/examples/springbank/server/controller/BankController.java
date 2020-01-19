@@ -8,13 +8,14 @@ import itx.examples.springbank.common.dto.TransactionRequest;
 import itx.examples.springbank.common.dto.WithdrawRequest;
 import itx.examples.springbank.server.service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/services/bank")
 public class BankController {
 
@@ -22,22 +23,22 @@ public class BankController {
     private BankService bankService;
 
     @PostMapping("/transfer")
-    public void transferFunds(TransactionRequest transactionRequest) throws ServiceException {
+    public void transferFunds(@RequestBody TransactionRequest transactionRequest) throws ServiceException {
         bankService.transferFunds(transactionRequest);
     }
 
     @PutMapping("/deposit")
-    public void deposit(DepositRequest depositRequest) throws ServiceException {
+    public void deposit(@RequestBody DepositRequest depositRequest) throws ServiceException {
         bankService.deposit(depositRequest);
     }
 
     @PutMapping("/withdraw")
-    public void withDraw(WithdrawRequest withdrawRequest) throws ServiceException {
+    public void withDraw(@RequestBody WithdrawRequest withdrawRequest) throws ServiceException {
         bankService.withDraw(withdrawRequest);
     }
 
     @GetMapping("/info/client")
-    public Client getClientInfo(ClientId clientId) throws ServiceException {
+    public Client getClientInfo(@RequestBody ClientId clientId) throws ServiceException {
         return bankService.getClientInfo(clientId);
     }
 
