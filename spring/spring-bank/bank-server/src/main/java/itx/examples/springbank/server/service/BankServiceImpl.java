@@ -6,7 +6,7 @@ import itx.examples.springbank.common.dto.DepositRequest;
 import itx.examples.springbank.common.dto.ServiceException;
 import itx.examples.springbank.common.dto.TransactionRequest;
 import itx.examples.springbank.common.dto.WithdrawRequest;
-import itx.examples.springbank.common.services.BankService;
+import itx.examples.springbank.common.service.BankService;
 import itx.examples.springbank.server.repository.AccountRepository;
 import itx.examples.springbank.server.repository.ClientRepository;
 import itx.examples.springbank.server.repository.model.AccountEntity;

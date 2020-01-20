@@ -6,7 +6,7 @@ import itx.examples.springbank.common.dto.DepositRequest;
 import itx.examples.springbank.common.dto.ServiceException;
 import itx.examples.springbank.common.dto.TransactionRequest;
 import itx.examples.springbank.common.dto.WithdrawRequest;
-import itx.examples.springbank.common.services.BankService;
+import itx.examples.springbank.common.service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

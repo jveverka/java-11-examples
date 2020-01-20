@@ -1,4 +1,4 @@
-package itx.examples.springbank.common.services;
+package itx.examples.springbank.common.service;
 
 import itx.examples.springbank.common.dto.Client;
 import itx.examples.springbank.common.dto.CreateClientRequest;

@@ -4,7 +4,7 @@ import itx.examples.springbank.common.dto.Client;
 import itx.examples.springbank.common.dto.CreateClientRequest;
 import itx.examples.springbank.common.dto.ClientId;
 import itx.examples.springbank.common.dto.ServiceException;
-import itx.examples.springbank.common.services.AdminService;
+import itx.examples.springbank.common.service.AdminService;
 import itx.examples.springbank.server.repository.ClientRepository;
 import itx.examples.springbank.server.repository.model.AccountEntity;
 import itx.examples.springbank.server.repository.model.ClientEntity;

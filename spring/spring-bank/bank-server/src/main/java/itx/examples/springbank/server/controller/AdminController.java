@@ -4,7 +4,7 @@ import itx.examples.springbank.common.dto.Client;
 import itx.examples.springbank.common.dto.CreateClientRequest;
 import itx.examples.springbank.common.dto.ClientId;
 import itx.examples.springbank.common.dto.ServiceException;
-import itx.examples.springbank.common.services.AdminService;
+import itx.examples.springbank.common.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
