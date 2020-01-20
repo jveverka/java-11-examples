@@ -1,4 +1,4 @@
-package itx.examples.springbank.server.service;
+package itx.examples.springbank.common.services;
 
 import itx.examples.springbank.common.dto.Client;
 import itx.examples.springbank.common.dto.ClientId;
