@@ -2,15 +2,15 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'itx.examples.jetty.server.Main'
+mainClassName = 'itx.examples.jetty.Main'
 
 applicationDefaultJvmArgs = ["-Xms64M", "-Xmx64M" ]
 
 sourceCompatibility = 11
 targetCompatibility = 11
 
-def jettyVersion = '9.4.20.v20190813'
-def jerseyVersion = '2.28'
+def jettyVersion = '9.4.26.v20200117'
+def jerseyVersion = '2.30'
 def slf4jVersion = '1.8.0-beta4'
 
 repositories {
@@ -30,36 +30,36 @@ test {
 }
 
 dependencies {
-   compile "org.eclipse.jetty:jetty-server:${jettyVersion}"
-   compile "org.eclipse.jetty:jetty-servlet:${jettyVersion}"
-   compile "org.eclipse.jetty.http2:http2-server:${jettyVersion}"
-   compile "org.eclipse.jetty.http2:http2-client:${jettyVersion}"
-   compile "org.eclipse.jetty.http2:http2-http-client-transport:${jettyVersion}"
-   compile "org.eclipse.jetty:jetty-alpn-server:${jettyVersion}"
-   compile "org.eclipse.jetty:jetty-client:${jettyVersion}"
-   compile "org.eclipse.jetty.websocket:websocket-api:${jettyVersion}"
-   compile "org.eclipse.jetty.websocket:websocket-server:${jettyVersion}"
-   compile "org.eclipse.jetty.websocket:websocket-client:${jettyVersion}"
+   implementation "org.eclipse.jetty:jetty-server:${jettyVersion}"
+   implementation "org.eclipse.jetty:jetty-servlet:${jettyVersion}"
+   implementation "org.eclipse.jetty.http2:http2-server:${jettyVersion}"
+   implementation "org.eclipse.jetty.http2:http2-client:${jettyVersion}"
+   implementation "org.eclipse.jetty.http2:http2-http-client-transport:${jettyVersion}"
+   implementation "org.eclipse.jetty:jetty-alpn-server:${jettyVersion}"
+   implementation "org.eclipse.jetty:jetty-client:${jettyVersion}"
+   implementation "org.eclipse.jetty.websocket:websocket-api:${jettyVersion}"
+   implementation "org.eclipse.jetty.websocket:websocket-server:${jettyVersion}"
+   implementation "org.eclipse.jetty.websocket:websocket-client:${jettyVersion}"
 
-   compile "org.eclipse.jetty:jetty-alpn-java-server:${jettyVersion}"
-   compile "org.eclipse.jetty:jetty-alpn-java-client:${jettyVersion}"
+   implementation "org.eclipse.jetty:jetty-alpn-java-server:${jettyVersion}"
+   implementation "org.eclipse.jetty:jetty-alpn-java-client:${jettyVersion}"
 
-   compile "com.fasterxml.jackson.core:jackson-databind:2.9.9"
-   compile "javax.xml.bind:jaxb-api:2.3.1"
+   implementation "com.fasterxml.jackson.core:jackson-databind:2.10.1"
+   implementation "javax.xml.bind:jaxb-api:2.3.1"
 
-   compile "org.glassfish.jersey.core:jersey-server:${jerseyVersion}"
-   compile "org.glassfish.jersey.containers:jersey-container-jetty-http:${jerseyVersion}"
-   compile "org.glassfish.jersey.containers:jersey-container-servlet-core:${jerseyVersion}"
-   compile "org.glassfish.jersey.media:jersey-media-json-jackson:${jerseyVersion}"
-   compile "org.glassfish.jersey.inject:jersey-hk2:${jerseyVersion}"
+   implementation "org.glassfish.jersey.core:jersey-server:${jerseyVersion}"
+   implementation "org.glassfish.jersey.containers:jersey-container-jetty-http:${jerseyVersion}"
+   implementation "org.glassfish.jersey.containers:jersey-container-servlet-core:${jerseyVersion}"
+   implementation "org.glassfish.jersey.media:jersey-media-json-jackson:${jerseyVersion}"
+   implementation "org.glassfish.jersey.inject:jersey-hk2:${jerseyVersion}"
 
-   compile "org.jboss.resteasy:resteasy-servlet-initializer:4.0.0.Final"
-   compile "javax.servlet:javax.servlet-api:4.0.1"
+   implementation "org.jboss.resteasy:resteasy-servlet-initializer:4.4.2.Final"
+   implementation "javax.servlet:javax.servlet-api:4.0.1"
 
-   compile "org.slf4j:slf4j-api:${slf4jVersion}"
-   compile "org.slf4j:slf4j-simple:${slf4jVersion}"
+   implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+   implementation "org.slf4j:slf4j-simple:${slf4jVersion}"
 
-   testCompile "org.testng:testng:7.1.0"
+   testImplementation "org.testng:testng:7.1.0"
 }
 
 

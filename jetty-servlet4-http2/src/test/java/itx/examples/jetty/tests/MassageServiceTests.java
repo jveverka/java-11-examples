@@ -62,7 +62,7 @@ public class MassageServiceTests {
         deletedMessages = messageService.cleanMessages(groupId01);
         Assert.assertNotNull(deletedMessages);
         Assert.assertTrue(deletedMessages.isPresent());
-        Assert.assertEquals(deletedMessages.get(), new Long(2L));
+        Assert.assertEquals(deletedMessages.get(), Long.valueOf(2L));
 
         deletedMessages = messageService.cleanMessages(groupId01);
         Assert.assertNotNull(deletedMessages);

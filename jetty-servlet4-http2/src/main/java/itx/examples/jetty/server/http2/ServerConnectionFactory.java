@@ -4,6 +4,7 @@ import org.eclipse.jetty.http2.FlowControlStrategy;
 import org.eclipse.jetty.http2.HTTP2Connection;
 import org.eclipse.jetty.http2.api.server.ServerSessionListener;
 import org.eclipse.jetty.http2.generator.Generator;
+import org.eclipse.jetty.http2.parser.RateControl;
 import org.eclipse.jetty.http2.parser.ServerParser;
 import org.eclipse.jetty.http2.server.HTTP2ServerConnection;
 import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory;
@@ -12,7 +13,6 @@ import org.eclipse.jetty.io.Connection;
 import org.eclipse.jetty.io.EndPoint;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.util.thread.ReservedThreadExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +56,7 @@ public class ServerConnectionFactory extends HTTP2ServerConnectionFactory {
         session.setStreamIdleTimeout(streamIdleTimeout);
         session.setInitialSessionRecvWindow(getInitialSessionRecvWindow());
 
-        ServerParser parser = newServerParser(connector, session);
+        ServerParser parser = newServerParser(connector, session, RateControl.NO_RATE_CONTROL);
         HTTP2Connection connection = new HTTP2ServerConnection(connector.getByteBufferPool(), executor,
                 endPoint, getHttpConfiguration(), parser, session, getInputBufferSize(), listener);
         connection.addListener(connectionListener);

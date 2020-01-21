@@ -1,11 +1,11 @@
-package itx.examples.jetty.server;
+package itx.examples.jetty;
 
 import itx.examples.jetty.common.SystemUtils;
 import itx.examples.jetty.common.services.EchoService;
 import itx.examples.jetty.common.services.MessageServiceAsync;
 import itx.examples.jetty.common.services.SystemInfoService;
+import itx.examples.jetty.server.ServerBuilder;
 import itx.examples.jetty.server.rest.RestApplication;
-import itx.examples.jetty.server.rest.SystemInfoRest;
 import itx.examples.jetty.server.services.EchoServiceImpl;
 import itx.examples.jetty.server.services.MessageServiceImpl;
 import itx.examples.jetty.server.services.SystemInfoServiceImpl;
