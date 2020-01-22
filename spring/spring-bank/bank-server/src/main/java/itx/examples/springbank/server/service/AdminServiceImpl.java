@@ -38,7 +38,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public Collection<Client> getClients() {
+    public Collection<Client> getClients() throws ServiceException {
         List<Client> clients = new ArrayList<>();
         List<ClientEntity> allClientEntities = clientRepository.findAll();
         allClientEntities.forEach(c -> {
@@ -49,7 +49,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public void deleteClient(ClientId id) {
+    public void deleteClient(ClientId id) throws ServiceException {
         Long clientId = Long.parseLong(id.getId());
         clientRepository.deleteById(clientId);
     }

@@ -8,6 +8,7 @@ import itx.examples.springbank.common.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +33,9 @@ public class AdminController {
         return adminService.createClient(createClientRequest);
     }
 
-    @DeleteMapping("/client")
-    public void deleteClient(@RequestBody ClientId id) throws ServiceException {
-        adminService.deleteClient(id);
+    @DeleteMapping("/client/{id}")
+    public void deleteClient(@PathVariable(value="id") String id) throws ServiceException {
+        adminService.deleteClient(new ClientId(id));
     }
 
 }

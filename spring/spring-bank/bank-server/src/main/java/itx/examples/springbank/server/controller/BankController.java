@@ -9,6 +9,7 @@ import itx.examples.springbank.common.dto.WithdrawRequest;
 import itx.examples.springbank.common.service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,9 +38,9 @@ public class BankController {
         bankService.withDraw(withdrawRequest);
     }
 
-    @GetMapping("/info/client")
-    public Client getClientInfo(@RequestBody ClientId clientId) throws ServiceException {
-        return bankService.getClientInfo(clientId);
+    @GetMapping("/info/client/{id}")
+    public Client getClientInfo(@PathVariable(value="id") String id) throws ServiceException {
+        return bankService.getClientInfo(new ClientId(id));
     }
 
 }

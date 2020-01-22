@@ -11,8 +11,8 @@ public interface AdminService {
 
     ClientId createClient(CreateClientRequest createClientRequest) throws ServiceException;
 
-    Collection<Client> getClients();
+    Collection<Client> getClients() throws ServiceException;
 
-    void deleteClient(ClientId id);
+    void deleteClient(ClientId id) throws ServiceException;
 
 }
