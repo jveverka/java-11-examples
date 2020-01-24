@@ -145,6 +145,7 @@ public final class Utils {
         return new EventDataInfo(name, description, related, geoLocation, timeStamp);
     }
 
+    @SuppressWarnings("unchecked")
     public static EventData createFromSource(String id, Map<String, Object> source) {
         Map<String, Object> geoLocationMap = (Map<String, Object>)source.get("geoLocation");
         EventId eventId = new EventId(id);
