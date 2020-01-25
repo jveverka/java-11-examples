@@ -18,8 +18,6 @@ idea {
     }
 }
 
-//compileJava.CompileOptions.annotationProcessorPath = 'itx.examples.di.dagger'
-
 compileJava {
     options.annotationProcessorPath = configurations.apt
 }
