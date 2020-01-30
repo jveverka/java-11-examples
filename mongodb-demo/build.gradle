@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-   compile 'org.mongodb:mongodb-driver:3.10.2'
+   compile 'org.mongodb:mongodb-driver:3.12.1'
    compile 'org.slf4j:slf4j-api:1.8.0-beta4'
    compile 'org.slf4j:slf4j-simple:1.8.0-beta4'
    testCompile 'org.testng:testng:7.1.0'
