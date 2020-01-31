@@ -15,8 +15,7 @@ public class SpringConfiguration {
     private final MessageService messageSyncService;
     private final MessageService messageAsyncService;
 
-    @Autowired
-    public SpringConfiguration(ExecutorService executor) {
+    public SpringConfiguration(@Autowired ExecutorService executor) {
         this.messageSyncService = new MessageServiceSyncImpl();
         this.messageAsyncService = new MessageServiceAsyncImpl(executor);
     }
