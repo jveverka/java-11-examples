@@ -83,8 +83,8 @@ public class Main {
                 .build();
 
         // Print the labels in the user's account.
-        String user = "me";
-        ListLabelsResponse listResponse = service.users().labels().list(user).execute();
+        String userId = "me";
+        ListLabelsResponse listResponse = service.users().labels().list(userId).execute();
         List<Label> labels = listResponse.getLabels();
         if (labels.isEmpty()) {
             System.out.println("No labels found.");
