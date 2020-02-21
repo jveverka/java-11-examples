@@ -1,26 +1,6 @@
 include "block-chain"
 include "akka-cluster-sshsessions"
 
-/*
-include "data-service"
-include "di-examples"
-include "app-dagger"
-include "app-guice"
-include "app-simple"
-include "app-spring"
-include "di-dagger"
-include "di-guice"
-include "di-spring"
-project(":data-service").projectDir = new File("di-examples/data-service")
-project(":app-dagger").projectDir = new File("di-examples/app-dagger")
-project(":app-guice").projectDir = new File("di-examples/app-guice")
-project(":app-simple").projectDir = new File("di-examples/app-simple")
-project(":app-spring").projectDir = new File("di-examples/app-spring")
-project(":di-dagger").projectDir = new File("di-examples/di-dagger")
-project(":di-guice").projectDir = new File("di-examples/di-guice")
-project(":di-spring").projectDir = new File("di-examples/di-spring")
-*/
-
 include "futures-demo"
 include "grpc-demo"
 
@@ -74,6 +54,9 @@ project(":springboot-fileserver").projectDir = new File("spring/springboot-files
 
 include "spring-security"
 project(":spring-security").projectDir = new File("spring/spring-security")
+
+include "spring-security-jwt"
+project(":spring-security-jwt").projectDir = new File("spring/spring-security-jwt")
 
 include "spring-jcasbin"
 project(":spring-jcasbin").projectDir = new File("spring/spring-jcasbin")

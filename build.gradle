@@ -27,6 +27,7 @@ project(':ssh-server-demo') {}
 project(':springboot') {}
 project(':springboot-fileserver') {}
 project(':spring-security') {}
+project(':spring-security-jwt') {}
 project(':spring-jcasbin') {}
 project(':spring-di') {}
 project(':avro-demo') {}
