@@ -6,6 +6,7 @@ import itx.examples.springboot.security.springsecurity.jwt.services.dto.UserData
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.UserId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -17,9 +18,12 @@ public class UserAccessServiceImpl implements UserAccessService {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserAccessServiceImpl.class);
 
+    private final KeyStoreService keyStoreService;
     private final Map<String, UserData> users;
 
-    public UserAccessServiceImpl() {
+    @Autowired
+    public UserAccessServiceImpl(KeyStoreService keyStoreService) {
+        this.keyStoreService = keyStoreService;
         this.users = new ConcurrentHashMap<>();
         this.users.put("joe", new UserData(UserId.from("joe"), "secret", "ROLE_USER"));
         this.users.put("jane", new UserData(UserId.from("jane"), "secret", "ROLE_ADMIN", "ROLE_USER"));

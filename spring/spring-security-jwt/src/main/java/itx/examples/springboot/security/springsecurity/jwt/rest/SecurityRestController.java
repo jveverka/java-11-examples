@@ -1,6 +1,8 @@
 package itx.examples.springboot.security.springsecurity.jwt.rest;
 
+import itx.examples.springboot.security.springsecurity.jwt.services.JWTUtils;
 import itx.examples.springboot.security.springsecurity.jwt.services.UserAccessService;
+import itx.examples.springboot.security.springsecurity.jwt.services.dto.JWToken;
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.LoginRequest;
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @RestController
@@ -19,10 +22,12 @@ import java.util.Optional;
 public class SecurityRestController {
 
     private final UserAccessService userAccessService;
+    private final HttpServletRequest request;
 
     @Autowired
-    public SecurityRestController(UserAccessService userAccessService) {
+    public SecurityRestController(UserAccessService userAccessService, HttpServletRequest request) {
         this.userAccessService = userAccessService;
+        this.request = request;
     }
 
     @PostMapping("/login")
@@ -36,6 +41,9 @@ public class SecurityRestController {
 
     @GetMapping("/logout")
     public ResponseEntity logout() {
+        String authorization = request.getHeader("Authorization");
+        JWToken jwToken = JWToken.from(JWTUtils.extractJwtToken(authorization));
+        userAccessService.logout(jwToken);
         return ResponseEntity.ok().build();
     }
 }

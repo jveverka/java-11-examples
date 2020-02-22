@@ -7,6 +7,7 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.impl.DefaultClaims;
 import io.jsonwebtoken.lang.Assert;
+import itx.examples.springboot.security.springsecurity.jwt.services.JWTUtils;
 import itx.examples.springboot.security.springsecurity.jwt.services.KeyStoreInitializationException;
 import itx.examples.springboot.security.springsecurity.jwt.services.KeyStoreService;
 import itx.examples.springboot.security.springsecurity.jwt.services.KeyStoreServiceImpl;
@@ -36,7 +37,7 @@ public class JWTTokenTests {
         Assert.notNull(key);
 
         //1. create JWT token
-        String jwtToken = Jwts.builder()
+        String jwToken = Jwts.builder()
                 .setSubject(userName.getId())
                 .signWith(key)
                 .setExpiration(new Date(expirationDate))
@@ -44,10 +45,10 @@ public class JWTTokenTests {
                 .setIssuedAt(new Date(nowDate))
                 .claim("roles", roles)
                 .compact();
-        Assert.notNull(jwtToken);
+        Assert.notNull(jwToken);
 
         //2. verify JWT token
-        Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwtToken);
+        Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwToken);
         Assert.notNull(claimsJws);
         List<String> rolesFromJWT = (List<String>)claimsJws.getBody().get("roles");
         Assert.notNull(rolesFromJWT);
@@ -72,7 +73,7 @@ public class JWTTokenTests {
         Assert.notNull(key);
 
         //1. create JWT token
-        String jwtToken = Jwts.builder()
+        String jwToken = Jwts.builder()
                 .setSubject(userName.getId())
                 .signWith(key)
                 .setExpiration(new Date(expirationDate))
@@ -80,10 +81,10 @@ public class JWTTokenTests {
                 .setIssuedAt(new Date(nowDate))
                 .claim("roles", roles)
                 .compact();
-        Assert.notNull(jwtToken);
+        Assert.notNull(jwToken);
 
         //2. read content of JWT token without signature (without knowing proper key)
-        String jwtTokenWithoutSignature = jwtToken.substring(0, (jwtToken.lastIndexOf('.') + 1));
+        String jwtTokenWithoutSignature = JWTUtils.removeSignature(jwToken);
         JwtParser parser = Jwts.parserBuilder().build();
         Jwt jwt = parser.parse(jwtTokenWithoutSignature);
         DefaultClaims body = (DefaultClaims)jwt.getBody();
