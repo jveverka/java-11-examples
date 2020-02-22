@@ -24,7 +24,7 @@ public class UserAccessServiceImpl implements UserAccessService {
         this.users = new HashMap<>();
         this.users.put("joe", new UserData("joe", "secret", "ROLE_USER"));
         this.users.put("jane", new UserData("jane", "secret", "ROLE_ADMIN", "ROLE_USER"));
-        this.users.put("alice", new UserData("joe", "secret", "ROLE_PUBLIC"));
+        this.users.put("alice", new UserData("alice", "secret", "ROLE_PUBLIC"));
     }
 
     @Override
