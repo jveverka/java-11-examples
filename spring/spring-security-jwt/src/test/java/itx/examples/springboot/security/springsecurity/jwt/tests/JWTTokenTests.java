@@ -2,20 +2,19 @@ package itx.examples.springboot.security.springsecurity.jwt.tests;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.impl.DefaultClaims;
 import io.jsonwebtoken.lang.Assert;
+import itx.examples.springboot.security.springsecurity.jwt.services.KeyStoreInitializationException;
 import itx.examples.springboot.security.springsecurity.jwt.services.KeyStoreService;
 import itx.examples.springboot.security.springsecurity.jwt.services.KeyStoreServiceImpl;
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.UserId;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.security.Key;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
@@ -26,7 +25,7 @@ import java.util.Optional;
 public class JWTTokenTests {
 
     @Test
-    public void testCreateAndVerifyJWTToken() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableKeyException {
+    public void testCreateAndVerifyJWTToken() throws KeyStoreInitializationException {
         KeyStoreService keyStoreService = new KeyStoreServiceImpl();
         long nowDate = LocalDate.now().toEpochSecond(LocalTime.now(), ZoneOffset.ofHours(0))*1000;
         long expirationDate = (nowDate + 3600*24)*1000;
@@ -62,7 +61,38 @@ public class JWTTokenTests {
     }
 
     @Test
-    public void testKeystoreServiceCache() throws UnrecoverableKeyException, CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
+    public void testReadJWTTokenWithoutVerification() throws KeyStoreInitializationException {
+        KeyStoreService keyStoreService = new KeyStoreServiceImpl();
+        long nowDate = LocalDate.now().toEpochSecond(LocalTime.now(), ZoneOffset.ofHours(0))*1000;
+        long expirationDate = (nowDate + 3600*24)*1000;
+        UserId userName = UserId.from("UserName");
+        String issuer = "Issuer";
+        List<String> roles = Lists.list("ROLE_USER", "ROLE_ADMIN");
+        Key key = keyStoreService.createUserKey(userName);
+        Assert.notNull(key);
+
+        //1. create JWT token
+        String jwtToken = Jwts.builder()
+                .setSubject(userName.getId())
+                .signWith(key)
+                .setExpiration(new Date(expirationDate))
+                .setIssuer(issuer)
+                .setIssuedAt(new Date(nowDate))
+                .claim("roles", roles)
+                .compact();
+        Assert.notNull(jwtToken);
+
+        //2. read content of JWT token without signature (without knowing proper key)
+        String jwtTokenWithoutSignature = jwtToken.substring(0, (jwtToken.lastIndexOf('.') + 1));
+        JwtParser parser = Jwts.parserBuilder().build();
+        Jwt jwt = parser.parse(jwtTokenWithoutSignature);
+        DefaultClaims body = (DefaultClaims)jwt.getBody();
+        String subjectFromJWT = body.get("sub", String.class);
+        Assert.isTrue(userName.equals(UserId.from(subjectFromJWT)));
+    }
+
+    @Test
+    public void testKeystoreServiceCache() throws KeyStoreInitializationException {
         KeyStoreService keyStoreService = new KeyStoreServiceImpl();
         UserId userName = UserId.from("UserName");
         Key userNameKey = keyStoreService.createUserKey(userName);
@@ -74,6 +104,5 @@ public class JWTTokenTests {
         userKey = keyStoreService.getUserKey(userName);
         Assert.isTrue(userKey.isEmpty());
     }
-
 
 }

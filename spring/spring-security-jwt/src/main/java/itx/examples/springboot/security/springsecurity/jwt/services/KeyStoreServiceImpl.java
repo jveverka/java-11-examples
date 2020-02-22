@@ -26,15 +26,19 @@ public class KeyStoreServiceImpl implements KeyStoreService {
     private final Map<UserId, KeyPair> keyCache;
     private final KeyPairGenerator keyPairGenerator;
 
-    public KeyStoreServiceImpl() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableKeyException {
-        keystore = KeyStore.getInstance("JKS");
-        InputStream is = KeyStoreServiceImpl.class.getResourceAsStream("/keystore.jks");
-        keystore.load(is, "secret".toCharArray());
-        caKey = keystore.getKey("organization", "secret".toCharArray());
-        keyCache = new ConcurrentHashMap<>();
-        keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG");
-        keyPairGenerator.initialize(2048, secureRandom);
+    public KeyStoreServiceImpl() throws KeyStoreInitializationException {
+        try {
+            keystore = KeyStore.getInstance("JKS");
+            InputStream is = KeyStoreServiceImpl.class.getResourceAsStream("/keystore.jks");
+            keystore.load(is, "secret".toCharArray());
+            caKey = keystore.getKey("organization", "secret".toCharArray());
+            keyCache = new ConcurrentHashMap<>();
+            keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG");
+            keyPairGenerator.initialize(2048, secureRandom);
+        } catch (Exception e) {
+            throw new KeyStoreInitializationException(e);
+        }
     }
 
     @Override
