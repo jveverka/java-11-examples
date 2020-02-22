@@ -10,6 +10,7 @@ import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.security.Key;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
@@ -30,11 +31,13 @@ public class JWTTokenTests {
         String userName = "UserName";
         String issuer = "Issuer";
         List<String> roles = Lists.list("ROLE_USER", "ROLE_ADMIN");
+        Key key = keyStoreService.createUserKey(userName);
+        Assert.notNull(key);
 
         //1. create JWT token
         String jwtToken = Jwts.builder()
                 .setSubject(userName)
-                .signWith(keyStoreService.getKey())
+                .signWith(key)
                 .setExpiration(new Date(expirationDate))
                 .setIssuer(issuer)
                 .setIssuedAt(new Date(nowDate))
@@ -43,7 +46,7 @@ public class JWTTokenTests {
         Assert.notNull(jwtToken);
 
         //2. verify JWT token
-        Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(keyStoreService.getKey()).build().parseClaimsJws(jwtToken);
+        Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwtToken);
         Assert.notNull(claimsJws);
         List<String> rolesFromJWT = (List<String>)claimsJws.getBody().get("roles");
         Assert.notNull(rolesFromJWT);
@@ -55,5 +58,13 @@ public class JWTTokenTests {
         String issuerFromJWT = claimsJws.getBody().getIssuer();
         Assert.isTrue(issuer.equals(issuerFromJWT));
     }
+
+    @Test
+    public void createUserCertificate() throws UnrecoverableKeyException, CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
+        KeyStoreService keyStoreService = new KeyStoreServiceImpl();
+        Key userName = keyStoreService.createUserKey("UserName");
+        Assert.notNull(userName);
+    }
+
 
 }
