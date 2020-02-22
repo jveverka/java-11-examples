@@ -1,10 +1,12 @@
 package itx.examples.springboot.security.springsecurity.jwt.rest;
 
+import itx.examples.springboot.security.springsecurity.jwt.rest.dto.LoginUserNamePasswordRequest;
 import itx.examples.springboot.security.springsecurity.jwt.services.JWTUtils;
 import itx.examples.springboot.security.springsecurity.jwt.services.UserAccessService;
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.JWToken;
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.LoginRequest;
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.UserData;
+import itx.examples.springboot.security.springsecurity.jwt.services.dto.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +33,8 @@ public class SecurityRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserData> login(@RequestBody LoginRequest loginRequest) {
-        Optional<UserData> userData = userAccessService.login(loginRequest);
+    public ResponseEntity<UserData> login(@RequestBody LoginUserNamePasswordRequest loginRequest) {
+        Optional<UserData> userData = userAccessService.login(new LoginRequest(UserId.from(loginRequest.getUserName()), loginRequest.getPassword()));
         if (userData.isPresent()) {
             return ResponseEntity.ok().body(userData.get());
         }
