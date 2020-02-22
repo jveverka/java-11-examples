@@ -1,5 +1,6 @@
 package itx.examples.springboot.security.springsecurity.jwt.services;
 
+import itx.examples.springboot.security.springsecurity.jwt.services.dto.UserId;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class KeyStoreServiceImpl implements KeyStoreService {
 
     private final KeyStore keystore;
     private final Key caKey;
-    private final Map<String, KeyPair> keyCache;
+    private final Map<UserId, KeyPair> keyCache;
     private final KeyPairGenerator keyPairGenerator;
 
     public KeyStoreServiceImpl() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableKeyException {
@@ -42,7 +43,7 @@ public class KeyStoreServiceImpl implements KeyStoreService {
     }
 
     @Override
-    public Key createUserKey(String userId) {
+    public Key createUserKey(UserId userId) {
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
         //TODO: sign user's certificate using company CA.
         keyCache.put(userId, keyPair);
@@ -50,7 +51,7 @@ public class KeyStoreServiceImpl implements KeyStoreService {
     }
 
     @Override
-    public Optional<Key> getUserKey(String userId) {
+    public Optional<Key> getUserKey(UserId userId) {
         KeyPair pair = keyCache.get(userId);
         if (pair != null) {
             return Optional.of(keyCache.get(userId).getPrivate());
@@ -60,7 +61,7 @@ public class KeyStoreServiceImpl implements KeyStoreService {
     }
 
     @Override
-    public boolean removeUserKey(String userId) {
+    public boolean removeUserKey(UserId userId) {
         return keyCache.remove(userId) != null;
     }
 

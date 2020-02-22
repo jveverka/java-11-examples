@@ -1,5 +1,7 @@
 package itx.examples.springboot.security.springsecurity.jwt.services;
 
+import itx.examples.springboot.security.springsecurity.jwt.services.dto.UserId;
+
 import java.security.Key;
 import java.util.Optional;
 
@@ -19,20 +21,20 @@ public interface KeyStoreService {
      * @param userId
      * @return
      */
-    Key createUserKey(String userId);
+    Key createUserKey(UserId userId);
 
     /**
      * Get user key from cache.
      * @param userId
      * @return
      */
-    Optional<Key> getUserKey(String userId);
+    Optional<Key> getUserKey(UserId userId);
 
     /**
      * Remove user key from cache.
      * @param userId
      * @return
      */
-    boolean removeUserKey(String userId);
+    boolean removeUserKey(UserId userId);
 
 }

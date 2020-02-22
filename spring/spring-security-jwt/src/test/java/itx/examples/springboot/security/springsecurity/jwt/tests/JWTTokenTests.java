@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.lang.Assert;
 import itx.examples.springboot.security.springsecurity.jwt.services.KeyStoreService;
 import itx.examples.springboot.security.springsecurity.jwt.services.KeyStoreServiceImpl;
+import itx.examples.springboot.security.springsecurity.jwt.services.dto.UserId;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +30,7 @@ public class JWTTokenTests {
         KeyStoreService keyStoreService = new KeyStoreServiceImpl();
         long nowDate = LocalDate.now().toEpochSecond(LocalTime.now(), ZoneOffset.ofHours(0))*1000;
         long expirationDate = (nowDate + 3600*24)*1000;
-        String userName = "UserName";
+        UserId userName = UserId.from("UserName");
         String issuer = "Issuer";
         List<String> roles = Lists.list("ROLE_USER", "ROLE_ADMIN");
         Key key = keyStoreService.createUserKey(userName);
@@ -37,7 +38,7 @@ public class JWTTokenTests {
 
         //1. create JWT token
         String jwtToken = Jwts.builder()
-                .setSubject(userName)
+                .setSubject(userName.getId())
                 .signWith(key)
                 .setExpiration(new Date(expirationDate))
                 .setIssuer(issuer)
@@ -54,7 +55,7 @@ public class JWTTokenTests {
         Assert.isTrue(rolesFromJWT.size() == 2);
 
         String subjectFromJWT = claimsJws.getBody().getSubject();
-        Assert.isTrue(userName.equals(subjectFromJWT));
+        Assert.isTrue(userName.equals(UserId.from(subjectFromJWT)));
 
         String issuerFromJWT = claimsJws.getBody().getIssuer();
         Assert.isTrue(issuer.equals(issuerFromJWT));
@@ -63,7 +64,7 @@ public class JWTTokenTests {
     @Test
     public void testKeystoreServiceCache() throws UnrecoverableKeyException, CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
         KeyStoreService keyStoreService = new KeyStoreServiceImpl();
-        String userName = "UserName";
+        UserId userName = UserId.from("UserName");
         Key userNameKey = keyStoreService.createUserKey(userName);
         Assert.notNull(userNameKey);
         Optional<Key> userKey = keyStoreService.getUserKey(userName);
