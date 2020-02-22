@@ -51,7 +51,12 @@ public class KeyStoreServiceImpl implements KeyStoreService {
 
     @Override
     public Optional<Key> getUserKey(String userId) {
-        return Optional.ofNullable(keyCache.get(userId).getPrivate());
+        KeyPair pair = keyCache.get(userId);
+        if (pair != null) {
+            return Optional.of(keyCache.get(userId).getPrivate());
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override

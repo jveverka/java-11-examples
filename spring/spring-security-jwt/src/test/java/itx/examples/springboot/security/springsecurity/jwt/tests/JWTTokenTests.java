@@ -20,6 +20,7 @@ import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class JWTTokenTests {
 
@@ -60,10 +61,17 @@ public class JWTTokenTests {
     }
 
     @Test
-    public void createUserCertificate() throws UnrecoverableKeyException, CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
+    public void testKeystoreServiceCache() throws UnrecoverableKeyException, CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
         KeyStoreService keyStoreService = new KeyStoreServiceImpl();
-        Key userName = keyStoreService.createUserKey("UserName");
-        Assert.notNull(userName);
+        String userName = "UserName";
+        Key userNameKey = keyStoreService.createUserKey(userName);
+        Assert.notNull(userNameKey);
+        Optional<Key> userKey = keyStoreService.getUserKey(userName);
+        Assert.isTrue(userKey.isPresent());
+        boolean removed = keyStoreService.removeUserKey(userName);
+        Assert.isTrue(removed);
+        userKey = keyStoreService.getUserKey(userName);
+        Assert.isTrue(userKey.isEmpty());
     }
 
 
