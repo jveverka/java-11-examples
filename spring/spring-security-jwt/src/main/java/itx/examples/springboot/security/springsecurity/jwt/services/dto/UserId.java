@@ -37,5 +37,5 @@ public class UserId {
                 "id='" + id + '\'' +
                 '}';
     }
-    
+
 }

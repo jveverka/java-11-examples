@@ -1,22 +1,18 @@
 package itx.examples.springboot.security.springsecurity.jwt.services.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class LoginRequest {
 
-    private final String userName;
+    private final UserId userId;
     private final String password;
 
-    @JsonCreator
-    public LoginRequest(@JsonProperty("userName") String userName,
-                        @JsonProperty("password") String password) {
-        this.userName = userName;
+    public LoginRequest(UserId userId,
+                        String password) {
+        this.userId = userId;
         this.password = password;
     }
 
-    public String getUserName() {
-        return userName;
+    public UserId getUserId() {
+        return userId;
     }
 
     public String getPassword() {

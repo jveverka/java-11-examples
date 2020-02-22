@@ -12,22 +12,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/services/security/")
 public class SecurityRestController {
 
-    @Autowired
-    private UserAccessService userAccessService;
+    private final UserAccessService userAccessService;
 
     @Autowired
-    private HttpSession httpSession;
+    public SecurityRestController(UserAccessService userAccessService) {
+        this.userAccessService = userAccessService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<UserData> login(@RequestBody LoginRequest loginRequest) {
-        Optional<UserData> userData = userAccessService.login(httpSession.getId(), loginRequest);
+        Optional<UserData> userData = userAccessService.login(loginRequest);
         if (userData.isPresent()) {
             return ResponseEntity.ok().body(userData.get());
         }
@@ -36,7 +36,6 @@ public class SecurityRestController {
 
     @GetMapping("/logout")
     public ResponseEntity logout() {
-        userAccessService.logout(httpSession.getId());
         return ResponseEntity.ok().build();
     }
 }

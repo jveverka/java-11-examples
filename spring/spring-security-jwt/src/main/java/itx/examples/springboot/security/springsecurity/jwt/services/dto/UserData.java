@@ -5,35 +5,44 @@ import java.util.Set;
 
 public class UserData {
 
-    private final String userName;
-    private final String password;
+    private final UserId userId;
     private final Set<RoleId> roles;
+    private final JWToken jwToken;
 
-    public UserData(String userName, String password, Set<RoleId> roles) {
-        this.userName = userName;
-        this.password = password;
+    public UserData(UserId userId, JWToken jwToken, Set<RoleId> roles) {
+        this.userId = userId;
         this.roles = roles;
+        this.jwToken = jwToken;
     }
 
-    public UserData(String userName, String password, String ... roles) {
-        this.userName = userName;
-        this.password = password;
+    public UserData(UserId userId, JWToken jwToken, String ... roles) {
+        this.userId = userId;
         this.roles = new HashSet<>();
         for (String role: roles) {
             this.roles.add(new RoleId(role));
         }
+        this.jwToken = jwToken;
     }
 
-    public String getUserName() {
-        return userName;
+    public UserData(UserId userId, String ... roles) {
+        this.userId = userId;
+        this.roles = new HashSet<>();
+        for (String role: roles) {
+            this.roles.add(new RoleId(role));
+        }
+        this.jwToken = null;
     }
 
-    public boolean verifyPassword(String password) {
-        return this.password.equals(password);
+    public UserId getUserId() {
+        return userId;
     }
 
     public Set<RoleId> getRoles() {
         return roles;
+    }
+
+    public JWToken getJwToken() {
+        return jwToken;
     }
 
 }
