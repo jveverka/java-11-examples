@@ -2,9 +2,9 @@
 
 Really simple spring security demo. This demo application has following REST end-points:
 
-* __security__ - login / logout.
+* __security__ - login / logout - provides JWT for clients, force invalidate client's JWT.
 * __protected data__ - accessible only after login for clients with valid JWT.
-* __public data__ - accessible to any client, no login required.
+* __public data__ - accessible to any client, no login (no JWT) required.
 
 Public data is open, accessible without login. Protected data is accessible only after login. 
 After login, each request must include ``Authorization: Bearer <token>`` field in http header.
