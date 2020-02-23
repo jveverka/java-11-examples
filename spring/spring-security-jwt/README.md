@@ -36,7 +36,7 @@ issue JWT for the client as well as verify each JWT from same client.
   ```
   {
       "userId": {
-          "id": "joe"
+          "id": "jane"
       },
       "roles": [
           { "id": "ROLE_USER" }, { "id": "ROLE_ADMIN" }
@@ -46,7 +46,7 @@ issue JWT for the client as well as verify each JWT from same client.
       }
   }
   ```
-  jwToken string must be used in http header for each request
+  jwToken string must be used in http header for each subsequent request.
   ```
   Authorization: Bearer <token>
   ```
