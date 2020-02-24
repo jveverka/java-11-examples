@@ -30,9 +30,9 @@ public class DataRestController {
     @GetMapping("/users/all")
     public ResponseEntity<ServerData> getForUsersData(Authentication authentication) {
         LOG.info("getData: authentication={}", authentication.getName());
-        authentication.getAuthorities().forEach(a->{
-            LOG.info("  authority={}", a.getAuthority());
-        });
+        authentication.getAuthorities().forEach(a ->
+            LOG.info("  authority={}", a.getAuthority())
+        );
         return ResponseEntity.ok().body(dataService.getSecuredData("Secured for USER/ADMIN " + authentication.getName()));
     }
 
@@ -40,9 +40,9 @@ public class DataRestController {
     @GetMapping("/admins/all")
     public ResponseEntity<ServerData> getDataForAdmins(Authentication authentication) {
         LOG.info("getData: authentication={}", authentication.getName());
-        authentication.getAuthorities().forEach(a->{
-            LOG.info("  authority={}", a.getAuthority());
-        });
+        authentication.getAuthorities().forEach(a ->
+            LOG.info("  authority={}", a.getAuthority())
+        );
         return ResponseEntity.ok().body(dataService.getSecuredData("Secured for ADMIN " + authentication.getName()));
     }
 

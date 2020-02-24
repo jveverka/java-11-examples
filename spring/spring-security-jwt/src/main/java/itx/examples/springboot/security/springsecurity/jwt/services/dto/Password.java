@@ -2,18 +2,18 @@ package itx.examples.springboot.security.springsecurity.jwt.services.dto;
 
 public class Password {
 
-    private final String password;
+    private final String value;
 
-    public Password(String password) {
-        this.password = password;
+    public Password(String value) {
+        this.value = value;
     }
 
-    public boolean verify(String password) {
-        return password.equals(password);
+    public boolean verify(String value) {
+        return this.value.equals(value);
     }
 
-    public static Password from(String password) {
-        return new Password(password);
+    public static Password from(String value) {
+        return new Password(value);
     }
 
 }

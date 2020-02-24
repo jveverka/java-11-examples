@@ -88,7 +88,7 @@ public class JWTTokenTests {
         JwtParser parser = Jwts.parserBuilder().build();
         Jwt jwt = parser.parse(jwtTokenWithoutSignature);
         DefaultClaims body = (DefaultClaims)jwt.getBody();
-        String subjectFromJWT = body.get("sub", String.class);
+        String subjectFromJWT = body.get(Claims.SUBJECT, String.class);
         Assert.isTrue(userName.equals(UserId.from(subjectFromJWT)));
     }
 

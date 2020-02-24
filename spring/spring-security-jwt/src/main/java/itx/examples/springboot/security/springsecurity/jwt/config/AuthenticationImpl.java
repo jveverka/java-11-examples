@@ -20,9 +20,9 @@ public class AuthenticationImpl implements Authentication {
     public AuthenticationImpl(String name, Set<RoleId> roles) {
         this.name = name;
         List<GrantedAuthorityImpl> authorities = new ArrayList<>();
-        roles.forEach(r->{
-            authorities.add(new GrantedAuthorityImpl(r.getId()));
-        });
+        roles.forEach(r->
+            authorities.add(new GrantedAuthorityImpl(r.getId()))
+        );
         this.grantedAuthorities = Collections.unmodifiableCollection(authorities);
         this.isAuthenticated = true;
     }

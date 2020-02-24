@@ -1,5 +1,6 @@
 package itx.examples.springboot.security.springsecurity.jwt.services;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.impl.DefaultClaims;
@@ -69,7 +70,7 @@ public class UserAccessServiceImpl implements UserAccessService {
         String jwTokenWithoutSignature = JWTUtils.removeSignature(jwToken.getToken());
         Jwt jwt = Jwts.parserBuilder().build().parse(jwTokenWithoutSignature);
         DefaultClaims body = (DefaultClaims)jwt.getBody();
-        String subject = body.get("sub", String.class);
+        String subject = body.get(Claims.SUBJECT, String.class);
         UserId userId = UserId.from(subject);
         UserData userData = users.get(userId);
         if (userData != null) {
@@ -92,7 +93,7 @@ public class UserAccessServiceImpl implements UserAccessService {
         String jwTokenWithoutSignature = JWTUtils.removeSignature(jwToken.getToken());
         Jwt jwt = Jwts.parserBuilder().build().parse(jwTokenWithoutSignature);
         DefaultClaims body = (DefaultClaims)jwt.getBody();
-        String subject = body.get("sub", String.class);
+        String subject = body.get(Claims.SUBJECT, String.class);
         UserId userId = UserId.from(subject);
         UserData userData = users.get(userId);
         if (userData != null) {
