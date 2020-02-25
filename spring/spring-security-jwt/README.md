@@ -1,6 +1,7 @@
 # Simple SpringBoot security JWT demo
 
-Really simple spring security demo. This demo application has following REST end-points:
+Really simple spring security demo. [JWT]((https://tools.ietf.org/html/rfc7519)) value tokens are used for client session tracking. 
+This demo application has following REST end-points:
 
 * __security__ - login / logout - provides JWT for clients, force invalidate client's JWT.
 * __protected data__ - accessible only after login for clients with valid JWT.
@@ -8,7 +9,7 @@ Really simple spring security demo. This demo application has following REST end
 
 Public data is open, accessible without login. Protected data is accessible only after login. 
 After login, each request must include ``Authorization: Bearer <token>`` field in http header.
-This field contains [JWT](https://tools.ietf.org/html/rfc7519) token issued by login action. 
+This field contains JWT token issued by login action. 
 
 * __Authentication__ is handled by internal service ``itx.examples.springboot.security.springsecurity.jwt.services.UserAccessService``
 * __Authorization__ is handled by Spring's Method Security, RBAC model is used.
@@ -62,10 +63,10 @@ GET protected data for different user roles:
 * __GET__ http://localhost:8888/services/data/admins/all (ROLE_ADMIN)
 
 ### Get public data
-* __GET__ http://localhost:8888/services/public/data/all (no login required)
+* __GET__ http://localhost:8888/services/public/data/all (ROLE_PUBLIC, or no login required)
 
 ### Build and run
 ```
-gradle clean build 
+gradle clean build test
 java -jar build/libs/spring-security-jwt-0.0.1-SNAPSHOT.jar 
 ```
