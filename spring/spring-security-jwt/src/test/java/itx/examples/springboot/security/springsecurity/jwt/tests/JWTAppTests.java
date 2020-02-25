@@ -102,4 +102,46 @@ public class JWTAppTests {
         assertTrue(response.getStatusCode() == HttpStatus.OK);
     }
 
+    @Test
+    @Order(6)
+    public void getProtectedDataUsersInvalidAccessToken() throws MalformedURLException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + jwToken);
+        HttpEntity<Void> request = new HttpEntity<>(headers);
+        ResponseEntity<ServerData> response = restTemplate.exchange(
+                new URL("http://localhost:" + port + "/services/data/users/all").toString(), HttpMethod.GET, request, ServerData.class);
+        assertTrue(response.getStatusCode() == HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    @Order(7)
+    public void getProtectedDataAdminsInvalidAccessToken() throws MalformedURLException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + jwToken);
+        HttpEntity<Void> request = new HttpEntity<>(headers);
+        ResponseEntity<ServerData> response = restTemplate.exchange(
+                new URL("http://localhost:" + port + "/services/data/admins/all").toString(), HttpMethod.GET, request, ServerData.class);
+        assertTrue(response.getStatusCode() == HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    @Order(8)
+    public void logoutInvalidAccessToken() throws MalformedURLException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + jwToken);
+        HttpEntity<Void> request = new HttpEntity<>(headers);
+        ResponseEntity<Void> response = restTemplate.exchange(
+                new URL("http://localhost:" + port + "/services/security/logout").toString(), HttpMethod.GET, request, Void.class);
+        assertTrue(response.getStatusCode() == HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    @Order(9)
+    public void loginInvalid() throws MalformedURLException {
+        LoginUserNamePasswordRequest loginUserNamePasswordRequest = new LoginUserNamePasswordRequest("jane", "zzzzz");
+        ResponseEntity<UserData> response = restTemplate.postForEntity(
+                new URL("http://localhost:" + port + "/services/security/login").toString(), loginUserNamePasswordRequest, UserData.class);
+        assertTrue(response.getStatusCode() == HttpStatus.FORBIDDEN);
+    }
+
 }
