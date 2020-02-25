@@ -1,12 +1,14 @@
 package itx.examples.springboot.security.springsecurity.jwt.services;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.impl.DefaultClaims;
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.JWToken;
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.LoginRequest;
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.Password;
+import itx.examples.springboot.security.springsecurity.jwt.services.dto.RoleId;
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.UserData;
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.UserId;
 import org.slf4j.Logger;
@@ -19,9 +21,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Service
 public class UserAccessServiceImpl implements UserAccessService {
@@ -48,13 +52,14 @@ public class UserAccessServiceImpl implements UserAccessService {
             Key key = keyStoreService.createUserKey(userId);
             long nowDate = LocalDate.now().toEpochSecond(LocalTime.now(), ZoneOffset.ofHours(0))*1000;
             long expirationDate = (nowDate + 3600*24)*1000;
+            List<String> roles = userData.getRoles().stream().map(RoleId::getId).collect(Collectors.toList());
             String jwToken = Jwts.builder()
                     .setSubject(userId.getId())
                     .signWith(key)
                     .setExpiration(new Date(expirationDate))
                     .setIssuer("issuer")
                     .setIssuedAt(new Date(nowDate))
-                    .claim("roles", userData.getRoles())
+                    .claim("roles", roles)
                     .compact();
             UserData userDataWithJwToken = UserData.from(userData, JWToken.from(jwToken));
             users.put(userId, userDataWithJwToken);
@@ -66,7 +71,7 @@ public class UserAccessServiceImpl implements UserAccessService {
     }
 
     @Override
-    public Optional<UserData> isAuthenticated(JWToken jwToken) {
+    public Optional<Jws<Claims>> isAuthenticated(JWToken jwToken) {
         String jwTokenWithoutSignature = JWTUtils.removeSignature(jwToken.getToken());
         Jwt jwt = Jwts.parserBuilder().build().parse(jwTokenWithoutSignature);
         DefaultClaims body = (DefaultClaims)jwt.getBody();
@@ -76,9 +81,8 @@ public class UserAccessServiceImpl implements UserAccessService {
         if (userData != null) {
             Optional<Key> userKey = keyStoreService.getUserKey(userId);
             if (userKey.isPresent()) {
-                Jwts.parserBuilder().setSigningKey(userKey.get()).build().parseClaimsJws(jwToken.getToken());
-                //TODO: re-generate JWT token if sliding window validity is required.
-                return Optional.of(userData);
+                Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(userKey.get()).build().parseClaimsJws(jwToken.getToken());
+                return Optional.of(claimsJws);
             } else {
                 LOG.warn("key for user {} not found !", userId.getId());
             }

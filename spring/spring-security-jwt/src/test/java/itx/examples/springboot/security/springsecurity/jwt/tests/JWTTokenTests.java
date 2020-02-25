@@ -12,8 +12,8 @@ import itx.examples.springboot.security.springsecurity.jwt.services.KeyStoreInit
 import itx.examples.springboot.security.springsecurity.jwt.services.KeyStoreService;
 import itx.examples.springboot.security.springsecurity.jwt.services.KeyStoreServiceImpl;
 import itx.examples.springboot.security.springsecurity.jwt.services.dto.UserId;
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.util.collections.Sets;
 
 import java.security.Key;
 import java.time.LocalDate;
@@ -22,6 +22,7 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class JWTTokenTests {
 
@@ -32,7 +33,7 @@ public class JWTTokenTests {
         long expirationDate = (nowDate + 3600*24)*1000;
         UserId userName = UserId.from("UserName");
         String issuer = "Issuer";
-        List<String> roles = Lists.list("ROLE_USER", "ROLE_ADMIN");
+        Set<String> roles = Sets.newSet("ROLE_USER", "ROLE_ADMIN");
         Key key = keyStoreService.createUserKey(userName);
         Assert.notNull(key);
 
@@ -68,7 +69,7 @@ public class JWTTokenTests {
         long expirationDate = (nowDate + 3600*24)*1000;
         UserId userName = UserId.from("UserName");
         String issuer = "Issuer";
-        List<String> roles = Lists.list("ROLE_USER", "ROLE_ADMIN");
+        Set<String> roles = Sets.newSet("ROLE_USER", "ROLE_ADMIN");
         Key key = keyStoreService.createUserKey(userName);
         Assert.notNull(key);
 
