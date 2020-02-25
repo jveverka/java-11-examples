@@ -1,5 +1,8 @@
 package itx.examples.springboot.security.springsecurity.jwt.services.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,6 +12,16 @@ public class UserData {
     private final Password password;
     private final Set<RoleId> roles;
     private final JWToken jwToken;
+
+    @JsonCreator
+    public UserData(@JsonProperty("userId") UserId userId,
+                    @JsonProperty("jwToken") JWToken jwToken,
+                    @JsonProperty("roles") Set<RoleId> roles) {
+        this.userId = userId;
+        this.password = null;
+        this.roles = roles;
+        this.jwToken = jwToken;
+    }
 
     public UserData(UserId userId, Password password, JWToken jwToken, Set<RoleId> roles) {
         this.userId = userId;
@@ -22,16 +35,6 @@ public class UserData {
         this.password = password;
         this.roles = roles;
         this.jwToken = null;
-    }
-
-    public UserData(UserId userId, Password password, JWToken jwToken, String ... roles) {
-        this.userId = userId;
-        this.password = password;
-        this.roles = new HashSet<>();
-        for (String role: roles) {
-            this.roles.add(new RoleId(role));
-        }
-        this.jwToken = jwToken;
     }
 
     public UserData(UserId userId, Password password, String ... roles) {
@@ -57,6 +60,9 @@ public class UserData {
     }
 
     public boolean verifyPassword(String password) {
+        if (this.password == null) {
+            return false;
+        }
         return this.password.verify(password);
     }
 

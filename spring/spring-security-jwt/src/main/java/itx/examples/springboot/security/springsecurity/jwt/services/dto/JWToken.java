@@ -1,10 +1,14 @@
 package itx.examples.springboot.security.springsecurity.jwt.services.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class JWToken {
 
     private final String token;
 
-    public JWToken(String token) {
+    @JsonCreator
+    public JWToken(@JsonProperty("token") String token) {
         this.token = token;
     }
 
