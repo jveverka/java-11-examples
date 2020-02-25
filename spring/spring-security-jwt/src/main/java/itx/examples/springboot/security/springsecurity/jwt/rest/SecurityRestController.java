@@ -37,15 +37,19 @@ public class SecurityRestController {
         Optional<UserData> userData = userAccessService.login(new LoginRequest(UserId.from(loginRequest.getUserName()), loginRequest.getPassword()));
         if (userData.isPresent()) {
             return ResponseEntity.ok().body(userData.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @GetMapping("/logout")
     public ResponseEntity logout() {
         String authorization = request.getHeader("Authorization");
         JWToken jwToken = JWToken.from(JWTUtils.extractJwtToken(authorization));
-        userAccessService.logout(jwToken);
-        return ResponseEntity.ok().build();
+        if (userAccessService.logout(jwToken)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 }

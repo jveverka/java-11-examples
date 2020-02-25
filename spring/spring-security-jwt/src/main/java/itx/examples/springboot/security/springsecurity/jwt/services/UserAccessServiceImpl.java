@@ -71,53 +71,63 @@ public class UserAccessServiceImpl implements UserAccessService {
     }
 
     @Override
-    public Optional<Jws<Claims>> isAuthenticated(JWToken jwToken) {
-        String jwTokenWithoutSignature = JWTUtils.removeSignature(jwToken.getToken());
-        Jwt jwt = Jwts.parserBuilder().build().parse(jwTokenWithoutSignature);
-        DefaultClaims body = (DefaultClaims)jwt.getBody();
-        String subject = body.get(Claims.SUBJECT, String.class);
-        UserId userId = UserId.from(subject);
-        UserData userData = users.get(userId);
-        if (userData != null) {
-            Optional<Key> userKey = keyStoreService.getUserKey(userId);
-            if (userKey.isPresent()) {
-                Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(userKey.get()).build().parseClaimsJws(jwToken.getToken());
-                return Optional.of(claimsJws);
+    public Optional<Jws<Claims>> validate(JWToken jwToken) {
+        try {
+            String jwTokenWithoutSignature = JWTUtils.removeSignature(jwToken.getToken());
+            Jwt jwt = Jwts.parserBuilder().build().parse(jwTokenWithoutSignature);
+            DefaultClaims body = (DefaultClaims) jwt.getBody();
+            String subject = body.get(Claims.SUBJECT, String.class);
+            UserId userId = UserId.from(subject);
+            UserData userData = users.get(userId);
+            if (userData != null) {
+                Optional<Key> userKey = keyStoreService.getUserKey(userId);
+                if (userKey.isPresent()) {
+                    Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(userKey.get()).build().parseClaimsJws(jwToken.getToken());
+                    return Optional.of(claimsJws);
+                } else {
+                    LOG.warn("key for user {} not found !", userId.getId());
+                }
             } else {
-                LOG.warn("key for user {} not found !", userId.getId());
+                LOG.warn("user data for {} not found !", userId.getId());
             }
-        } else {
-            LOG.warn("user data for {} not found !", userId.getId());
+        } catch (Exception e) {
+            LOG.error("token validation failed !", e);
         }
         return Optional.empty();
     }
 
     @Override
-    public void logout(JWToken jwToken) {
-        String jwTokenWithoutSignature = JWTUtils.removeSignature(jwToken.getToken());
-        Jwt jwt = Jwts.parserBuilder().build().parse(jwTokenWithoutSignature);
-        DefaultClaims body = (DefaultClaims)jwt.getBody();
-        String subject = body.get(Claims.SUBJECT, String.class);
-        UserId userId = UserId.from(subject);
-        UserData userData = users.get(userId);
-        if (userData != null) {
-            Optional<Key> userKey = keyStoreService.getUserKey(userId);
-            if (userKey.isPresent()) {
-                try {
-                    Jwts.parserBuilder().setSigningKey(userKey.get()).build().parseClaimsJws(jwToken.getToken());
-                    keyStoreService.removeUserKey(userId);
-                    UserData userDataNoJwt = UserData.cloneAndRemoveJwToken(userData);
-                    users.put(userId, userDataNoJwt);
-                    LOG.info("user {} logout.", userId.getId());
-                } catch (Exception e) {
-                    LOG.warn("JWT verification failed for {} not found !", userId.getId());
+    public boolean logout(JWToken jwToken) {
+        try {
+            String jwTokenWithoutSignature = JWTUtils.removeSignature(jwToken.getToken());
+            Jwt jwt = Jwts.parserBuilder().build().parse(jwTokenWithoutSignature);
+            DefaultClaims body = (DefaultClaims) jwt.getBody();
+            String subject = body.get(Claims.SUBJECT, String.class);
+            UserId userId = UserId.from(subject);
+            UserData userData = users.get(userId);
+            if (userData != null) {
+                Optional<Key> userKey = keyStoreService.getUserKey(userId);
+                if (userKey.isPresent()) {
+                    try {
+                        Jwts.parserBuilder().setSigningKey(userKey.get()).build().parseClaimsJws(jwToken.getToken());
+                        keyStoreService.removeUserKey(userId);
+                        UserData userDataNoJwt = UserData.cloneAndRemoveJwToken(userData);
+                        users.put(userId, userDataNoJwt);
+                        LOG.info("user {} logout.", userId.getId());
+                        return true;
+                    } catch (Exception e) {
+                        LOG.warn("JWT verification failed for {} not found !", userId.getId());
+                    }
+                } else {
+                    LOG.warn("key for user {} not found !", userId.getId());
                 }
             } else {
-                LOG.warn("key for user {} not found !", userId.getId());
+                LOG.warn("user data for {} not found !", userId.getId());
             }
-        } else {
-            LOG.warn("user data for {} not found !", userId.getId());
+        } catch (Exception e) {
+            LOG.error("token validation failed !", e);
         }
+        return false;
     }
 
 }

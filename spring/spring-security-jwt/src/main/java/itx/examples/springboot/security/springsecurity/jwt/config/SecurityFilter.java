@@ -43,7 +43,7 @@ public class SecurityFilter implements Filter {
         String authorization = httpServletRequest.getHeader("Authorization");
         if (authorization != null) {
             JWToken jwToken = JWToken.from(JWTUtils.extractJwtToken(authorization));
-            Optional<Jws<Claims>> verifiedClaims = userAccessService.isAuthenticated(jwToken);
+            Optional<Jws<Claims>> verifiedClaims = userAccessService.validate(jwToken);
             if (verifiedClaims.isPresent()) {
                 SecurityContext securityContext = SecurityContextHolder.getContext();
                 String userIdFromJWT = verifiedClaims.get().getBody().getSubject();
