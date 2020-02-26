@@ -36,13 +36,13 @@ public class DataServiceRest {
         DataMessage responseMessage = new DataMessage(dataMessage.getData());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<DataMessage>(responseMessage, responseHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(responseMessage, responseHeaders, HttpStatus.OK);
     }
 
     @GetMapping(path = "/echo/{message}", produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<DataMessage> getEcho(@PathVariable String message) {
         DataMessage responseMessage = new DataMessage(message);
-        return new ResponseEntity<DataMessage>(responseMessage, HttpStatus.OK);
+        return new ResponseEntity<>(responseMessage, HttpStatus.OK);
     }
 
     @PostMapping(path = "/generics", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

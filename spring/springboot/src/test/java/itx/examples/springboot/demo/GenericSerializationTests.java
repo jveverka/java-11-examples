@@ -22,7 +22,6 @@ public class GenericSerializationTests {
         GenericRequest genericRequest = objectMapper.readValue(jsonData, GenericRequest.class);
         Assert.assertNotNull(genericRequest);
         Assert.assertTrue(genericRequest.getData() instanceof SimpleDataPayload);
-
     }
 
 }
