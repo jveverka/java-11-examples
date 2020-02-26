@@ -14,12 +14,10 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,7 +42,7 @@ public class JWTAppTests {
     public void getPublicData() throws MalformedURLException {
         ResponseEntity<ServerData> response = restTemplate.getForEntity(
                 new URL("http://localhost:" + port + "/services/public/data/all").toString(), ServerData.class);
-        assertTrue(response.getStatusCode() == HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         ServerData serverData = response.getBody();
         assertNotNull(serverData);
         assertNotNull(serverData.getData());
@@ -58,7 +56,7 @@ public class JWTAppTests {
         LoginUserNamePasswordRequest loginUserNamePasswordRequest = new LoginUserNamePasswordRequest("jane", "secret");
         ResponseEntity<UserData> response = restTemplate.postForEntity(
                 new URL("http://localhost:" + port + "/services/security/login").toString(), loginUserNamePasswordRequest, UserData.class);
-        assertTrue(response.getStatusCode() == HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         UserData userData = response.getBody();
         assertNotNull(userData);
         jwToken = userData.getJwToken().getToken();
@@ -73,7 +71,7 @@ public class JWTAppTests {
         HttpEntity<Void> request = new HttpEntity<>(headers);
         ResponseEntity<ServerData> response = restTemplate.exchange(
                 new URL("http://localhost:" + port + "/services/data/users/all").toString(), HttpMethod.GET, request, ServerData.class);
-        assertTrue(response.getStatusCode() == HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         ServerData serverData = response.getBody();
         assertNotNull(serverData);
     }
@@ -86,7 +84,7 @@ public class JWTAppTests {
         HttpEntity<Void> request = new HttpEntity<>(headers);
         ResponseEntity<ServerData> response = restTemplate.exchange(
                 new URL("http://localhost:" + port + "/services/data/admins/all").toString(), HttpMethod.GET, request, ServerData.class);
-        assertTrue(response.getStatusCode() == HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         ServerData serverData = response.getBody();
         assertNotNull(serverData);
     }
@@ -99,7 +97,7 @@ public class JWTAppTests {
         HttpEntity<Void> request = new HttpEntity<>(headers);
         ResponseEntity<Void> response = restTemplate.exchange(
                 new URL("http://localhost:" + port + "/services/security/logout").toString(), HttpMethod.GET, request, Void.class);
-        assertTrue(response.getStatusCode() == HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
@@ -110,7 +108,7 @@ public class JWTAppTests {
         HttpEntity<Void> request = new HttpEntity<>(headers);
         ResponseEntity<ServerData> response = restTemplate.exchange(
                 new URL("http://localhost:" + port + "/services/data/users/all").toString(), HttpMethod.GET, request, ServerData.class);
-        assertTrue(response.getStatusCode() == HttpStatus.FORBIDDEN);
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
     }
 
     @Test
@@ -121,7 +119,7 @@ public class JWTAppTests {
         HttpEntity<Void> request = new HttpEntity<>(headers);
         ResponseEntity<ServerData> response = restTemplate.exchange(
                 new URL("http://localhost:" + port + "/services/data/admins/all").toString(), HttpMethod.GET, request, ServerData.class);
-        assertTrue(response.getStatusCode() == HttpStatus.FORBIDDEN);
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
     }
 
     @Test
@@ -132,7 +130,7 @@ public class JWTAppTests {
         HttpEntity<Void> request = new HttpEntity<>(headers);
         ResponseEntity<Void> response = restTemplate.exchange(
                 new URL("http://localhost:" + port + "/services/security/logout").toString(), HttpMethod.GET, request, Void.class);
-        assertTrue(response.getStatusCode() == HttpStatus.FORBIDDEN);
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
     }
 
     @Test
@@ -141,7 +139,7 @@ public class JWTAppTests {
         LoginUserNamePasswordRequest loginUserNamePasswordRequest = new LoginUserNamePasswordRequest("jane", "zzzzz");
         ResponseEntity<UserData> response = restTemplate.postForEntity(
                 new URL("http://localhost:" + port + "/services/security/login").toString(), loginUserNamePasswordRequest, UserData.class);
-        assertTrue(response.getStatusCode() == HttpStatus.FORBIDDEN);
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
     }
 
 }
