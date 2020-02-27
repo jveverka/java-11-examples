@@ -63,7 +63,7 @@ GET protected data for different user roles:
 * __GET__ http://localhost:8888/services/data/admins/all (ROLE_ADMIN)
 
 ### Get public data
-* __GET__ http://localhost:8888/services/public/data/all (ROLE_PUBLIC, or no login required)
+* __GET__ http://localhost:8888/services/public/data/all (all roles, ROLE_PUBLIC, or no login required)
 
 ### Build and run
 ```
