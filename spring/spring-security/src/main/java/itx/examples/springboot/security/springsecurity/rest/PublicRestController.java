@@ -16,8 +16,12 @@ public class PublicRestController {
 
     private static final Logger LOG = LoggerFactory.getLogger(PublicRestController.class);
 
+    private final DataService dataService;
+
     @Autowired
-    private DataService dataService;
+    public PublicRestController(DataService dataService) {
+        this.dataService = dataService;
+    }
 
     @GetMapping("/data/all")
     public ResponseEntity<ServerData> getData() {

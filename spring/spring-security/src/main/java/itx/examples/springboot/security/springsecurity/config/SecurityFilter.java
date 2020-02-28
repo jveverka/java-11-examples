@@ -1,6 +1,7 @@
 package itx.examples.springboot.security.springsecurity.config;
 
 import itx.examples.springboot.security.springsecurity.services.UserAccessService;
+import itx.examples.springboot.security.springsecurity.services.dto.SessionId;
 import itx.examples.springboot.security.springsecurity.services.dto.UserData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,11 +33,11 @@ public class SecurityFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest)request;
-        String sessionId = httpServletRequest.getSession(true).getId();
+        SessionId sessionId = SessionId.from(httpServletRequest.getSession(true).getId());
         Optional<UserData> userData = userAccessService.isAuthenticated(sessionId);
         if (userData.isPresent()) {
             SecurityContext securityContext = SecurityContextHolder.getContext();
-            securityContext.setAuthentication(new AuthenticationImpl(userData.get().getUserName(), userData.get().getRoles()));
+            securityContext.setAuthentication(new AuthenticationImpl(userData.get().getUserId().getId(), userData.get().getRoles()));
             HttpSession session = httpServletRequest.getSession();
             session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
             chain.doFilter(request, response);

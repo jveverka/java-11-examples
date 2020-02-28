@@ -19,8 +19,12 @@ public class DataRestController {
 
     private static final Logger LOG = LoggerFactory.getLogger(DataRestController.class);
 
+    private final DataService dataService;
+
     @Autowired
-    private DataService dataService;
+    public DataRestController(DataService dataService) {
+        this.dataService = dataService;
+    }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/users/all")

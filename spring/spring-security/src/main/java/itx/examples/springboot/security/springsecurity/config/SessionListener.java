@@ -1,6 +1,7 @@
 package itx.examples.springboot.security.springsecurity.config;
 
 import itx.examples.springboot.security.springsecurity.services.UserAccessService;
+import itx.examples.springboot.security.springsecurity.services.dto.SessionId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -39,7 +40,7 @@ public class SessionListener implements HttpSessionListener, HttpSessionIdListen
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
         LOG.info("sessionDestroyed: {}", se.getSession().getId());
-        userAccessService.logout(se.getSession().getId());
+        userAccessService.logout(SessionId.from(se.getSession().getId()));
     }
 
     @Override

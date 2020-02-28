@@ -2,6 +2,7 @@ package itx.examples.springboot.security.springsecurity.rest;
 
 import itx.examples.springboot.security.springsecurity.services.UserAccessService;
 import itx.examples.springboot.security.springsecurity.services.dto.LoginRequest;
+import itx.examples.springboot.security.springsecurity.services.dto.SessionId;
 import itx.examples.springboot.security.springsecurity.services.dto.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,15 +20,18 @@ import java.util.Optional;
 @RequestMapping("/services/security/")
 public class SecurityRestController {
 
-    @Autowired
-    private UserAccessService userAccessService;
+    private final UserAccessService userAccessService;
+    private final HttpSession httpSession;
 
     @Autowired
-    private HttpSession httpSession;
+    public SecurityRestController(UserAccessService userAccessService, HttpSession httpSession) {
+        this.userAccessService = userAccessService;
+        this.httpSession = httpSession;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<UserData> login(@RequestBody LoginRequest loginRequest) {
-        Optional<UserData> userData = userAccessService.login(httpSession.getId(), loginRequest);
+        Optional<UserData> userData = userAccessService.login(SessionId.from(httpSession.getId()), loginRequest);
         if (userData.isPresent()) {
             return ResponseEntity.ok().body(userData.get());
         }
@@ -36,7 +40,8 @@ public class SecurityRestController {
 
     @GetMapping("/logout")
     public ResponseEntity logout() {
-        userAccessService.logout(httpSession.getId());
+        userAccessService.logout(SessionId.from(httpSession.getId()));
+        httpSession.invalidate();
         return ResponseEntity.ok().build();
     }
 }

@@ -1,22 +1,28 @@
 package itx.examples.springboot.security.springsecurity.services.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class UserData {
 
-    private final String userName;
-    private final String password;
+    private final UserId userId;
+    private final Password password;
     private final Set<RoleId> roles;
 
-    public UserData(String userName, String password, Set<RoleId> roles) {
-        this.userName = userName;
+    @JsonCreator
+    public UserData(@JsonProperty("userId") UserId userId,
+                    @JsonProperty("password") Password password,
+                    @JsonProperty("roles") Set<RoleId> roles) {
+        this.userId = userId;
         this.password = password;
         this.roles = roles;
     }
 
-    public UserData(String userName, String password, String ... roles) {
-        this.userName = userName;
+    public UserData(UserId userId, Password password, String ... roles) {
+        this.userId = userId;
         this.password = password;
         this.roles = new HashSet<>();
         for (String role: roles) {
@@ -24,12 +30,12 @@ public class UserData {
         }
     }
 
-    public String getUserName() {
-        return userName;
+    public UserId getUserId() {
+        return userId;
     }
 
     public boolean verifyPassword(String password) {
-        return this.password.equals(password);
+        return this.password.verify(password);
     }
 
     public Set<RoleId> getRoles() {
