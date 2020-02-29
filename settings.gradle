@@ -87,3 +87,4 @@ project(":bank-client").projectDir = new File("spring/spring-bank/bank-client")
 project(":bank-server").projectDir = new File("spring/spring-bank/bank-server")
 
 include "google-apis"
+include "jce-demo"
