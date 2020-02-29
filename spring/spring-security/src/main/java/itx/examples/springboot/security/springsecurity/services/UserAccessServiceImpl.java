@@ -32,7 +32,7 @@ public class UserAccessServiceImpl implements UserAccessService {
 
     @Override
     public Optional<UserData> login(SessionId sessionId, LoginRequest loginRequest) {
-        UserData userData = users.get(loginRequest.getUserName());
+        UserData userData = users.get(UserId.from(loginRequest.getUserName()));
         if (userData != null && userData.verifyPassword(loginRequest.getPassword())) {
             LOG.info("login OK: {} {}", sessionId, loginRequest.getUserName());
             sessions.put(sessionId, userData);
