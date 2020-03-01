@@ -37,6 +37,7 @@ public final class JCEUtils {
     }
 
     private static final String BC_PROVIDER = "BC";
+    private static final String SHA256_RSA = "SHA256withRSA";
 
     public static KeyPair generateKeyPair() throws NoSuchAlgorithmException, NoSuchProviderException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", BC_PROVIDER);
@@ -53,7 +54,7 @@ public final class JCEUtils {
         X500Name subject = new X500Name("CN=" + subjectName);
         SubjectPublicKeyInfo publicKeyInfo = SubjectPublicKeyInfo.getInstance(publicKey.getEncoded());
         X509v3CertificateBuilder certBuilder = new X509v3CertificateBuilder(issuer, serial, notBefore, notAfter, subject, publicKeyInfo);
-        JcaContentSignerBuilder jcaContentSignerBuilder = new JcaContentSignerBuilder("SHA256withRSA");
+        JcaContentSignerBuilder jcaContentSignerBuilder = new JcaContentSignerBuilder(SHA256_RSA);
         ContentSigner signer = jcaContentSignerBuilder.build(privateKey);
         CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509", BC_PROVIDER);
         byte[] certBytes = certBuilder.build(signer).getEncoded();
@@ -71,14 +72,14 @@ public final class JCEUtils {
     }
 
     public static byte[] createDigitalSignature(byte[] data, PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, NoSuchProviderException {
-        Signature signature = Signature.getInstance("SHA256withRSA", BC_PROVIDER); //"SHA256withECDSA"
+        Signature signature = Signature.getInstance(SHA256_RSA, BC_PROVIDER); //"SHA256withECDSA"
         signature.initSign(privateKey);
         signature.update(data);
         return signature.sign();
     }
 
     public static boolean verifyDigitalSignature(byte[] data, byte[] signatureData, X509Certificate certificate) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, NoSuchProviderException {
-        Signature signature = Signature.getInstance("SHA256withRSA", BC_PROVIDER); //"SHA256withECDSA"
+        Signature signature = Signature.getInstance(SHA256_RSA, BC_PROVIDER); //"SHA256withECDSA"
         signature.initVerify(certificate);
         signature.update(data);
         return signature.verify(signatureData);
