@@ -36,15 +36,16 @@ public final class JCEUtils {
         throw new UnsupportedOperationException();
     }
 
-    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+    private static final String BC_PROVIDER = "BC";
+
+    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException, NoSuchProviderException {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", BC_PROVIDER);
         SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG");
         keyPairGenerator.initialize(2048, secureRandom);
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
-        return keyPair;
+        return keyPairGenerator.generateKeyPair();
     }
 
-    public static X509Certificate createSignedCertificate(String issuerName, String subjectName, Long notBeforeTimestamp, Long validDuration, PublicKey publicKey, PrivateKey privateKey) throws OperatorCreationException, IOException, CertificateException {
+    public static X509Certificate createSignedCertificate(String issuerName, String subjectName, Long notBeforeTimestamp, Long validDuration, PublicKey publicKey, PrivateKey privateKey) throws OperatorCreationException, IOException, CertificateException, NoSuchProviderException {
         X500Name issuer = new X500Name("CN=" + issuerName);
         BigInteger serial = BigInteger.valueOf(System.currentTimeMillis());
         Date notBefore = new Date(notBeforeTimestamp);
@@ -54,12 +55,12 @@ public final class JCEUtils {
         X509v3CertificateBuilder certBuilder = new X509v3CertificateBuilder(issuer, serial, notBefore, notAfter, subject, publicKeyInfo);
         JcaContentSignerBuilder jcaContentSignerBuilder = new JcaContentSignerBuilder("SHA256withRSA");
         ContentSigner signer = jcaContentSignerBuilder.build(privateKey);
-        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509", BC_PROVIDER);
         byte[] certBytes = certBuilder.build(signer).getEncoded();
         return (X509Certificate) certificateFactory.generateCertificate(new ByteArrayInputStream(certBytes));
     }
 
-    public static X509Certificate createSelfSignedCertificate(String issuerAndSubject, Long notBeforeTimestamp, Long validDuration, KeyPair keyPair) throws OperatorCreationException, IOException, CertificateException {
+    public static X509Certificate createSelfSignedCertificate(String issuerAndSubject, Long notBeforeTimestamp, Long validDuration, KeyPair keyPair) throws OperatorCreationException, IOException, CertificateException, NoSuchProviderException {
         return createSignedCertificate(issuerAndSubject, issuerAndSubject, notBeforeTimestamp, validDuration, keyPair.getPublic(), keyPair.getPrivate());
     }
 
@@ -69,34 +70,30 @@ public final class JCEUtils {
         clientCertificate.verify(caCertificate.getPublicKey());
     }
 
-    public static byte[] createDigitalSignature(byte[] data, PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
-        Signature ecdsaSignature = Signature.getInstance("SHA1WithRSA"); //"SHA256withECDSA");
-        ecdsaSignature.initSign(privateKey);
-        ecdsaSignature.update(data);
-        byte[] signature = ecdsaSignature.sign();
-        return signature;
+    public static byte[] createDigitalSignature(byte[] data, PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, NoSuchProviderException {
+        Signature signature = Signature.getInstance("SHA256withRSA", BC_PROVIDER); //"SHA256withECDSA"
+        signature.initSign(privateKey);
+        signature.update(data);
+        return signature.sign();
     }
 
-    public static boolean verifyDigitalSignature(byte[] data, byte[] signature, X509Certificate certificate) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
-        Signature ecdsaSignature = Signature.getInstance("SHA1WithRSA"); //"SHA256withECDSA");
-        ecdsaSignature.initVerify(certificate);
-        ecdsaSignature.update(data);
-        boolean isValid = ecdsaSignature.verify(signature);
-        return isValid;
+    public static boolean verifyDigitalSignature(byte[] data, byte[] signatureData, X509Certificate certificate) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, NoSuchProviderException {
+        Signature signature = Signature.getInstance("SHA256withRSA", BC_PROVIDER); //"SHA256withECDSA"
+        signature.initVerify(certificate);
+        signature.update(data);
+        return signature.verify(signatureData);
     }
 
-    public static byte[] encrypt(byte[] data, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        Cipher cipher = Cipher.getInstance("RSA");
+    public static byte[] encrypt(byte[] data, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchProviderException {
+        Cipher cipher = Cipher.getInstance("RSA/None/OAEPWITHSHA-256ANDMGF1PADDING", BC_PROVIDER);
         cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] encrypted = cipher.doFinal(data);
-        return encrypted;
+        return cipher.doFinal(data);
     }
 
-    public static byte[] decrypt(byte[] data, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        Cipher cipher = Cipher.getInstance("RSA");
+    public static byte[] decrypt(byte[] data, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchProviderException {
+        Cipher cipher = Cipher.getInstance("RSA/None/OAEPWITHSHA-256ANDMGF1PADDING", BC_PROVIDER);
         cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] decrypted = cipher.doFinal(data);
-        return decrypted;
+        return cipher.doFinal(data);
     }
 
 }

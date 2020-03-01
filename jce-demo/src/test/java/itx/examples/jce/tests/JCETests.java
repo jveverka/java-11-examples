@@ -2,7 +2,9 @@ package itx.examples.jce.tests;
 
 import itx.examples.jce.JCEUtils;
 import itx.examples.jce.KeyPairHolder;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.OperatorCreationException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,7 @@ import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.security.Security;
 import java.security.SignatureException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -35,23 +38,28 @@ public class JCETests {
     private static X509Certificate CACertificate;
     private static Map<String, KeyPairHolder> keyPairs = new HashMap<>();
 
+    @BeforeAll
+    public static void init() {
+        Security.addProvider(new BouncyCastleProvider());
+    }
+
     @Test
     @Order(1)
-    public void testGenerateKeyPair() throws NoSuchAlgorithmException {
+    public void testGenerateKeyPair() throws NoSuchAlgorithmException, NoSuchProviderException {
         CAKeyPair = JCEUtils.generateKeyPair();
         assertNotNull(CAKeyPair);
     }
 
     @Test
     @Order(2)
-    public void testGenerateSelfSignedX509CACertificate() throws CertificateException, OperatorCreationException, IOException {
+    public void testGenerateSelfSignedX509CACertificate() throws CertificateException, OperatorCreationException, IOException, NoSuchProviderException {
         CACertificate = JCEUtils.createSelfSignedCertificate("ca-subject", System.currentTimeMillis(), 3600*24*365L, CAKeyPair);
         assertNotNull(CACertificate);
     }
 
     @Test
     @Order(3)
-    public void testGenerateClientKeypairAndSignedX509Certificate() throws NoSuchAlgorithmException, CertificateException, OperatorCreationException, IOException {
+    public void testGenerateClientKeypairAndSignedX509Certificate() throws NoSuchAlgorithmException, CertificateException, OperatorCreationException, IOException, NoSuchProviderException {
         KeyPair clientKeyPair = JCEUtils.generateKeyPair();
         X509Certificate clientCertificate = JCEUtils.createSignedCertificate(CACertificate.getIssuerDN().getName(), "client-01", System.currentTimeMillis(), 3600*24*365L, clientKeyPair.getPublic(), CAKeyPair.getPrivate());
         keyPairs.put("client-01", new KeyPairHolder(clientKeyPair, clientCertificate));
@@ -71,7 +79,7 @@ public class JCETests {
 
     @Test
     @Order(5)
-    public void testDigitalSignature() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+    public void testDigitalSignature() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, NoSuchProviderException {
         byte[] data = "Data String".getBytes();
         KeyPairHolder keyPairHolder = keyPairs.get("client-01");
         byte[] digitalSignature = JCEUtils.createDigitalSignature(data, keyPairHolder.getCAKeyPair().getPrivate());
@@ -83,7 +91,7 @@ public class JCETests {
 
     @Test
     @Order(6)
-    public void testEnctyptAndDecryptData() throws IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
+    public void testEnctyptAndDecryptData() throws IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException {
         String dataString = "Data String";
         KeyPairHolder keyPairHolder = keyPairs.get("client-01");
         byte[] encryptedData = JCEUtils.encrypt(dataString.getBytes(StandardCharsets.UTF_8), keyPairHolder.getCAKeyPair().getPrivate());
