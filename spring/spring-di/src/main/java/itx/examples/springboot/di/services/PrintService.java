@@ -1,7 +1,15 @@
 package itx.examples.springboot.di.services;
 
+/**
+ * Print Service.
+ */
 public interface PrintService {
 
-    void print(String message);
+    /**
+     * Print message to log.
+     * @param message
+     * @return
+     */
+    String print(String message);
 
 }

@@ -1,38 +1,15 @@
 package itx.examples.springboot.di.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+public interface ClientService {
 
-import javax.annotation.PostConstruct;
+    String printDefault(String message);
 
-@Service
-public class ClientService {
+    String printStdErr(String message);
 
-    @Autowired
-    private PrintService printService;
+    String printStdOut(String message);
 
-    @Autowired
-    @Qualifier("stdErr")
-    private PrintService printServiceErr;
+    String getData();
 
-    @Autowired
-    @Qualifier("stdOut")
-    private PrintService printServiceOut;
-
-    @Autowired
-    private DataService dataService;
-
-    @PostConstruct
-    public void init() {
-        printService.print("init ...\n");
-        printServiceErr.print("init ...\n");
-        printService.print(dataService.getData() + "\n");
-        printServiceOut.print("init ...\n");
-    }
-
-    public void print(String message) {
-        printService.print(message);
-    }
+    String getDataPrototype();
 
 }
