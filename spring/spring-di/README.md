@@ -1,4 +1,4 @@
-# Springboot DI examples
+# Spring-Boot DI example
 
 [Spring bean scopes](https://www.baeldung.com/spring-bean-scopes).
 
