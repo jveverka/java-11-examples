@@ -2,29 +2,22 @@ package itx.examples.jce.tests;
 
 import itx.examples.jce.JCEUtils;
 import itx.examples.jce.KeyPairHolder;
+import itx.examples.jce.PKIException;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.operator.OperatorCreationException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
 import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.Security;
-import java.security.SignatureException;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -45,57 +38,77 @@ public class JCETests {
 
     @Test
     @Order(1)
-    public void testGenerateKeyPair() throws NoSuchAlgorithmException, NoSuchProviderException {
+    public void testGenerateKeyPair() throws PKIException {
         CAKeyPair = JCEUtils.generateKeyPair();
         assertNotNull(CAKeyPair);
     }
 
     @Test
     @Order(2)
-    public void testGenerateSelfSignedX509CACertificate() throws CertificateException, OperatorCreationException, IOException, NoSuchProviderException {
-        CACertificate = JCEUtils.createSelfSignedCertificate("ca-subject", System.currentTimeMillis(), 3600*24*365L, CAKeyPair);
+    public void testGenerateSelfSignedX509CACertificate() throws PKIException {
+        CACertificate = JCEUtils.createSelfSignedCertificate("ca-subject", new Date(), 1L, TimeUnit.HOURS, CAKeyPair);
         assertNotNull(CACertificate);
     }
 
     @Test
     @Order(3)
-    public void testGenerateClientKeypairAndSignedX509Certificate() throws NoSuchAlgorithmException, CertificateException, OperatorCreationException, IOException, NoSuchProviderException {
+    public void testGenerateClientKeypairAndSignedX509Certificate() throws PKIException {
         KeyPair clientKeyPair = JCEUtils.generateKeyPair();
-        X509Certificate clientCertificate = JCEUtils.createSignedCertificate(CACertificate.getIssuerDN().getName(), "client-01", System.currentTimeMillis(), 3600*24*365L, clientKeyPair.getPublic(), CAKeyPair.getPrivate());
-        keyPairs.put("client-01", new KeyPairHolder(clientKeyPair, clientCertificate));
+        X509Certificate clientCertificate = JCEUtils.createSignedCertificate(CACertificate.getIssuerDN().getName(),
+                "client-01", new Date(), 1L, TimeUnit.HOURS, clientKeyPair.getPublic(), CAKeyPair.getPrivate());
+        keyPairs.put("client-01", new KeyPairHolder(clientKeyPair.getPrivate(), clientCertificate));
         assertNotNull(clientKeyPair);
         assertNotNull(clientCertificate);
     }
 
     @Test
     @Order(4)
-    public void verifyClientCertificateValidity() throws CertificateException, NoSuchProviderException, NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+    public void verifyClientCertificateValidity() throws PKIException {
         KeyPairHolder keyPairHolder = keyPairs.get("client-01");
-        X509Certificate clientCertificate = keyPairHolder.getCACertificate();
+        X509Certificate clientCertificate = keyPairHolder.getCertificate();
         int version = clientCertificate.getVersion();
         assertTrue(version == 3);
-        JCEUtils.verifyCertificate(clientCertificate, CACertificate);
+        boolean result = JCEUtils.verifySignedCertificate(CACertificate, clientCertificate);
+        assertTrue(result);
     }
 
     @Test
     @Order(5)
-    public void testDigitalSignature() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, NoSuchProviderException {
-        byte[] data = "Data String".getBytes();
-        KeyPairHolder keyPairHolder = keyPairs.get("client-01");
-        byte[] digitalSignature = JCEUtils.createDigitalSignature(data, keyPairHolder.getCAKeyPair().getPrivate());
-        boolean valid = JCEUtils.verifyDigitalSignature(data, digitalSignature, keyPairHolder.getCACertificate());
-        assertTrue(valid);
-        valid = JCEUtils.verifyDigitalSignature("Other Data".getBytes(), digitalSignature, keyPairHolder.getCACertificate());
-        assertFalse(valid);
+    public void verifyCACertificateValidity() throws PKIException {
+        boolean result = JCEUtils.verifySelfSignedCertificate(CACertificate);
+        assertTrue(result);
     }
 
     @Test
     @Order(6)
-    public void testEnctyptAndDecryptData() throws IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException {
+    public void testDigitalSignature() throws PKIException {
+        byte[] data = "Data String".getBytes();
+        KeyPairHolder keyPairHolder = keyPairs.get("client-01");
+        byte[] digitalSignature = JCEUtils.createDigitalSignature(data, keyPairHolder.getKeyPair().getPrivate());
+        boolean valid = JCEUtils.verifyDigitalSignature(data, digitalSignature, keyPairHolder.getCertificate());
+        assertTrue(valid);
+        valid = JCEUtils.verifyDigitalSignature("Other Data".getBytes(), digitalSignature, keyPairHolder.getCertificate());
+        assertFalse(valid);
+    }
+
+    @Test
+    @Order(7)
+    public void testEncryptAndDecryptDataPrivatePublic() throws PKIException {
         String dataString = "Data String";
         KeyPairHolder keyPairHolder = keyPairs.get("client-01");
-        byte[] encryptedData = JCEUtils.encrypt(dataString.getBytes(StandardCharsets.UTF_8), keyPairHolder.getCAKeyPair().getPrivate());
-        byte[] decryptedData = JCEUtils.decrypt(encryptedData, keyPairHolder.getCACertificate().getPublicKey());
+        byte[] encryptedData = JCEUtils.encrypt(dataString.getBytes(StandardCharsets.UTF_8), keyPairHolder.getPrivateKey());
+        byte[] decryptedData = JCEUtils.decrypt(encryptedData, keyPairHolder.getPublicKey());
+        String decryptedString = new String(decryptedData, StandardCharsets.UTF_8);
+        assertEquals(dataString, decryptedString);
+    }
+
+    @Test
+    @Order(8)
+    public void testEncryptAndDecryptDataPublicPrivate() throws PKIException {
+        String dataString = "Data String";
+        KeyPairHolder keyPairHolder = keyPairs.get("client-01");
+        byte[] encryptedData = JCEUtils.encrypt(dataString.getBytes(StandardCharsets.UTF_8), keyPairHolder.getPublicKey());
+        byte[] decryptedData = JCEUtils.decrypt(encryptedData, keyPairHolder.getPrivateKey());
         String decryptedString = new String(decryptedData, StandardCharsets.UTF_8);
         assertEquals(dataString, decryptedString);
     }
