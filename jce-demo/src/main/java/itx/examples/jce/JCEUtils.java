@@ -8,10 +8,12 @@ import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 
 import javax.crypto.Cipher;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
@@ -32,6 +34,7 @@ public final class JCEUtils {
     private static final String CN_NAME = "CN=";
     private static final String X509 = "X.509";
     private static final String TRANSFORMATION = "RSA/None/OAEPWITHSHA-256ANDMGF1PADDING";
+    private static final String KEYSTORE_TYPE = "JKS";
 
     public static KeyPair generateKeyPair() throws PKIException {
         try {
@@ -118,6 +121,19 @@ public final class JCEUtils {
             Cipher cipher = Cipher.getInstance(TRANSFORMATION, BC_PROVIDER);
             cipher.init(Cipher.DECRYPT_MODE, key);
             return cipher.doFinal(data);
+        } catch (Exception e) {
+            throw new PKIException(e);
+        }
+    }
+
+    public static KeyPairHolder loadPrivateKeyAndCertificateFromJKS(String keystorePath, String alias, String keystorePassword, String privateKeyPassword) throws PKIException {
+        try {
+            KeyStore keystore = KeyStore.getInstance(KEYSTORE_TYPE);
+            InputStream is = JCEUtils.class.getResourceAsStream(keystorePath);
+            keystore.load(is, keystorePassword.toCharArray());
+            X509Certificate certificate = (X509Certificate) keystore.getCertificate(alias);
+            PrivateKey privateKey = (PrivateKey) keystore.getKey(alias, privateKeyPassword.toCharArray());
+            return new KeyPairHolder(privateKey, certificate);
         } catch (Exception e) {
             throw new PKIException(e);
         }

@@ -113,4 +113,17 @@ public class JCETests {
         assertEquals(dataString, decryptedString);
     }
 
+    @Test
+    @Order(9)
+    public void loadPrivateKeyAndCertificateFromJKS() throws PKIException {
+        String keystorePath = "/keystore.jks";
+        String alias = "organization";
+        String keystorePassword = "secret";
+        String privateKeyPassword = "secret";
+        KeyPairHolder keyPairHolder = JCEUtils.loadPrivateKeyAndCertificateFromJKS(keystorePath, alias, keystorePassword, privateKeyPassword);
+        assertNotNull(keyPairHolder);
+        assertNotNull(keyPairHolder.getCertificate());
+        assertNotNull(keyPairHolder.getPrivateKey());
+    }
+
 }
