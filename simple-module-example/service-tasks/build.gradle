@@ -4,6 +4,11 @@ ext.moduleName = 'itx.examples.java.eleven.tasks'
 group = 'itx.examples.java.eleven.tasks'
 version = '1.0.0'
 
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.30'
+    compile 'org.slf4j:slf4j-simple:1.7.30'
+}
+
 compileJava {
     inputs.property("moduleName", moduleName)
     doFirst {

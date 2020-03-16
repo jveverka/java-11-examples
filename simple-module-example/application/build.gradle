@@ -7,6 +7,8 @@ version = '1.0.0'
 mainClassName = 'itx.examples.java.eleven.application.Main'
 
 dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.30'
+    compile 'org.slf4j:slf4j-simple:1.7.30'
     testCompile 'org.testng:testng:7.1.0'
 }
 

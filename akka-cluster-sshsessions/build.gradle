@@ -20,8 +20,8 @@ repositories {
 }
 
 dependencies {
-   compile 'org.slf4j:slf4j-api:1.8.0-beta4'
-   compile 'org.slf4j:slf4j-simple:1.8.0-beta4'
+   compile 'org.slf4j:slf4j-api:1.7.30'
+   compile 'org.slf4j:slf4j-simple:1.7.30'
 
    compile 'com.typesafe.akka:akka-actor_2.12:2.5.23'
    compile 'com.typesafe.akka:akka-cluster_2.12:2.5.23'
