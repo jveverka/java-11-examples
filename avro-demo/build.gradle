@@ -9,8 +9,8 @@ sourceCompatibility = 11
 
 dependencies {
     compile "org.apache.avro:avro:1.9.1"
-    compile 'org.slf4j:slf4j-api:1.8.0-beta4'
-    compile 'org.slf4j:slf4j-simple:1.8.0-beta4'
+    compile 'org.slf4j:slf4j-api:1.7.30'
+    compile 'org.slf4j:slf4j-simple:1.7.30'
     testCompile 'org.testng:testng:7.1.0'
 }
 
