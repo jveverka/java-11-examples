@@ -18,12 +18,6 @@ project(':kafka-example') {}
 project(':mongodb-demo') {}
 project(':simple-module-example') {}
 project(':ssh-server-demo') {}
-project(':springboot') {}
-project(':springboot-fileserver') {}
-project(':spring-security') {}
-project(':spring-security-jwt') {}
-project(':spring-jcasbin') {}
-project(':spring-di') {}
 project(':avro-demo') {}
 project(':imageprocessing-demo') {}
 project(':rxjava-demo') {}
@@ -32,3 +26,11 @@ project(':rabbitmq-demo') {}
 project(':spring-bank') {}
 project(':google-apis') {}
 project(':jce-demo') {}
+
+project(':springboot') {}
+project(':springboot-fileserver') {}
+project(':spring-security') {}
+project(':spring-security-jwt') {}
+project(':spring-jcasbin') {}
+project(':spring-di') {}
+project(':spring-websockets') {}

@@ -64,6 +64,9 @@ project(":spring-jcasbin").projectDir = new File("spring/spring-jcasbin")
 include "spring-di"
 project(":spring-di").projectDir = new File("spring/spring-di")
 
+include "spring-websockets"
+project(":spring-websockets").projectDir = new File("spring/spring-websockets")
+
 include "avro-demo"
 include "imageprocessing-demo"
 include "rxjava-demo"
