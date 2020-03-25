@@ -7,4 +7,4 @@ This is probably simplest websocket demo one can create with [Spring Boot](https
 gradle clean build
 java -jar build/libs/spring-websockets-0.0.1-SNAPSHOT.jar
 ```
-Got to index.html at ``http://localhost:8080/index.html`` and follow on-screen instructions.
+Go to __index.html__ at ``http://localhost:8080/index.html`` and follow on-screen instructions.
