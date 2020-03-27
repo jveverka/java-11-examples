@@ -11,15 +11,21 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.Key;
+import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.Signature;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -35,11 +41,13 @@ public final class JCEUtils {
     private static final String X509 = "X.509";
     private static final String TRANSFORMATION = "RSA/None/OAEPWITHSHA-256ANDMGF1PADDING";
     private static final String KEYSTORE_TYPE = "JKS";
+    private static final String ALGORITHM = "RSA";
+    private static final String RANDOM_ALGORITHM = "NativePRNG";
 
     public static KeyPair generateKeyPair() throws PKIException {
         try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", BC_PROVIDER);
-            SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG");
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM, BC_PROVIDER);
+            SecureRandom secureRandom = SecureRandom.getInstance(RANDOM_ALGORITHM);
             keyPairGenerator.initialize(2048, secureRandom);
             return keyPairGenerator.generateKeyPair();
         } catch (Exception e) {
@@ -135,6 +143,37 @@ public final class JCEUtils {
             PrivateKey privateKey = (PrivateKey) keystore.getKey(alias, privateKeyPassword.toCharArray());
             return new KeyPairHolder(privateKey, certificate);
         } catch (Exception e) {
+            throw new PKIException(e);
+        }
+    }
+
+    public static byte[] serializeX509Certificate(X509Certificate certificate) throws PKIException {
+        try {
+            return certificate.getEncoded();
+        } catch(Exception e) {
+            throw new PKIException(e);
+        }
+    }
+
+    public static X509Certificate deserializeX509Certificate(byte[] data) throws PKIException {
+        try {
+            CertificateFactory certificateFactory = CertificateFactory.getInstance(X509, BC_PROVIDER);
+            return (X509Certificate) certificateFactory.generateCertificate(new ByteArrayInputStream(data));
+        } catch(Exception e) {
+            throw new PKIException(e);
+        }
+    }
+
+    public static byte[] serializePrivateKey(PrivateKey privateKey) {
+        return privateKey.getEncoded();
+    }
+
+    public static PrivateKey deserializePrivateKey(byte[] data) throws PKIException {
+        try {
+            KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM, BC_PROVIDER);
+            PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(data);
+            return keyFactory.generatePrivate(pkcs8EncodedKeySpec);
+        } catch(Exception e) {
             throw new PKIException(e);
         }
     }

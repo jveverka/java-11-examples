@@ -12,8 +12,15 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.PrivateKey;
 import java.security.Security;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +37,7 @@ public class JCETests {
     private static KeyPair CAKeyPair;
     private static X509Certificate CACertificate;
     private static Map<String, KeyPairHolder> keyPairs = new HashMap<>();
+    private static KeyPairHolder keyPairHolder;
 
     @BeforeAll
     public static void init() {
@@ -120,10 +128,28 @@ public class JCETests {
         String alias = "organization";
         String keystorePassword = "secret";
         String privateKeyPassword = "secret";
-        KeyPairHolder keyPairHolder = JCEUtils.loadPrivateKeyAndCertificateFromJKS(keystorePath, alias, keystorePassword, privateKeyPassword);
+        keyPairHolder = JCEUtils.loadPrivateKeyAndCertificateFromJKS(keystorePath, alias, keystorePassword, privateKeyPassword);
         assertNotNull(keyPairHolder);
         assertNotNull(keyPairHolder.getCertificate());
         assertNotNull(keyPairHolder.getPrivateKey());
+    }
+
+    @Test
+    @Order(10)
+    public void certificateSerializationAndDeserialization() throws PKIException {
+        byte[] encoded = JCEUtils.serializeX509Certificate(keyPairHolder.getCertificate());
+        X509Certificate certificate = JCEUtils.deserializeX509Certificate(encoded);
+        assertNotNull(certificate);
+        assertEquals(keyPairHolder.getCertificate(), certificate);
+    }
+
+    @Test
+    @Order(11)
+    public void privateKeySerializationAndDeserialization() throws PKIException {
+        byte[] encoded = JCEUtils.serializePrivateKey(keyPairHolder.getPrivateKey());
+        PrivateKey privateKey = JCEUtils.deserializePrivateKey(encoded);
+        assertNotNull(privateKey);
+        assertEquals(keyPairHolder.getPrivateKey(), privateKey);
     }
 
 }
