@@ -38,6 +38,7 @@ gradle --build-file di-examples/build.gradle clean test
 * [spring demos](spring)
 * [ssh server demo](ssh-server-demo)
 * [JCE demo](jce-demo)
+* [com.fasterxml.jackson](jackson-fasterxml-demo)
 
 ### New Features of JDK11
 * JDK9 [Feature list](https://openjdk.java.net/projects/jdk9/)
