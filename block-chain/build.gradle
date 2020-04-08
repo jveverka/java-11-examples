@@ -3,8 +3,8 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
-sourceCompatibility = 10
-targetCompatibility = 10
+sourceCompatibility = 11
+targetCompatibility = 11
         
 repositories {
    mavenCentral()
@@ -24,8 +24,8 @@ publishing {
 }
 
 dependencies {
-   compile 'org.slf4j:slf4j-api:1.8.0-beta4'
-   compile 'org.slf4j:slf4j-simple:1.8.0-beta4'
+   compile 'org.slf4j:slf4j-api:1.7.30'
+   compile 'org.slf4j:slf4j-simple:1.7.30'
    testCompile 'org.testng:testng:7.1.0'
 }
 
