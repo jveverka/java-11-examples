@@ -1,4 +1,4 @@
-# Simple Spring Boot 2.0 demo
+# Simple Spring Boot demo
 This is simple spring-boot application demo. 
 
 ### Rest Endpoints
@@ -21,5 +21,5 @@ This is simple spring-boot application demo.
 ### Build and run
 ```
 gradle clean build test
-java -jar build/libs/demo-0.0.1-SNAPSHOT.jar
+java -jar build/libs/spring-demo-1.0.0-SNAPSHOT.jar
 ```

@@ -2,6 +2,7 @@ package itx.examples.springboot.demo;
 
 
 import itx.examples.springboot.demo.dto.DataMessage;
+import itx.examples.springboot.demo.dto.RequestInfo;
 import itx.examples.springboot.demo.dto.SystemInfo;
 import itx.examples.springboot.demo.dto.generic.ComplexDataPayload;
 import itx.examples.springboot.demo.dto.generic.SimpleDataPayload;
@@ -64,6 +65,14 @@ public class DemoApplicationTests {
 		String message = "hi";
 		ResponseEntity<Void> response = restTemplate.getForEntity(
 				new URL("http://localhost:" + port + "/data/echo/" + message).toString(), Void.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+
+	@Test
+	@Order(4)
+	public void testRequestTester() {
+		ResponseEntity<RequestInfo> response = restTemplate.getForEntity(
+				"http://localhost:" + port + "/data/test", RequestInfo.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 

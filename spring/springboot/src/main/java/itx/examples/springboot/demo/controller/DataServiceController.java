@@ -1,6 +1,7 @@
-package itx.examples.springboot.demo.rest;
+package itx.examples.springboot.demo.controller;
 
 import itx.examples.springboot.demo.dto.DataMessage;
+import itx.examples.springboot.demo.dto.RequestInfo;
 import itx.examples.springboot.demo.dto.generic.ComplexDataPayload;
 import itx.examples.springboot.demo.dto.generic.DataMarker;
 import itx.examples.springboot.demo.dto.generic.GenericRequest;
@@ -20,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping(path = "/data")
-public class DataServiceRest {
+public class DataServiceController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DataServiceRest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DataServiceController.class);
 
     @GetMapping(path = "/info", produces = MediaType.APPLICATION_JSON_VALUE )
     public SystemInfo getSystemInfo() {
@@ -57,7 +60,13 @@ public class DataServiceRest {
         } else {
             throw new UnsupportedOperationException("Unsupported type");
         }
+    }
 
+    @GetMapping(path = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RequestInfo> getRequestParameters(HttpServletRequest request) {
+        LOG.info("getRequestParameters: {}?{}", request.getRequestURL(), request.getQueryString());
+        RequestInfo requestInfo = new RequestInfo(request.getRequestURL().toString(), request.getQueryString());
+        return ResponseEntity.ok(requestInfo);
     }
 
 }
