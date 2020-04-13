@@ -3,10 +3,12 @@ package itx.examples.springboot.demo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import itx.examples.springboot.demo.dto.generic.GenericRequest;
 import itx.examples.springboot.demo.dto.generic.SimpleDataPayload;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GenericSerializationTests {
 
@@ -17,11 +19,11 @@ public class GenericSerializationTests {
         GenericRequest<SimpleDataPayload> request = new GenericRequest("xxx", new SimpleDataPayload("zzz"));
         String jsonData = objectMapper.writeValueAsString(request);
 
-        Assert.assertNotNull(jsonData);
+        assertNotNull(jsonData);
 
         GenericRequest genericRequest = objectMapper.readValue(jsonData, GenericRequest.class);
-        Assert.assertNotNull(genericRequest);
-        Assert.assertTrue(genericRequest.getData() instanceof SimpleDataPayload);
+        assertNotNull(genericRequest);
+        assertTrue(genericRequest.getData() instanceof SimpleDataPayload);
     }
 
 }
