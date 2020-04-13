@@ -1,5 +1,6 @@
 package itx.examples.springboot.demo.controller;
 
+import itx.examples.springboot.demo.config.ApplicationConfig;
 import itx.examples.springboot.demo.dto.DataMessage;
 import itx.examples.springboot.demo.dto.RequestInfo;
 import itx.examples.springboot.demo.dto.generic.ComplexDataPayload;
@@ -10,6 +11,7 @@ import itx.examples.springboot.demo.dto.SystemInfo;
 import itx.examples.springboot.demo.dto.generic.SimpleDataPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,13 +39,20 @@ public class DataServiceController {
 
     private static final Logger LOG = LoggerFactory.getLogger(DataServiceController.class);
 
+    private final ApplicationConfig applicationConfig;
+
+    public DataServiceController(@Autowired ApplicationConfig applicationConfig) {
+        this.applicationConfig = applicationConfig;
+    }
+
     @GetMapping(path = "/info", produces = MediaType.APPLICATION_JSON_VALUE )
     public SystemInfo getSystemInfo() {
-        return new SystemInfo("spring-demo", "1.0.0", System.currentTimeMillis());
+        return new SystemInfo(applicationConfig.getId(),  "spring-demo", "1.0.0", System.currentTimeMillis());
     }
 
     @PostMapping(path = "/message", consumes = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<DataMessage> getDataMessage(@RequestBody DataMessage dataMessage) {
+        LOG.info("getDataMessage: {}", dataMessage.getData());
         DataMessage responseMessage = new DataMessage(dataMessage.getData());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -52,6 +61,7 @@ public class DataServiceController {
 
     @GetMapping(path = "/echo/{message}", produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<DataMessage> getEcho(@PathVariable String message) {
+        LOG.info("getEcho: {}", message);
         DataMessage responseMessage = new DataMessage(message);
         return new ResponseEntity<>(responseMessage, HttpStatus.OK);
     }
@@ -76,7 +86,8 @@ public class DataServiceController {
         String body = request.getReader().lines().collect(Collectors.joining());
         RequestInfo requestInfo = new RequestInfo(request.getRequestURL().toString(),
                 request.getQueryString(), body, request.getCharacterEncoding(), request.getMethod(),
-                createCookiesMap(request.getCookies()), request.getContentType(),  createHeaderMap(request));
+                createCookiesMap(request.getCookies()), request.getContentType(),  createHeaderMap(request),
+                request.getProtocol(), createRemoteInfo(request));
         return ResponseEntity.ok(requestInfo);
     }
 
@@ -106,6 +117,10 @@ public class DataServiceController {
             }
         }
         return headers;
+    }
+
+    private String createRemoteInfo(HttpServletRequest request) {
+        return request.getRemoteHost() + ":" + request.getRemotePort();
     }
 
 }

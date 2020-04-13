@@ -16,6 +16,8 @@ public class RequestInfo {
     private final Map<String, String> cookies;
     private final String contentType;
     private final Map<String, List<String>> headers;
+    private final String protocol;
+    private final String remoteInfo;
 
     @JsonCreator
     public RequestInfo(@JsonProperty("url") String url,
@@ -25,7 +27,9 @@ public class RequestInfo {
                        @JsonProperty("method") String method,
                        @JsonProperty("cookies") Map<String, String> cookies,
                        @JsonProperty("contentType") String contentType,
-                       @JsonProperty("headers") Map<String, List<String>> headers) {
+                       @JsonProperty("headers") Map<String, List<String>> headers,
+                       @JsonProperty("protocol") String protocol,
+                       @JsonProperty("remoteInfo") String remoteInfo) {
         this.url = url;
         this.queryString = queryString;
         this.body = body;
@@ -34,6 +38,8 @@ public class RequestInfo {
         this.cookies = cookies;
         this.contentType = contentType;
         this.headers = headers;
+        this.protocol = protocol;
+        this.remoteInfo = remoteInfo;
     }
 
     public String getUrl() {
@@ -66,6 +72,14 @@ public class RequestInfo {
 
     public Map<String, List<String>> getHeaders() {
         return headers;
+    }
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public String getRemoteInfo() {
+        return remoteInfo;
     }
 
 }
