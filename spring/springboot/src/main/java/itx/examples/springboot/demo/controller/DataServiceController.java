@@ -21,7 +21,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/data")
@@ -62,11 +70,42 @@ public class DataServiceController {
         }
     }
 
-    @GetMapping(path = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RequestInfo> getRequestParameters(HttpServletRequest request) {
+    @RequestMapping(path = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RequestInfo> getRequestParameters(HttpServletRequest request) throws IOException {
         LOG.info("getRequestParameters: {}?{}", request.getRequestURL(), request.getQueryString());
-        RequestInfo requestInfo = new RequestInfo(request.getRequestURL().toString(), request.getQueryString());
+        String body = request.getReader().lines().collect(Collectors.joining());
+        RequestInfo requestInfo = new RequestInfo(request.getRequestURL().toString(),
+                request.getQueryString(), body, request.getCharacterEncoding(), request.getMethod(),
+                createCookiesMap(request.getCookies()), request.getContentType(),  createHeaderMap(request));
         return ResponseEntity.ok(requestInfo);
+    }
+
+    private Map<String, String> createCookiesMap(Cookie[] cookies) {
+        Map<String, String> cookiesMap = new HashMap<>();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                String id = cookie.getDomain() + ":" + cookie.getName();
+                cookiesMap.put(id, cookie.toString());
+            }
+        }
+        return cookiesMap;
+    }
+
+    private Map<String, List<String>> createHeaderMap(HttpServletRequest request) {
+        Map<String, List<String>> headers = new HashMap<>();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        if (headerNames != null) {
+            while (headerNames.hasMoreElements()) {
+                List<String> headerValues = new ArrayList<>();
+                String headerName = headerNames.nextElement();
+                Enumeration<String> values = request.getHeaders(headerName);
+                while (values.hasMoreElements()) {
+                    headerValues.add(values.nextElement());
+                }
+                headers.put(headerName, headerValues);
+            }
+        }
+        return headers;
     }
 
 }
