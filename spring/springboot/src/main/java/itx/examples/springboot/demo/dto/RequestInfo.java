@@ -1,5 +1,8 @@
 package itx.examples.springboot.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +17,15 @@ public class RequestInfo {
     private final String contentType;
     private final Map<String, List<String>> headers;
 
-    public RequestInfo(String url, String queryString, String body, String encoding, String method,
-                       Map<String, String> cookies, String contentType, Map<String, List<String>> headers) {
+    @JsonCreator
+    public RequestInfo(@JsonProperty("url") String url,
+                       @JsonProperty("queryString") String queryString,
+                       @JsonProperty("body") String body,
+                       @JsonProperty("encoding") String encoding,
+                       @JsonProperty("method") String method,
+                       @JsonProperty("cookies") Map<String, String> cookies,
+                       @JsonProperty("contentType") String contentType,
+                       @JsonProperty("headers") Map<String, List<String>> headers) {
         this.url = url;
         this.queryString = queryString;
         this.body = body;

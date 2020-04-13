@@ -17,6 +17,7 @@ This is simple spring-boot application demo.
   ```
 ### Swagger API docs
 * __GET__ http://localhost:8080/v2/api-docs
+* __Swagger2 UI__ - http://localhost:8080/swagger-ui.html
 
 ### Build and run
 ```
