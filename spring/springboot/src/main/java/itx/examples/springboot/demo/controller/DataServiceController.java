@@ -47,6 +47,7 @@ public class DataServiceController {
 
     @GetMapping(path = "/info", produces = MediaType.APPLICATION_JSON_VALUE )
     public SystemInfo getSystemInfo() {
+        LOG.info("getSystemInfo");
         return new SystemInfo(applicationConfig.getId(),  "spring-demo", "1.0.0", System.currentTimeMillis());
     }
 
