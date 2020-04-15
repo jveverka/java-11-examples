@@ -16,7 +16,8 @@ This is simple spring-boot application demo.
   ```
   {"name":"complexData","data":{"@class":"itx.examples.springboot.demo.dto.generic.ComplexDataPayload","complexData":"complex"}}
   ```
-* Returns information about incoming HTTP request as JSON response. For testing purposes.    
+* Returns information about incoming HTTP request as JSON response. This endpoint should be used for testing purposes.
+  All http methods are supported.      
   __ALL__ http://localhost:8080/data/test 
   
 ### Swagger API docs
