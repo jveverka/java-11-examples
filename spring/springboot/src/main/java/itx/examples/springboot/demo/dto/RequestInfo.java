@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class RequestInfo {
 
+    private final String appId;
     private final String url;
     private final String queryString;
     private final String body;
@@ -20,7 +21,8 @@ public class RequestInfo {
     private final String remoteInfo;
 
     @JsonCreator
-    public RequestInfo(@JsonProperty("url") String url,
+    public RequestInfo(@JsonProperty("appId") String appId,
+                       @JsonProperty("url") String url,
                        @JsonProperty("queryString") String queryString,
                        @JsonProperty("body") String body,
                        @JsonProperty("encoding") String encoding,
@@ -30,6 +32,7 @@ public class RequestInfo {
                        @JsonProperty("headers") Map<String, List<String>> headers,
                        @JsonProperty("protocol") String protocol,
                        @JsonProperty("remoteInfo") String remoteInfo) {
+        this.appId = appId;
         this.url = url;
         this.queryString = queryString;
         this.body = body;
@@ -40,6 +43,10 @@ public class RequestInfo {
         this.headers = headers;
         this.protocol = protocol;
         this.remoteInfo = remoteInfo;
+    }
+
+    public String getAppId() {
+        return appId;
     }
 
     public String getUrl() {

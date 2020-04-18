@@ -47,7 +47,7 @@ public class DataServiceController {
 
     @GetMapping(path = "/info", produces = MediaType.APPLICATION_JSON_VALUE )
     public SystemInfo getSystemInfo() {
-        LOG.info("getSystemInfo");
+        LOG.info("getSystemInfo:");
         return new SystemInfo(applicationConfig.getId(),  "spring-demo", "1.0.0", System.currentTimeMillis());
     }
 
@@ -85,7 +85,7 @@ public class DataServiceController {
     public ResponseEntity<RequestInfo> getRequestParameters(HttpServletRequest request) throws IOException {
         LOG.info("getRequestParameters: {}?{}", request.getRequestURL(), request.getQueryString());
         String body = request.getReader().lines().collect(Collectors.joining());
-        RequestInfo requestInfo = new RequestInfo(request.getRequestURL().toString(),
+        RequestInfo requestInfo = new RequestInfo(applicationConfig.getId(), request.getRequestURL().toString(),
                 request.getQueryString(), body, request.getCharacterEncoding(), request.getMethod(),
                 createCookiesMap(request.getCookies()), request.getContentType(),  createHeaderMap(request),
                 request.getProtocol(), createRemoteInfo(request));

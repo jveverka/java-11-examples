@@ -5,24 +5,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SystemInfo {
 
-    private final String id;
+    private final String appId;
     private final String name;
     private final String version;
     private final long timestamp;
 
     @JsonCreator
-    public SystemInfo(@JsonProperty("id") String id,
+    public SystemInfo(@JsonProperty("appId") String appId,
                       @JsonProperty("name") String name,
                       @JsonProperty("version") String version,
                       @JsonProperty("timestamp") long timestamp) {
-        this.id = id;
+        this.appId = appId;
         this.name = name;
         this.version = version;
         this.timestamp = timestamp;
     }
 
-    public String getId() {
-        return id;
+    public String getAppId() {
+        return appId;
     }
 
     public String getName() {
