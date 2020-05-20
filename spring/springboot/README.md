@@ -2,14 +2,14 @@
 This is simple spring-boot application demo. 
 
 ### Rest Endpoints
-* __GET__ http://localhost:8080/data/info
-* __POST__ http://localhost:8080/data/message 
+* __GET__ http://localhost:8081/data/info
+* __POST__ http://localhost:8081/data/message 
   ```
   { "data": "message" }
   ```
 
 * REST endpoint handling generic data payloads  
-  __POST__ http://localhost:8080/data/generics
+  __POST__ http://localhost:8081/data/generics
   ```
   {"name":"simpleData","data":{"@class":"itx.examples.springboot.demo.dto.generic.SimpleDataPayload","simpleData":"simple"}}
   ```
@@ -18,14 +18,14 @@ This is simple spring-boot application demo.
   ```
 * Returns information about incoming HTTP request as JSON response. This endpoint should be used for testing purposes.
   All http methods are supported.      
-  __ALL__ http://localhost:8080/data/test 
+  __ALL__ http://localhost:8081/data/test 
   
 ### Swagger API docs
-* __GET__ http://localhost:8080/v2/api-docs
-* __Swagger2 UI__ - http://localhost:8080/swagger-ui.html
+* __GET__ http://localhost:8081/v2/api-docs
+* __Swagger2 UI__ - http://localhost:8081/swagger-ui.html
 
 ## Static Resources
-* __GET__ http://localhost:8080/static/inex.html
+* __GET__ http://localhost:8081/static/inex.html
 
 ### Build and run
 ```
