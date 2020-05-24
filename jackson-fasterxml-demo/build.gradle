@@ -12,8 +12,8 @@ repositories {
 }
 
 dependencies {
-   implementation 'org.slf4j:slf4j-api:1.8.0-beta4'
-   implementation 'org.slf4j:slf4j-simple:1.8.0-beta4'
+   implementation 'org.slf4j:slf4j-api:1.7.30'
+   implementation 'org.slf4j:slf4j-simple:1.7.30'
    implementation('com.fasterxml.jackson.core:jackson-core:2.10.2')
    implementation('com.fasterxml.jackson.core:jackson-databind:2.10.2')
    implementation('com.fasterxml.jackson.core:jackson-annotations:2.10.2')
