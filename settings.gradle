@@ -67,6 +67,9 @@ project(":spring-di").projectDir = new File("spring/spring-di")
 include "spring-websockets"
 project(":spring-websockets").projectDir = new File("spring/spring-websockets")
 
+include "spring-oauth2-resource-server"
+project(":spring-oauth2-resource-server").projectDir = new File("spring/spring-oauth2-resource-server")
+
 include "avro-demo"
 include "imageprocessing-demo"
 include "rxjava-demo"
@@ -92,3 +95,4 @@ project(":bank-server").projectDir = new File("spring/spring-bank/bank-server")
 include "google-apis"
 include "jce-demo"
 include "jackson-fasterxml-demo"
+include "cached-model-demo"

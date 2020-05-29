@@ -27,6 +27,7 @@ project(':spring-bank') {}
 project(':google-apis') {}
 project(':jce-demo') {}
 project(':jackson-fasterxml-demo') {}
+project(':cached-model-demo') {}
 
 project(':springboot') {}
 project(':springboot-fileserver') {}
@@ -35,3 +36,4 @@ project(':spring-security-jwt') {}
 project(':spring-jcasbin') {}
 project(':spring-di') {}
 project(':spring-websockets') {}
+project(':spring-oauth2-resource-server') {}
