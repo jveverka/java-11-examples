@@ -46,30 +46,6 @@ project(":ssh-examples").projectDir = new File("ssh-server-demo/ssh-examples")
 project(":ssh-jcommander").projectDir = new File("ssh-server-demo/ssh-jcommander")
 include "ssh-server-demo"
 
-include "springboot"
-project(":springboot").projectDir = new File("spring/springboot")
-
-include "springboot-fileserver"
-project(":springboot-fileserver").projectDir = new File("spring/springboot-fileserver")
-
-include "spring-security"
-project(":spring-security").projectDir = new File("spring/spring-security")
-
-include "spring-security-jwt"
-project(":spring-security-jwt").projectDir = new File("spring/spring-security-jwt")
-
-include "spring-jcasbin"
-project(":spring-jcasbin").projectDir = new File("spring/spring-jcasbin")
-
-include "spring-di"
-project(":spring-di").projectDir = new File("spring/spring-di")
-
-include "spring-websockets"
-project(":spring-websockets").projectDir = new File("spring/spring-websockets")
-
-include "spring-oauth2-resource-server"
-project(":spring-oauth2-resource-server").projectDir = new File("spring/spring-oauth2-resource-server")
-
 include "avro-demo"
 include "imageprocessing-demo"
 include "rxjava-demo"
@@ -82,15 +58,6 @@ include "rmq-data-client"
 project(":rmq-common").projectDir = new File("rabbitmq-demo/rmq-common")
 project(":rmq-data-service").projectDir = new File("rabbitmq-demo/rmq-data-service")
 project(":rmq-data-client").projectDir = new File("rabbitmq-demo/rmq-data-client")
-
-include "spring-bank"
-include "bank-common"
-include "bank-client"
-include "bank-server"
-project(":spring-bank").projectDir = new File("spring/spring-bank")
-project(":bank-common").projectDir = new File("spring/spring-bank/bank-common")
-project(":bank-client").projectDir = new File("spring/spring-bank/bank-client")
-project(":bank-server").projectDir = new File("spring/spring-bank/bank-server")
 
 include "google-apis"
 include "jce-demo"

@@ -35,7 +35,7 @@ gradle --build-file di-examples/build.gradle clean test
 * [RxJava demo](rxjava-demo)
 * [simple JNI demo](simple-jni-demo)
 * [JPMS demo](simple-module-example)
-* [spring demos](spring)
+* [spring demos](https://github.com/jveverka/spring-examples)
 * [ssh server demo](ssh-server-demo)
 * [JCE demo](jce-demo)
 * [com.fasterxml.jackson](jackson-fasterxml-demo)

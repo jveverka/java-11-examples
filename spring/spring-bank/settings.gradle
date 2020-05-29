@@ -1,4 +1,0 @@
-include "bank-server"
-include "bank-client"
-include "bank-common"
-
