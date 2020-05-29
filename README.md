@@ -41,8 +41,15 @@ gradle --build-file di-examples/build.gradle clean test
 * [com.fasterxml.jackson](jackson-fasterxml-demo)
 
 ### New Features of JDK11
-* JDK9 [Feature list](https://openjdk.java.net/projects/jdk9/)
+* JDK9  [Feature list](https://openjdk.java.net/projects/jdk9/)
 * JDK10 [Feature list](https://openjdk.java.net/projects/jdk/10/)
 * JDK11 [Feature list](https://openjdk.java.net/projects/jdk/11/) 
+
+### Features beyond JDK11
+* JDK12 [Feature list](https://openjdk.java.net/projects/jdk/12/)
+* JDK13 [Feature list](https://openjdk.java.net/projects/jdk/13/)
+* JDK14 [Feature list](https://openjdk.java.net/projects/jdk/14/)
+* JDK15 [Feature list](https://openjdk.java.net/projects/jdk/15/)
+* JDK16 [Feature list](https://openjdk.java.net/projects/jdk/16/)
 
 _Enjoy !_
