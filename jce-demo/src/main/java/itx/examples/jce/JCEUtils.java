@@ -55,6 +55,12 @@ public final class JCEUtils {
         }
     }
 
+    public static KeyPairHolder generateSelfSignedKeyPairHolder(String issuerAndSubject, Date notBefore, Long duration, TimeUnit timeUnit) throws PKIException {
+        KeyPair keyPair = generateKeyPair();
+        X509Certificate x509Certificate = createSelfSignedCertificate(issuerAndSubject, notBefore, duration, timeUnit, keyPair);
+        return new KeyPairHolder(keyPair.getPrivate(), x509Certificate);
+    }
+
     public static X509Certificate createSignedCertificate(String issuerName, String subjectName, Date notBefore, Long duration, TimeUnit timeUnit, PublicKey publicKey, PrivateKey privateKey) throws PKIException {
         try {
             X500Name issuer = new X500Name(CN_NAME + issuerName);
