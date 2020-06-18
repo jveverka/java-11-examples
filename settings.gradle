@@ -63,3 +63,5 @@ include "google-apis"
 include "jce-demo"
 include "jackson-fasterxml-demo"
 include "cached-model-demo"
+
+include "jwt-demo"

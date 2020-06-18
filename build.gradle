@@ -24,6 +24,12 @@ project(':rxjava-demo') {}
 project(':elastic-demo') {}
 project(':rabbitmq-demo') {}
 project(':google-apis') {}
-project(':jce-demo') {}
 project(':jackson-fasterxml-demo') {}
 project(':cached-model-demo') {}
+
+project(':jce-demo') {}
+project(':jwt-demo') {
+    dependencies {
+        implementation project(":jce-demo");
+    }
+}
