@@ -12,6 +12,8 @@ Make sure following software is installed on your PC.
 * [Gradle 6.3](https://gradle.org/install/) or later
 * [protoc 3.8](https://github.com/protocolbuffers/protobuf/releases/tag/v3.8.0) - google protocol buffers
 
+Please  check [system requirements](docs/system-requirements.md) before. 
+
 ### Compile examples
 Most examples are build by top-level gradle project.
 ```
