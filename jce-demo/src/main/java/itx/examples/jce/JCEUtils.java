@@ -8,6 +8,7 @@ import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 
 import javax.crypto.Cipher;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.Key;
@@ -21,6 +22,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.Signature;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -179,6 +181,34 @@ public final class JCEUtils {
             KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM, BC_PROVIDER);
             PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(data);
             return keyFactory.generatePrivate(pkcs8EncodedKeySpec);
+        } catch(Exception e) {
+            throw new PKIException(e);
+        }
+    }
+
+    public static byte[] createJKSWithPrivateKeyAndCertificate(String alias, String keystorePassword, String privateKeyPassword, KeyPairHolder keyPairHolder) throws PKIException {
+        try {
+            ByteArrayOutputStream bas = new ByteArrayOutputStream();
+            Certificate[] certificates =  new Certificate[] { keyPairHolder.getCertificate() };
+            KeyStore keystore = KeyStore.getInstance(KEYSTORE_TYPE);
+            keystore.load(null, keystorePassword.toCharArray());
+            keystore.setKeyEntry(alias, keyPairHolder.getPrivateKey(), privateKeyPassword.toCharArray(), certificates);
+            keystore.store(bas, keystorePassword.toCharArray());
+            bas.flush();
+            return bas.toByteArray();
+        } catch(Exception e) {
+            throw new PKIException(e);
+        }
+    }
+
+    public static KeyPairHolder loadKeypairFromJKS(String alias, String keystorePassword, String privateKeyPassword, byte[] jksData) throws PKIException {
+        try {
+            KeyStore keystore = KeyStore.getInstance(KEYSTORE_TYPE);
+            ByteArrayInputStream bis =  new ByteArrayInputStream(jksData);
+            keystore.load(bis, keystorePassword.toCharArray());
+            X509Certificate certificate = (X509Certificate) keystore.getCertificate(alias);
+            PrivateKey privateKey = (PrivateKey) keystore.getKey(alias, privateKeyPassword.toCharArray());
+            return new KeyPairHolder(privateKey, certificate);
         } catch(Exception e) {
             throw new PKIException(e);
         }

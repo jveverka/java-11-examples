@@ -4,6 +4,7 @@ import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.X509Certificate;
+import java.util.Objects;
 
 public class KeyPairHolder {
 
@@ -29,6 +30,20 @@ public class KeyPairHolder {
 
     public PublicKey getPublicKey() {
         return certificate.getPublicKey();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        KeyPairHolder that = (KeyPairHolder) o;
+        return Objects.equals(privateKey, that.privateKey) &&
+                Objects.equals(certificate, that.certificate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(privateKey, certificate);
     }
 
 }

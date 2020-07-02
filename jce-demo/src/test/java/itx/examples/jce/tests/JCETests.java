@@ -152,4 +152,20 @@ public class JCETests {
         assertEquals(keyPairHolder.getPrivateKey(), privateKey);
     }
 
+    @Test
+    @Order(12)
+    public void createJKSWithPrivateKeyAndCertificate() throws PKIException {
+        KeyPairHolder keyPair = JCEUtils.generateSelfSignedKeyPairHolder("issuerAndSubject", new Date(), 1L, TimeUnit.HOURS);
+        byte[] jksBytes = JCEUtils.createJKSWithPrivateKeyAndCertificate("alias", "secret", "secret", keyPair);
+        assertNotNull(jksBytes);
+        KeyPairHolder loadedKeyPair = JCEUtils.loadKeypairFromJKS("alias", "secret", "secret", jksBytes);
+        assertNotNull(loadedKeyPair);
+        assertNotNull(loadedKeyPair.getCertificate());
+        assertNotNull(loadedKeyPair.getKeyPair());
+        assertNotNull(loadedKeyPair.getPrivateKey());
+        assertEquals(keyPair, loadedKeyPair);
+        assertEquals(keyPair.getCertificate(), loadedKeyPair.getCertificate());
+        assertEquals(keyPair.getPrivateKey(), loadedKeyPair.getPrivateKey());
+    }
+
 }
