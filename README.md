@@ -37,10 +37,13 @@ gradle --build-file di-examples/build.gradle clean test
 * [RxJava demo](rxjava-demo)
 * [simple JNI demo](simple-jni-demo)
 * [JPMS demo](simple-module-example)
-* [spring demos](https://github.com/jveverka/spring-examples)
 * [ssh server demo](ssh-server-demo)
 * [JCE demo](jce-demo)
 * [com.fasterxml.jackson](jackson-fasterxml-demo)
+
+### Other Java Examples
+* [spring demos](https://github.com/jveverka/spring-examples) - java11 & docker & gradle examples
+* [java-boot-camp](https://github.com/jveverka/java-boot-camp) - java11 tutorials & maven examples
 
 ### New Features of JDK11
 * JDK9  [Feature list](https://openjdk.java.net/projects/jdk9/)
