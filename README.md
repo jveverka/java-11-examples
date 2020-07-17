@@ -1,4 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Gradle](https://img.shields.io/badge/gradle-v6.5-blue)](https://img.shields.io/badge/gradle-v6.5-blue)
 [![Build Status](https://travis-ci.org/jveverka/java-11-examples.svg?branch=master)](https://travis-ci.org/jveverka/java-11-examples)
 
 # Java 11 examples
@@ -9,7 +10,7 @@ but also new JDK 11 possibilities.
 ### Environment setup
 Make sure following software is installed on your PC.
 * [OpenJDK 11](https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot)
-* [Gradle 6.3](https://gradle.org/install/) or later
+* [Gradle 6.5](https://gradle.org/install/) or later
 * [protoc 3.8](https://github.com/protocolbuffers/protobuf/releases/tag/v3.8.0) - google protocol buffers
 
 Please  check [system requirements](docs/system-requirements.md) before. 
