@@ -13,6 +13,7 @@ Make sure following software is installed on your PC.
 * [OpenJDK 11](https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot)
 * [Gradle 6.5](https://gradle.org/install/) or later
 * [protoc 3.8](https://github.com/protocolbuffers/protobuf/releases/tag/v3.8.0) - google protocol buffers
+* [docker.io 19.x](https://www.docker.com/) or later 
 
 Please  check [system requirements](docs/system-requirements.md) before. 
 
