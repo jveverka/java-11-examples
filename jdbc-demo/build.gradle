@@ -12,19 +12,20 @@ repositories {
 }
 
 dependencies {
-   compile 'org.slf4j:slf4j-api:1.7.30'
-   compile 'org.slf4j:slf4j-simple:1.7.30'
-   compile 'org.postgresql:postgresql:42.2.12'
+   implementation 'org.slf4j:slf4j-api:1.7.30'
+   implementation 'org.slf4j:slf4j-simple:1.7.30'
+   implementation 'org.postgresql:postgresql:42.2.12'
 
-   testCompile 'org.apache.derby:derby:10.15.2.0'
-   testCompile 'org.apache.derby:derbytools:10.15.2.0'
-   testCompile 'org.apache.derby:derbyshared:10.15.2.0'
-   testCompile 'org.testng:testng:7.1.0'
+   testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
+   testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
+   testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+   testImplementation 'org.testcontainers:junit-jupiter:1.14.3'
+   testImplementation 'org.testcontainers:postgresql:1.14.3'
 }
 
 test {
    // enable TestNG support (default is JUnit)
-   useTestNG()
+   useJUnitPlatform()
    testLogging {
       events "passed", "skipped", "failed"
    }
