@@ -1,7 +1,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Java11](https://img.shields.io/badge/java-11-blue)](https://img.shields.io/badge/java-11-blue)
 [![Gradle](https://img.shields.io/badge/gradle-v6.5-blue)](https://img.shields.io/badge/gradle-v6.5-blue)
-[![Build Status](https://travis-ci.org/jveverka/java-11-examples.svg?branch=master)](https://travis-ci.org/jveverka/java-11-examples)
+[![Build Status](https://travis-ci.com/jveverka/java-11-examples.svg?branch=master)](https://travis-ci.com/jveverka/java-11-examples)
 
 # Java 11 examples
 This repository contains various simple java 11 examples.
