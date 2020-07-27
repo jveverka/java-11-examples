@@ -12,12 +12,12 @@ but also new JDK 11 possibilities.
 Make sure following software is installed on your PC.
 * [OpenJDK 11](https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot)
 * [Gradle 6.5](https://gradle.org/install/) or later
-* [protoc 3.8](https://github.com/protocolbuffers/protobuf/releases/tag/v3.8.0) - google protocol buffers
+* [protoc 3.8](https://github.com/protocolbuffers/protobuf/releases/tag/v3.8.0) google protocol buffers
 * [docker.io 19.x](https://www.docker.com/) or later 
 
-Please  check [system requirements](docs/system-requirements.md) before. 
+Please check [system requirements](docs/system-requirements.md) before. 
 
-### Compile examples
+### Compile & Test
 Most examples are build by top-level gradle project.
 ```
 gradle clean build test
@@ -48,16 +48,12 @@ gradle --build-file di-examples/build.gradle clean test
 * [spring demos](https://github.com/jveverka/spring-examples) - java11 & docker & gradle examples
 * [java-boot-camp](https://github.com/jveverka/java-boot-camp) - java11 tutorials & maven examples
 
-### New Features of JDK11
+### JDK9 - JDK11 New Features 
 * JDK9  [Feature list](https://openjdk.java.net/projects/jdk9/)
 * JDK10 [Feature list](https://openjdk.java.net/projects/jdk/10/)
 * JDK11 [Feature list](https://openjdk.java.net/projects/jdk/11/) 
 
-### Features beyond JDK11
-* JDK12 [Feature list](https://openjdk.java.net/projects/jdk/12/)
-* JDK13 [Feature list](https://openjdk.java.net/projects/jdk/13/)
-* JDK14 [Feature list](https://openjdk.java.net/projects/jdk/14/)
-* JDK15 [Feature list](https://openjdk.java.net/projects/jdk/15/)
-* JDK16 [Feature list](https://openjdk.java.net/projects/jdk/16/)
+### References
+* [JDK12 - JDK17 Features](https://github.com/jveverka/java-17-examples)
 
 _Enjoy !_
