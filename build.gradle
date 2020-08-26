@@ -33,3 +33,5 @@ project(':jwt-demo') {
         implementation project(":jce-demo");
     }
 }
+
+project(':r2dbc-demo') {}

@@ -65,3 +65,5 @@ include "jackson-fasterxml-demo"
 include "cached-model-demo"
 
 include "jwt-demo"
+
+include "r2dbc-demo"
