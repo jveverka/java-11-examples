@@ -25,7 +25,7 @@ public class TestJDBCConnection {
 
     // will be shared between test methods
     @Container
-    private static PostgreSQLContainer postgresqlContainer = new PostgreSQLContainer()
+    private static PostgreSQLContainer postgresqlContainer = new PostgreSQLContainer("postgres:12.3")
             .withDatabaseName("testdb")
             .withUsername("testuser")
             .withPassword("secret");
