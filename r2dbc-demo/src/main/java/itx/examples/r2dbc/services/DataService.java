@@ -5,16 +5,16 @@ import itx.examples.r2dbc.dto.UserData;
 import java.util.Collection;
 import java.util.Optional;
 
-public interface DataService extends AutoCloseable {
+public interface DataService {
 
-    Optional<UserData> findById(String id);
+    Optional<UserData> findById(String id) throws DataServiceException;
 
-    UserData save(String email, String password);
+    UserData save(String email, String password) throws DataServiceException;
 
-    Collection<UserData> findAll();
+    Collection<UserData> findAll() throws DataServiceException;
 
-    boolean deleteById(String id);
+    void deleteById(String id) throws DataServiceException;
 
-    boolean update(UserData userData);
+    void update(UserData userData) throws DataServiceException;
 
 }
