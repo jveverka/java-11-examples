@@ -71,12 +71,6 @@ public class DataServiceTest {
     }
 
     @Test
-    @Order(1)
-    public void testContainerRunning() {
-        assertTrue(postgresqlContainer.isRunning());
-    }
-
-    @Test
     @Order(2)
     public void testInitialData() throws DataServiceException {
         Collection<UserData> userDataCollection = dataService.findAll();

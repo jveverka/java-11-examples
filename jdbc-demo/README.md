@@ -1,4 +1,4 @@
 # JDBC demo
-Time-series data service using simple JDBC.
+Simple data service using JDBC.
 
  

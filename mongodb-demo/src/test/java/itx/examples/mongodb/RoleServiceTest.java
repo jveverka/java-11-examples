@@ -9,24 +9,35 @@ import itx.examples.mongodb.services.RoleService;
 import itx.examples.mongodb.services.RoleServiceImpl;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Collection;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RoleServiceITTest {
+@Testcontainers
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class RoleServiceTest {
 
-    private MongoClient mongoClient;
-    private MongoDatabase database;
-    private RoleService roleService;
+    private static MongoClient mongoClient;
+    private static MongoDatabase database;
+    private static RoleService roleService;
+
+    @Container
+    private static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.4.0");
 
     @BeforeClass
-    public void init() throws DataException {
+    public static void init() throws DataException {
         CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
                 fromProviders(PojoCodecProvider.builder().automatic(true).build()));
         mongoClient = new MongoClient( Utils.SERVER_HOSTNAME, MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
@@ -39,33 +50,33 @@ public class RoleServiceITTest {
     public void testRolesService() throws DataException {
 
         Collection<Role> roles = roleService.getRoles();
-        Assert.assertNotNull(roles);
-        Assert.assertTrue(roles.isEmpty());
+        assertNotNull(roles);
+        assertTrue(roles.isEmpty());
 
         roleService.insertRole(new Role("1", "aaa"));
         roles = roleService.getRoles();
-        Assert.assertNotNull(roles);
-        Assert.assertTrue(roles.size() == 1);
+        assertNotNull(roles);
+        assertTrue(roles.size() == 1);
 
         roleService.insertRole(new Role("2", "bbb"));
         roles = roleService.getRoles();
-        Assert.assertNotNull(roles);
-        Assert.assertTrue(roles.size() == 2);
+        assertNotNull(roles);
+        assertTrue(roles.size() == 2);
 
         roleService.removeRole("1");
         roles = roleService.getRoles();
-        Assert.assertNotNull(roles);
-        Assert.assertTrue(roles.size() == 1);
+        assertNotNull(roles);
+        assertTrue(roles.size() == 1);
 
         roleService.removeRole("2");
         roles = roleService.getRoles();
-        Assert.assertNotNull(roles);
-        Assert.assertTrue(roles.isEmpty());
+        assertNotNull(roles);
+        assertTrue(roles.isEmpty());
 
     }
 
     @AfterClass
-    public void destroy() {
+    public static void destroy() {
         try {
             roleService.removeAll();
         } catch (DataException e) {
