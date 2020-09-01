@@ -43,6 +43,8 @@ gradle --build-file di-examples/build.gradle clean test
 * [ssh server demo](ssh-server-demo)
 * [JCE demo](jce-demo)
 * [com.fasterxml.jackson](jackson-fasterxml-demo)
+* [JDBC demo](jdbc-demo)
+* [R2DBC demo](r2dbc-demo)
 
 ### Other Java Examples
 * [spring demos](https://github.com/jveverka/spring-examples) - java11 & docker & gradle examples
