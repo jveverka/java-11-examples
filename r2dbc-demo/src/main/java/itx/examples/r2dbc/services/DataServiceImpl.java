@@ -47,7 +47,7 @@ public class DataServiceImpl implements DataService {
             voidSubscriber.await();
             Future<Result> futureResult = resultSubscriber.getResult();
             Result result = futureResult.get();
-            Publisher<UserData> values = result.map((row, rowMetadata) -> {
+            Publisher<UserData> results = result.map((row, rowMetadata) -> {
                 String idUser = row.get("id", String.class);
                 String email = row.get("email", String.class);
                 String password = row.get("password", String.class);
@@ -55,7 +55,7 @@ public class DataServiceImpl implements DataService {
                 return new UserData(idUser, email, password);
             });
             UserDataSubscriber userDataSubscriber = new UserDataSubscriber();
-            values.subscribe(userDataSubscriber);
+            results.subscribe(userDataSubscriber);
             UserData userData = userDataSubscriber.getResult().get();
             return Optional.of(userData);
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class DataServiceImpl implements DataService {
             connection.commitTransaction().subscribe(voidSubscriber);
             voidSubscriber.await();
             Result result = futureResult.get();
-            Publisher<UserData> publisher = result.map((row, rowMetadata) -> {
+            Publisher<UserData> results = result.map((row, rowMetadata) -> {
                 String idUser = row.get("id", String.class);
                 String email = row.get("email", String.class);
                 String password = row.get("password", String.class);
@@ -120,7 +120,7 @@ public class DataServiceImpl implements DataService {
                 return new UserData(idUser, email, password);
             });
             UserDataListSubscriber userDataListSubscriber = new UserDataListSubscriber();
-            publisher.subscribe(userDataListSubscriber);
+            results.subscribe(userDataListSubscriber);
             userDataList = userDataListSubscriber.waitAndGetResult();
         } catch (Throwable e) {
             connection.rollbackTransaction();

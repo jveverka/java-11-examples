@@ -5,6 +5,10 @@ import itx.examples.r2dbc.dto.UserData;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * Synchronous data service implementation using transactions.
+ * Each method call runs in own transaction.
+ */
 public interface DataService {
 
     Optional<UserData> findById(String id) throws DataServiceException;
