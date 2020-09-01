@@ -72,6 +72,12 @@ public class DataServiceTest {
 
     @Test
     @Order(1)
+    public void testContainerRunning() {
+        assertTrue(postgresqlContainer.isRunning());
+    }
+
+    @Test
+    @Order(2)
     public void testInitialData() throws DataServiceException {
         Collection<UserData> userDataCollection = dataService.findAll();
         assertNotNull(userDataCollection);
@@ -80,7 +86,7 @@ public class DataServiceTest {
 
 
     @Test
-    @Order(2)
+    @Order(3)
     public void testInsertData() throws DataServiceException {
         UserData userData = dataService.save("john@gmail.com", "secret");
         assertNotNull(userData);
@@ -94,7 +100,7 @@ public class DataServiceTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     public void testFetchData() throws DataServiceException {
         Optional<String> userId = users.keySet().stream().findFirst();
         assertTrue(userId.isPresent());
@@ -107,7 +113,7 @@ public class DataServiceTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     public void testInsertMoreData() throws DataServiceException {
         UserData userData = dataService.save("jane@gmail.com", "super");
         assertNotNull(userData);
@@ -119,7 +125,7 @@ public class DataServiceTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     public void updateData() throws DataServiceException {
         Optional<String> userId = users.keySet().stream().findFirst();
         assertTrue(userId.isPresent());
@@ -135,7 +141,7 @@ public class DataServiceTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     public void testDeleteFirstUser() throws DataServiceException {
         Optional<String> userId = users.keySet().stream().findFirst();
         assertTrue(userId.isPresent());
@@ -147,7 +153,7 @@ public class DataServiceTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     public void testDeleteSecondUser() throws DataServiceException {
         Optional<String> userId = users.keySet().stream().findFirst();
         assertTrue(userId.isPresent());
@@ -159,7 +165,7 @@ public class DataServiceTest {
     }
 
     @Test
-    @Order(8)
+    @Order(9)
     public void testRemainingData() throws DataServiceException {
         Collection<UserData> userDataCollection = dataService.findAll();
         assertNotNull(userDataCollection);
@@ -167,7 +173,7 @@ public class DataServiceTest {
     }
 
     @Test
-    @Order(9)
+    @Order(10)
     public void findNonExistingData() throws DataServiceException {
         Optional<UserData> userData = dataService.findById("invalid-id");
         assertNotNull(userData);
@@ -175,7 +181,7 @@ public class DataServiceTest {
     }
 
     @Test
-    @Order(10)
+    @Order(11)
     public void deleteNonExistingData() {
         Exception exception = assertThrows(DataServiceException.class, () -> {
             dataService.deleteById("invalid-id");
@@ -183,7 +189,7 @@ public class DataServiceTest {
     }
 
     @Test
-    @Order(11)
+    @Order(12)
     public void updateNonExistingData() throws Exception {
         Exception exception = assertThrows(DataServiceException.class, () -> {
             dataService.update(new UserData("invalid-id", "email", "password"));
