@@ -16,7 +16,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class RoleServiceImpl implements RoleService {
 
-    final private static Logger LOG = LoggerFactory.getLogger(RoleServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RoleServiceImpl.class);
 
     private final MongoDatabase database;
 

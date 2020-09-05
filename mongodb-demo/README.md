@@ -3,7 +3,7 @@ Simple MongoDB 4.0.10 / Java demo
 
 ### Quick install MongoDB on localhost
 Download MongoDB binary from [here](https://www.mongodb.com/download-center#community). 
-Java documentation is [here](http://mongodb.github.io/mongo-java-driver/3.10/).
+Java documentation is [here](http://mongodb.github.io/mongo-java-driver/4.0/driver/).
 - unpack mongo tar package  
   ```tar xzvf mongodb-linux-x86_64-4.0.10.tgz```
 - make database directory  

@@ -1,15 +1,11 @@
 package itx.examples.mongodb;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import itx.examples.mongodb.dto.Role;
 import itx.examples.mongodb.services.DataException;
 import itx.examples.mongodb.services.RoleService;
 import itx.examples.mongodb.services.RoleServiceImpl;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -25,8 +21,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.Collection;
 import java.util.List;
 
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -51,17 +46,11 @@ public class RoleServiceTest {
         Integer port = exposedPorts.get(0);
         String replicaSetUrl = mongoDBContainer.getReplicaSetUrl();
         Integer boundPort = mongoDBContainer.getMappedPort(port);
-        LOG.info("postgresql port {}", port);
-        LOG.info("postgresql replicaSetUrl {}", replicaSetUrl);
-        LOG.info("postgresql boundPort {}", boundPort);
-
-        CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
-                fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-
-        ServerAddress serverAddress = new ServerAddress(Utils.SERVER_HOSTNAME, boundPort);
-
-        mongoClient = new MongoClient( serverAddress, MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
-        database = mongoClient.getDatabase(Utils.DB_NAME);
+        LOG.info("mongodb port {}", port);
+        LOG.info("mongodb replicaSetUrl {}", replicaSetUrl);
+        LOG.info("mongodb boundPort {}", boundPort);
+        mongoClient = Utils.createMongoClient(Utils.getDefaultConnectionString(boundPort));
+        database = Utils.createMongoDatabase(mongoClient);
         roleService = new RoleServiceImpl(database);
         roleService.removeAll();
     }
@@ -80,7 +69,7 @@ public class RoleServiceTest {
         roleService.insertRole(new Role("1", "aaa"));
         roles = roleService.getRoles();
         assertNotNull(roles);
-        assertTrue(roles.size() == 1);
+        assertEquals(1, roles.size());
     }
 
     @Test
@@ -89,7 +78,7 @@ public class RoleServiceTest {
         roleService.insertRole(new Role("2", "bbb"));
         roles = roleService.getRoles();
         assertNotNull(roles);
-        assertTrue(roles.size() == 2);
+        assertEquals(2, roles.size());
     }
 
     @Test
@@ -98,7 +87,7 @@ public class RoleServiceTest {
         roleService.removeRole("1");
         roles = roleService.getRoles();
         assertNotNull(roles);
-        assertTrue(roles.size() == 1);
+        assertEquals(1, roles.size());
     }
 
     @Test
