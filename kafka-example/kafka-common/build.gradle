@@ -31,8 +31,8 @@ publishing {
 }
 
 dependencies {
-   compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9.1'
-   compile 'org.apache.kafka:kafka-clients:2.3.0'
-   testCompile 'org.testng:testng:7.1.0'
+   implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.9.1'
+   implementation 'org.apache.kafka:kafka-clients:2.3.0'
+   testImplementation 'org.testng:testng:7.1.0'
 }
 

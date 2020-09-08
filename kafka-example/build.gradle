@@ -10,8 +10,8 @@ subprojects {
     }
 
     dependencies {
-        compile 'org.slf4j:slf4j-api:1.7.30'
-        compile 'org.slf4j:slf4j-simple:1.7.30'
+        implementation 'org.slf4j:slf4j-api:1.7.30'
+        implementation 'org.slf4j:slf4j-simple:1.7.30'
     }
 }
 
@@ -20,13 +20,13 @@ project(':kafka-common') {
 
 project(':kafka-client') {
     dependencies {
-        compile project(':kafka-common')
+        implementation project(':kafka-common')
     }
 }
 
 project(':kafka-service') {
     dependencies {
-        compile project(':kafka-common')
+        implementation project(':kafka-common')
     }
 }
 
