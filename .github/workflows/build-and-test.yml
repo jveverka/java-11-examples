@@ -24,3 +24,5 @@ jobs:
         run: gradle -version
       - name: Run Gradle Build and tests
         run: gradle clean build test
+      - name: Run DI Gradle Build and tests
+        run: gradle --build-file di-examples/build.gradle clean test
