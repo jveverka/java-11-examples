@@ -35,3 +35,4 @@ project(':jwt-demo') {
 }
 
 project(':r2dbc-demo') {}
+project(':java-is-weird') {}

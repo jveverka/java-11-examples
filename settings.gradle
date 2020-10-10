@@ -67,3 +67,4 @@ include "cached-model-demo"
 include "jwt-demo"
 
 include "r2dbc-demo"
+include "java-is-weird"
