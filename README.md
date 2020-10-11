@@ -41,6 +41,7 @@ gradle --build-file di-examples/build.gradle clean test
 * [ssh server demo](ssh-server-demo)
 * [JCE demo](jce-demo)
 * [com.fasterxml.jackson](jackson-fasterxml-demo)
+* [weird java stuff](java-is-weird)
 * __Databases__
   * [mongodb demo](mongodb-demo)
   * [hibernate demo](hibernate-demo)
