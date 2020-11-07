@@ -19,8 +19,8 @@ Each client filters responses by request key and waits for it's result.
 ## Setup Kafka 
 Download [kafka build](https://www.apache.org/dyn/closer.cgi?path=/kafka/2.2.0/kafka_2.12-2.2.0.tgz) and extract it.
 ```
-tar -xzf kafka_2.12-2.2.0.tgz
-cd kafka_2.12-2.2.0
+tar -xzf kafka_2.13-2.6.0.tgz
+cd kafka_2.13-2.6.0
 ```
 Start zookeeper and kafka.
 ```

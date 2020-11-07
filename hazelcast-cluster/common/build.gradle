@@ -28,7 +28,7 @@ mainClassName = 'itx.examples.grpc.service.Main'
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.30'
     compile 'org.slf4j:slf4j-simple:1.7.30'
-    compile 'com.beust:jcommander:1.72'
+    compile 'com.beust:jcommander:1.78'
 
     compile "com.google.api.grpc:proto-google-common-protos:1.12.0"
     compile "io.grpc:grpc-netty:${grpcVersion}"

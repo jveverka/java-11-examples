@@ -35,7 +35,7 @@ dependencies {
 
    implementation 'com.google.guava:guava:28.0-jre'
    implementation 'org.apache.sshd:sshd-core:2.2.0'
-   implementation 'com.beust:jcommander:1.72'
+   implementation 'com.beust:jcommander:1.78'
 
    testImplementation 'org.testng:testng:7.1.0'
    testImplementation 'com.jayway.awaitility:awaitility:1.7.0'

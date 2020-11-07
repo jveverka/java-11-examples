@@ -34,9 +34,9 @@ publishing {
 }
 
 dependencies {
-   implementation 'org.apache.kafka:kafka-clients:2.3.0'
-   implementation 'org.apache.kafka:kafka-streams:2.3.0'
-   implementation 'com.beust:jcommander:1.72'
+   implementation 'org.apache.kafka:kafka-clients:2.5.1'
+   implementation 'org.apache.kafka:kafka-streams:2.5.1'
+   implementation 'com.beust:jcommander:1.78'
    testImplementation 'org.testng:testng:7.1.0'
 }
 
