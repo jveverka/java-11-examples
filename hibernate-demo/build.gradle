@@ -20,7 +20,7 @@ dependencies {
    testImplementation 'org.apache.derby:derby:10.15.2.0'
    testImplementation 'org.apache.derby:derbytools:10.15.2.0'
    testImplementation 'org.apache.derby:derbyshared:10.15.2.0'
-   testImplementation 'org.testng:testng:7.1.0'
+   testImplementation 'org.testng:testng:7.3.0'
 }
 
 test {
