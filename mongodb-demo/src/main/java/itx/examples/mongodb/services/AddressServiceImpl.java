@@ -37,6 +37,12 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    public Address get(String id) throws DataException {
+        LOG.info("get address: {}", id);
+        return collection.findOneById(id);
+    }
+
+    @Override
     public void remove(String id) throws DataException {
         LOG.info("remove address: {}", id);
         collection.removeById(id);

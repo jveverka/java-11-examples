@@ -23,6 +23,13 @@ public interface RoleService {
     void insert(Role role) throws DataException;
 
     /**
+     * Get Role by ID.
+     * @param id
+     * @return
+     */
+    Role get(String id);
+
+    /**
      * Remove Role from database.
      * @param id
      * @throws DataException

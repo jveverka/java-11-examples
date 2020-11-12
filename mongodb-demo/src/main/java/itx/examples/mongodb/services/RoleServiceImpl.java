@@ -18,16 +18,15 @@ public class RoleServiceImpl implements RoleService {
 
     private static final Logger LOG = LoggerFactory.getLogger(RoleServiceImpl.class);
 
-    private final MongoDatabase database;
+    private final MongoCollection<Role> collection;
 
     public RoleServiceImpl(MongoDatabase database) {
-        this.database = database;
+        this.collection = database.getCollection(Utils.ROLES_COLLECTION_NAME, Role.class);
     }
 
     @Override
     public Collection<Role> getAll() {
         LOG.info("get all");
-        MongoCollection<Role> collection = database.getCollection(Utils.ROLES_COLLECTION_NAME, Role.class);
         Collection<Role> roles = new ArrayList<>();
         MongoCursor<Role> rolesIterator = collection.find().iterator();
         while (rolesIterator.hasNext()) {
@@ -39,14 +38,18 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void insert(Role role) throws DataException {
         LOG.info("insert role: {} {}", role.getId(), role.getDescription());
-        MongoCollection<Role> collection = database.getCollection(Utils.ROLES_COLLECTION_NAME, Role.class);
         collection.insertOne(role);
+    }
+
+    @Override
+    public Role get(String id) {
+        LOG.info("get role: {}", id);
+        return collection.find(eq("_id", id)).first();
     }
 
     @Override
     public void remove(String id) throws DataException {
         LOG.info("remove role: {}", id);
-        MongoCollection<Role> collection = database.getCollection(Utils.ROLES_COLLECTION_NAME, Role.class);
         DeleteResult deleteResult = collection.deleteOne(eq("_id", id));
         LOG.info("deleted {}", deleteResult.getDeletedCount());
     }
@@ -54,7 +57,6 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void removeAll() throws DataException {
         LOG.info("remove all");
-        MongoCollection<Role> collection = database.getCollection(Utils.ROLES_COLLECTION_NAME, Role.class);
         collection.drop();
     }
 

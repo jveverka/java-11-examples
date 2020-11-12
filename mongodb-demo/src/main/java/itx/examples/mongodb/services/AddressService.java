@@ -23,7 +23,15 @@ public interface AddressService {
     void insert(Address address) throws DataException;
 
     /**
-     * Remove Address from database.
+     * Get Address by ID
+     * @param id
+     * @return
+     * @throws DataException
+     */
+    Address get(String id) throws DataException;
+
+    /**
+     * Remove Address from database by id.
      * @param id
      * @throws DataException
      */
