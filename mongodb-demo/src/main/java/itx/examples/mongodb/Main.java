@@ -19,7 +19,7 @@ public class Main {
         MongoClient mongoClient = Utils.createMongoClient(Utils.getDefaultConnectionString());
         MongoDatabase database = Utils.createMongoDatabase(mongoClient);
         RoleService roleService = new RoleServiceImpl(database);
-        Collection<Role> roles = roleService.getRoles();
+        Collection<Role> roles = roleService.getAll();
         LOG.info("Roles: {}", roles.size());
         LOG.info("MongoDB demo done.");
     }

@@ -2,7 +2,10 @@ package itx.examples.mongodb;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
+import itx.examples.mongodb.dto.Address;
 import itx.examples.mongodb.dto.Role;
+import itx.examples.mongodb.services.AddressService;
+import itx.examples.mongodb.services.AddressServiceImpl;
 import itx.examples.mongodb.services.DataException;
 import itx.examples.mongodb.services.RoleService;
 import itx.examples.mongodb.services.RoleServiceImpl;
@@ -12,6 +15,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.mongojack.JacksonMongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.MongoDBContainer;
@@ -27,13 +31,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class RoleServiceTest {
+public class AddressServiceTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RoleServiceTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AddressServiceTest.class);
 
     private static MongoClient mongoClient;
-    private static RoleService roleService;
-    private static Collection<Role> roles;
+    private static AddressService addressService;
+    private static Collection<Address> addresses;
 
     @Container
     private static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.2.9");
@@ -49,67 +53,67 @@ public class RoleServiceTest {
         LOG.info("mongodb replicaSetUrl {}", replicaSetUrl);
         LOG.info("mongodb boundPort {}", boundPort);
         mongoClient = Utils.createMongoClient(Utils.getDefaultConnectionString(boundPort));
-        MongoDatabase database = Utils.createMongoDatabase(mongoClient);
-        roleService = new RoleServiceImpl(database);
-        roleService.removeAll();
+        JacksonMongoCollection<Address> jacksonMongoCollection = Utils.createJacksonMongoCollection(mongoClient);
+        addressService = new AddressServiceImpl(jacksonMongoCollection);
+        addressService.removeAll();
     }
 
     @Test
     @Order(1)
-    public void testRolesEmpty() {
-        roles = roleService.getAll();
-        assertNotNull(roles);
-        assertTrue(roles.isEmpty());
+    public void testAddressesEmpty() {
+        addresses = addressService.getAll();
+        assertNotNull(addresses);
+        assertTrue(addresses.isEmpty());
     }
 
     @Test
     @Order(2)
-    public void testInsertFirstRole() throws DataException {
-        roleService.insert(new Role("1", "aaa"));
-        roles = roleService.getAll();
-        assertNotNull(roles);
-        assertEquals(1, roles.size());
+    public void testInsertFirstAddress() throws DataException {
+        addressService.insert(new Address("1", "aaa", "bbb"));
+        addresses = addressService.getAll();
+        assertNotNull(addresses);
+        assertEquals(1, addresses.size());
     }
 
     @Test
     @Order(3)
-    public void testInsertSecondRole() throws DataException {
-        roleService.insert(new Role("2", "bbb"));
-        roles = roleService.getAll();
-        assertNotNull(roles);
-        assertEquals(2, roles.size());
+    public void testInsertSecondAddress() throws DataException {
+        addressService.insert(new Address("2", "bbb", "ddd"));
+        addresses = addressService.getAll();
+        assertNotNull(addresses);
+        assertEquals(2, addresses.size());
     }
 
     @Test
     @Order(4)
-    public void testRemoveFirstRole() throws DataException {
-        roleService.remove("1");
-        roles = roleService.getAll();
-        assertNotNull(roles);
-        assertEquals(1, roles.size());
+    public void testRemoveFirstAddress() throws DataException {
+        addressService.remove("1");
+        addresses = addressService.getAll();
+        assertNotNull(addresses);
+        assertEquals(1, addresses.size());
     }
 
     @Test
     @Order(5)
-    public void testRemoveSecondRole() throws DataException {
-        roleService.remove("2");
-        roles = roleService.getAll();
-        assertNotNull(roles);
-        assertTrue(roles.isEmpty());
+    public void testRemoveSecondAddress() throws DataException {
+        addressService.remove("2");
+        addresses = addressService.getAll();
+        assertNotNull(addresses);
+        assertTrue(addresses.isEmpty());
     }
 
     @Test
     @Order(6)
-    public void testRolesEmptyFinally() {
-        roles = roleService.getAll();
-        assertNotNull(roles);
-        assertTrue(roles.isEmpty());
+    public void testAddressesEmptyFinally() {
+        addresses = addressService.getAll();
+        assertNotNull(addresses);
+        assertTrue(addresses.isEmpty());
     }
 
     @AfterAll
     public static void destroy() {
         try {
-            roleService.removeAll();
+            addressService.removeAll();
         } catch (DataException e) {
             e.printStackTrace();
         }

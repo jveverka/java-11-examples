@@ -13,21 +13,21 @@ public interface RoleService {
      * Return all available roles in the database.
      * @return
      */
-    Collection<Role> getRoles();
+    Collection<Role> getAll();
 
     /**
      * Insert role into database.
      * @param role
      * @throws DataException
      */
-    void insertRole(Role role) throws DataException;
+    void insert(Role role) throws DataException;
 
     /**
      * Remove Role from database.
      * @param id
      * @throws DataException
      */
-    void removeRole(String id) throws DataException;
+    void remove(String id) throws DataException;
 
     /**
      * Remove all roles from database.

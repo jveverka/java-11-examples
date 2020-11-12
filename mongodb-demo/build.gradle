@@ -15,6 +15,10 @@ dependencies {
    implementation 'org.mongodb:mongodb-driver-sync:4.1.0'
    implementation 'org.slf4j:slf4j-api:1.7.30'
    implementation 'org.slf4j:slf4j-simple:1.7.30'
+   implementation 'com.fasterxml.jackson.core:jackson-core:2.11.2'
+   implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.2'
+   implementation 'com.fasterxml.jackson.core:jackson-annotations:2.11.2'
+   implementation 'org.mongojack:mongojack:4.0.2'
 
    testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'

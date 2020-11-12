@@ -49,3 +49,6 @@ db.roles.insert({"_id": "1", "description": "aaa" })
 db.roles.remove({ "_id": "1" }, { justOne: true})
 db.roles.drop()
 ```
+
+### References  
+* [mongojack](https://mongojack.org/)

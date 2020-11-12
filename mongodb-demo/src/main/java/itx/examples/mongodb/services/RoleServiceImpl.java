@@ -25,8 +25,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Collection<Role> getRoles() {
-        LOG.info("getRoles");
+    public Collection<Role> getAll() {
+        LOG.info("get all");
         MongoCollection<Role> collection = database.getCollection(Utils.ROLES_COLLECTION_NAME, Role.class);
         Collection<Role> roles = new ArrayList<>();
         MongoCursor<Role> rolesIterator = collection.find().iterator();
@@ -37,14 +37,14 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void insertRole(Role role) throws DataException {
+    public void insert(Role role) throws DataException {
         LOG.info("insert role: {} {}", role.getId(), role.getDescription());
         MongoCollection<Role> collection = database.getCollection(Utils.ROLES_COLLECTION_NAME, Role.class);
         collection.insertOne(role);
     }
 
     @Override
-    public void removeRole(String id) throws DataException {
+    public void remove(String id) throws DataException {
         LOG.info("remove role: {}", id);
         MongoCollection<Role> collection = database.getCollection(Utils.ROLES_COLLECTION_NAME, Role.class);
         DeleteResult deleteResult = collection.deleteOne(eq("_id", id));
