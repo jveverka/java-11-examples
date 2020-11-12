@@ -23,6 +23,13 @@ public interface AddressService {
     void insert(Address address) throws DataException;
 
     /**
+     * Update Address
+     * @param address
+     * @throws DataException
+     */
+    void update(Address address) throws DataException;
+
+    /**
      * Get Address by ID
      * @param id
      * @return

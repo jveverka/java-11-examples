@@ -102,6 +102,17 @@ public class AddressServiceTest {
 
     @Test
     @Order(5)
+    public void testUpdate() throws DataException {
+        addressService.update(new Address("1", "zzz", "yyy"));
+        Address address = addressService.get("1");
+        assertNotNull(address);
+        assertEquals("1", address.getId());
+        assertEquals("zzz", address.getStreet());
+        assertEquals("yyy", address.getCity());
+    }
+
+    @Test
+    @Order(6)
     public void testRemoveFirstAddress() throws DataException {
         addressService.remove("1");
         addresses = addressService.getAll();
@@ -110,7 +121,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     public void testRemoveSecondAddress() throws DataException {
         addressService.remove("2");
         addresses = addressService.getAll();
@@ -119,7 +130,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     public void testAddressesEmptyFinally() {
         addresses = addressService.getAll();
         assertNotNull(addresses);

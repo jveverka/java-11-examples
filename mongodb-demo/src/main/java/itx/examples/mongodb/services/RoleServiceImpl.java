@@ -6,6 +6,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
 import itx.examples.mongodb.Utils;
 import itx.examples.mongodb.dto.Role;
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +40,16 @@ public class RoleServiceImpl implements RoleService {
     public void insert(Role role) throws DataException {
         LOG.info("insert role: {} {}", role.getId(), role.getDescription());
         collection.insertOne(role);
+    }
+
+    @Override
+    public void update(Role role) throws DataException {
+        LOG.info("update role: {} {}", role.getId(), role.getDescription());
+        Document roleDoc = new Document();
+        roleDoc.put("description", role.getDescription());
+        Document updateObject = new Document();
+        updateObject.put("$set", roleDoc);
+        collection.updateOne(eq("_id", role.getId()), updateObject);
     }
 
     @Override

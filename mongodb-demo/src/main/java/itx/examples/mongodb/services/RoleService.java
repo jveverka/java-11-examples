@@ -16,11 +16,18 @@ public interface RoleService {
     Collection<Role> getAll();
 
     /**
-     * Insert role into database.
+     * Insert Role into database.
      * @param role
      * @throws DataException
      */
     void insert(Role role) throws DataException;
+
+    /**
+     * Update Role
+     * @param role
+     * @throws DataException
+     */
+    void update(Role role) throws DataException;
 
     /**
      * Get Role by ID.

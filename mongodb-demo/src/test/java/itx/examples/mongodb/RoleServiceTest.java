@@ -96,6 +96,15 @@ public class RoleServiceTest {
 
     @Test
     @Order(5)
+    public void testUpdate() throws DataException {
+        roleService.update(new Role("1", "zzz"));
+        Role role = roleService.get("1");
+        assertEquals("1", role.getId());
+        assertEquals("zzz", role.getDescription());
+    }
+
+    @Test
+    @Order(6)
     public void testRemoveFirstRole() throws DataException {
         roleService.remove("1");
         roles = roleService.getAll();
@@ -104,7 +113,7 @@ public class RoleServiceTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     public void testRemoveSecondRole() throws DataException {
         roleService.remove("2");
         roles = roleService.getAll();
@@ -113,7 +122,7 @@ public class RoleServiceTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     public void testRolesEmptyFinally() {
         roles = roleService.getAll();
         assertNotNull(roles);
