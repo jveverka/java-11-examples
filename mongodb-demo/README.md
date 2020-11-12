@@ -1,21 +1,21 @@
 # MongoDB demo
-Simple MongoDB 4.2.9 / Java demo 
+Simple MongoDB / Java demo 
 
 ### Quick install MongoDB on localhost
-Download MongoDB binary from [here](https://www.mongodb.com/download-center#community). 
-Java documentation is [here](http://mongodb.github.io/mongo-java-driver/4.0/driver/).
+Download MongoDB binary from [here](https://www.mongodb.com/try/download/community). 
+Java documentation is [here](https://mongodb.github.io/mongo-java-driver/).
 - unpack mongo tar package  
-  ```tar xzvf mongodb-linux-x86_64-4.2.9.tgz```
+  ```tar xzvf mongodb-linux-x86_64-ubuntu2004-4.4.1.tgz```
 - make database directory  
-  ```mkdir -p mongodb-linux-x86_64-4.2.9/data/db```  
+  ```mkdir -p mongodb-linux-x86_64-ubuntu2004-4.4.1/data/db```  
 - run mongodb server  
   ```
-  cd mongodb-linux-x86_64-4.2.9/bin
+  cd mongodb-linux-x86_64-ubuntu2004-4.4.1/bin
   ./mongod --dbpath ../data/db
   ```
 - create database and user  
   ```
-  cd mongodb-linux-x86_64-4.2.9/bin
+  cd mongodb-linux-x86_64-ubuntu2004-4.4.1/bin
   ./mongo
   use testdb
   db.createUser({user: "testuser", pwd: "secret", roles: [ "readWrite", "dbAdmin" ]}) 
@@ -41,7 +41,7 @@ gradle clean test -Dtest.profile=integration
 
 ### Useful mongodb queries
 ```
-cd mongodb-linux-x86_64-4.2.9/bin
+cd mongodb-linux-x86_64-ubuntu2004-4.4.1/bin
 ./mongo
 use testdb
 db.roles.find()
