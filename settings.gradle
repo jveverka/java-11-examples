@@ -68,3 +68,4 @@ include "jwt-demo"
 
 include "r2dbc-demo"
 include "java-is-weird"
+include "redis-demo"
