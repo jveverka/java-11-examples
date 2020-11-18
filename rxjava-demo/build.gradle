@@ -11,9 +11,9 @@ sourceCompatibility = 11
 targetCompatibility = 11
 
 dependencies {
-    compile 'org.slf4j:slf4j-api:1.7.30'
-    compile 'org.slf4j:slf4j-simple:1.7.30'
-    compile 'io.reactivex.rxjava3:rxjava:3.0.4'
-    testCompile 'org.testng:testng:7.3.0'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'org.slf4j:slf4j-simple:1.7.30'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.7'
+    testImplementation 'org.testng:testng:7.3.0'
 }
 
