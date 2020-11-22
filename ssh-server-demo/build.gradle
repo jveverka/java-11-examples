@@ -31,9 +31,4 @@ project(':ssh-examples') {
     }
 }
 
-project(':ssh-jcommander') {
-    dependencies {
-        compile project(':ssh-server')
-    }
-}
 
