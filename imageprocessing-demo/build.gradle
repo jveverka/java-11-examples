@@ -8,7 +8,7 @@ sourceCompatibility = 11
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.30'
     compile 'org.slf4j:slf4j-simple:1.7.30'
-    compile 'com.drewnoakes:metadata-extractor:2.13.0'
+    compile 'com.drewnoakes:metadata-extractor:2.15.0'
     testCompile 'org.testng:testng:7.3.0'
 }
 
