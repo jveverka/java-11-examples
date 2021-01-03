@@ -25,6 +25,7 @@ gradle --build-file di-examples/build.gradle clean test
 ```
 
 ### Examples
+* [artefact publishing demo](artefact-publishing-demo)
 * [akka clustering demo](akka-cluster-sshsessions)
 * [apache avro demo](avro-demo)
 * [blockchain demo](block-chain)
