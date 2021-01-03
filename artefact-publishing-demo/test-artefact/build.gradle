@@ -1,0 +1,131 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'signing'
+}
+
+group = 'one.microproject.test'
+version = '1.0.9-SNAPSHOT'
+//version = '1.0.9'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'org.slf4j:slf4j-simple:1.7.30'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+ext.isSnapshot = version.endsWith("-SNAPSHOT")
+if (!project.hasProperty('ossrhUsername') || !project.hasProperty('ossrhPassword')) {
+    ext.ossrhUsername = "none";
+    ext.ossrhPassword = "****";
+    ext.isPublishVersion = false;
+} else {
+    ext.isPublishVersion = true;
+}
+
+task sourceJar(type: Jar) {
+    classifier "sources"
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier "javadoc"
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives jar
+    archives sourceJar
+    archives javadocJar
+}
+
+tasks.withType(Sign) {
+    onlyIf { isPublishVersion }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+
+            groupId = 'one.microproject.test'
+            artifactId = 'test-artefact'
+            //version = ...
+
+            from components.java
+            artifact(sourceJar) {
+                classifier = 'sources'
+            }
+            artifact(javadocJar) {
+                classifier = 'javadoc'
+            }
+
+            pom {
+                name = 'microproject.one test artefact'
+                description = 'A project used as an example on how to set up pushing its components to the Central Repository.'
+                url = 'https://github.com/jveverka/microproject'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://github.com/jveverka/microproject/blob/master/LICENSE'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'jveverka'
+                        name = 'Juraj Veverka'
+                        email = 'gergej123@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/jveverka/microproject.git'
+                    developerConnection = 'scm:git:https://github.com/jveverka/microproject.git'
+                    url = 'https://github.com/jveverka/microproject.git'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            if (isSnapshot) {
+                url "https://oss.sonatype.org/content/repositories/snapshots"
+            } else {
+                url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            }
+            credentials {
+                username ossrhUsername
+                password ossrhPassword
+            }
+        }
+    }
+}
+
+signing {
+    sign configurations.archives
+    sign publishing.publications.mavenJava
+}
+
+model {
+    tasks.generatePomFileForMavenJavaPublication {
+        destination = file("$buildDir/generated-pom.xml")
+    }
+    tasks.publishMavenJavaPublicationToMavenLocal {
+        dependsOn project.tasks.signArchives
+    }
+    tasks.publishMavenJavaPublicationToMavenRepository {
+        dependsOn project.tasks.signArchives
+    }
+}
+
+
