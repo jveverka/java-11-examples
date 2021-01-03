@@ -6,7 +6,7 @@ plugins {
 
 group = 'one.microproject.test'
 version = '1.0.9-SNAPSHOT'
-//version = '1.0.9'
+//version = '1.0.9-RELEASE'
 sourceCompatibility = '11'
 
 repositories {
@@ -74,11 +74,11 @@ publishing {
             pom {
                 name = 'microproject.one test artefact'
                 description = 'A project used as an example on how to set up pushing its components to the Central Repository.'
-                url = 'https://github.com/jveverka/microproject'
+                url = 'https://github.com/jveverka/java-11-examples'
                 licenses {
                     license {
                         name = 'MIT License'
-                        url = 'https://github.com/jveverka/microproject/blob/master/LICENSE'
+                        url = 'https://github.com/jveverka/java-11-examples/blob/master/LICENSE'
                     }
                 }
                 developers {
@@ -89,9 +89,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:https://github.com/jveverka/microproject.git'
-                    developerConnection = 'scm:git:https://github.com/jveverka/microproject.git'
-                    url = 'https://github.com/jveverka/microproject.git'
+                    connection = 'scm:git:git@github.com:jveverka/java-11-examples.git'
+                    developerConnection = 'scm:git:git@github.com:jveverka/java-11-examples.git'
+                    url = 'https://github.com/jveverka/java-11-examples'
                 }
             }
         }
