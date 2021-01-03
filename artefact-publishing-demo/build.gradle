@@ -1,0 +1,10 @@
+
+project(':test-artefact') {
+}
+
+project(':test-project-gradle') {
+}
+
+
+
+

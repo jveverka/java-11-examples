@@ -1,0 +1,2 @@
+include "test-artefact"
+include "test-project-gradle"

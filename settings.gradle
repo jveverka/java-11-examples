@@ -67,3 +67,9 @@ include "jwt-demo"
 include "r2dbc-demo"
 include "java-is-weird"
 include "redis-demo"
+
+include "artefact-publishing-demo"
+include "test-artefact"
+include "test-project-gradle"
+project(":test-artefact").projectDir = new File("artefact-publishing-demo/test-artefact")
+project(":test-project-gradle").projectDir = new File("artefact-publishing-demo/test-project-gradle")
