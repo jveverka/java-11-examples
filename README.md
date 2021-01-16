@@ -28,7 +28,6 @@ gradle --build-file di-examples/build.gradle clean test
 * [artefact publishing demo](artefact-publishing-demo)
 * [akka clustering demo](akka-cluster-sshsessions)
 * [apache avro demo](avro-demo)
-* [blockchain demo](block-chain)
 * [dependency injection examples](di-examples)
 * [futures demo](futures-demo)
 * [grpc demo](grpc-demo)
@@ -40,9 +39,12 @@ gradle --build-file di-examples/build.gradle clean test
 * [simple JNI demo](simple-jni-demo)
 * [JPMS demo](simple-module-example)
 * [ssh server demo](ssh-server-demo)
-* [JCE demo](jce-demo)
 * [com.fasterxml.jackson](jackson-fasterxml-demo)
 * [weird java stuff](java-is-weird)
+* __Security and Crypto__
+  * [Diffie-Hellman demo](diffie-hellman-demo) 
+  * [JCE demo](jce-demo)
+  * [blockchain demo](block-chain)
 * __Databases__
   * [mongodb demo](mongodb-demo)
   * [hibernate demo](hibernate-demo)

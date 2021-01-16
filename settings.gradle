@@ -73,3 +73,5 @@ include "test-artefact"
 include "test-project-gradle"
 project(":test-artefact").projectDir = new File("artefact-publishing-demo/test-artefact")
 project(":test-project-gradle").projectDir = new File("artefact-publishing-demo/test-project-gradle")
+
+include "diffie-hellman-demo"
