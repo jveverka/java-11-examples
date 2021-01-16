@@ -1,2 +1,0 @@
-itx/diffiehellman/DiffieHellmanTest.java
- itx.diffiehellman.DiffieHellmanTest

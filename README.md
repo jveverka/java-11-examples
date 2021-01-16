@@ -45,6 +45,7 @@ gradle --build-file di-examples/build.gradle clean test
   * [Diffie-Hellman demo](diffie-hellman-demo) 
   * [JCE demo](jce-demo)
   * [blockchain demo](block-chain)
+  * [JWT demo](jwt-demo)
 * __Databases__
   * [mongodb demo](mongodb-demo)
   * [hibernate demo](hibernate-demo)
