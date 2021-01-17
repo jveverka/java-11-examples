@@ -44,13 +44,15 @@ gradle --build-file di-examples/build.gradle clean test
 * __Security and Crypto__
   * [Diffie-Hellman demo](diffie-hellman-demo) 
   * [JCE demo](jce-demo)
-  * [blockchain demo](block-chain)
+  * [Blockchain demo](block-chain)
   * [JWT demo](jwt-demo)
+  * [Entropy calculation demo](entropy-demo)
 * __Databases__
   * [mongodb demo](mongodb-demo)
   * [hibernate demo](hibernate-demo)
   * [JDBC demo](jdbc-demo)
   * [R2DBC demo](r2dbc-demo)
+  * [Elastic Search demo](elastic-demo)
 
 ### Other Java Examples
 * [spring demos](https://github.com/jveverka/spring-examples) - java11 & docker & gradle examples

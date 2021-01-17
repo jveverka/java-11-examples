@@ -1,0 +1,24 @@
+
+apply plugin: 'java'
+
+repositories {
+   mavenCentral()
+}
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+dependencies {
+   implementation 'org.slf4j:slf4j-api:1.7.30'
+   implementation 'org.slf4j:slf4j-simple:1.7.30'
+   implementation 'com.google.guava:guava:29.0-jre'
+   testImplementation 'org.testng:testng:7.3.0'
+}
+
+test {
+   useTestNG()
+   //testLogging.showStandardStreams = true
+   testLogging {
+      events "passed", "skipped", "failed"
+   }
+}
