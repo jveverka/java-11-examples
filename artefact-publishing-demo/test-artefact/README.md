@@ -1,6 +1,6 @@
-# Maven Artefact publishing
+# ORSSH Maven Artefact publishing
 This project was created just to test artefact publishing into [maven central](https://repo.maven.apache.org/maven2) 
-repository. ``org.microproject`` group ID is used in this example, but in order to publish your own code,
+repository. ``org.microproject`` group ID is used in this example. In order to publish your own code,
 you will have to register your own group ID.
 
 ## 1. Sonatype account setup

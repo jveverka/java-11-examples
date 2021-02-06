@@ -25,7 +25,7 @@ gradle --build-file di-examples/build.gradle clean test
 ```
 
 ### Examples
-* [artefact publishing demo](artefact-publishing-demo)
+* [artefact publishing demo](artefact-publishing-demo) - publish artefact to ORSSH.
 * [akka clustering demo](akka-cluster-sshsessions)
 * [apache avro demo](avro-demo)
 * [dependency injection examples](di-examples)
