@@ -1,10 +1,10 @@
 # ORSSH Maven Artefact publishing
 This project was created just to test artefact publishing into [maven central](https://repo.maven.apache.org/maven2) 
-repository. ``org.microproject`` group ID is used in this example. In order to publish your own code,
-you will have to register your own group ID.
+repository. ``org.microproject`` base group ID is used in this example. In order to publish your own code,
+you will have to register your own group ID. Only standard gradle plugins are used, check [build.gradle](build.gradle) file setup.
 
 ## 1. Sonatype account setup
-* Sonatype account setup is done only once per group ID.
+* Sonatype account setup is done only once per base group ID.
 * Create account at [https://issues.sonatype.org](https://issues.sonatype.org/secure/Dashboard.jspa),
   Register groupId (org.microproject), get __ossrhUsername__ and __ossrhPassword__ - 
   your own OSSRH credentials.
@@ -66,10 +66,12 @@ repository must NOT have __-SNAPSHOT__ version suffix. Release is finished manua
 After __gradle publish__ action, staging repository is in __open__ state. 
 * Next step will close staging repository. Close action will verify published artefacts.
   ![01-release-publish](../docs/01-release-publish_close-staging-repository.png)
-* After staging repository is closed successfully, there are 2 options: Release or Drop.  
+* After staging repository is closed successfully, there are 2 options: __Release__ or __Drop__.  
   ![02-release-publish](../docs/02-release-publish_release-staging-repository.png)
-* In case Release is selected, staging repository is fully published to maven central. 
-  You have to wait until the release propagates into official maven repositories.
+* In case __Release__ is selected, staging repository is fully published to maven central. 
+  You have to wait until the release propagates into official maven repositories. 
+  It usually takes ~4h until your artefacts are visible in public maven repositories.
+* In case __Drop__ is selected, whole release is discarded. 
 * [Published Release artefact example](https://repo.maven.apache.org/maven2/one/microproject/test/test-artefact/1.0.7)
 * [Published Release artefact search](https://search.maven.org/search?q=g:one.microproject.test%20AND%20a:test-artefact)
 
