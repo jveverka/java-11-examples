@@ -6,7 +6,7 @@ plugins {
 
 group = 'one.microproject.test'
 version = '1.0.9-SNAPSHOT'
-//version = '1.0.9-RELEASE'
+//version = '1.0.9'
 sourceCompatibility = '11'
 
 repositories {
@@ -27,6 +27,8 @@ test {
 }
 
 ext.isSnapshot = version.endsWith("-SNAPSHOT")
+
+//check if gradle/gpg setup for signing and publishing was done on build system.
 if (!project.hasProperty('ossrhUsername') || !project.hasProperty('ossrhPassword')) {
     ext.ossrhUsername = "none";
     ext.ossrhPassword = "****";
@@ -51,6 +53,7 @@ artifacts {
     archives javadocJar
 }
 
+//skip signing in case there is gradle/gpg setup for signing and publishing is missing on build system.
 tasks.withType(Sign) {
     onlyIf { isPublishVersion }
 }

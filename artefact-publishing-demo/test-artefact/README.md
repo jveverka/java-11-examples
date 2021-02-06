@@ -1,7 +1,12 @@
-# ORSSH Maven Artefact publishing
+# ORSSH Gradle Artefact publishing
 This project was created just to test artefact publishing into [maven central](https://repo.maven.apache.org/maven2) 
 repository. ``org.microproject`` base group ID is used in this example. In order to publish your own code,
 you will have to register your own group ID. Only standard gradle plugins are used, check [build.gradle](build.gradle) file setup.
+
+* [x] Java 11 or Java 8
+* [x] Gradle 6.8 or later. 
+* [x] Only standard Gradle plugins.
+* [x] Publishing of SNAPSHOT and RELEASE artefacts.
 
 ## 1. Sonatype account setup
 * Sonatype account setup is done only once per base group ID.
