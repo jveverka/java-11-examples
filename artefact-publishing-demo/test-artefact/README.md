@@ -41,6 +41,8 @@ you will have to register your own group ID. Only standard gradle plugins are us
   PathToYourKeyRingFile = path to previously exported secring.gpg file
 
 ## 2. Project Compile & Test
+Note that [build.gradle](build.gradle) is adapted so normal compilation and test works on any build system. 
+Publishing to ORSSH works only on system setup properly as described above.  
 ```
 gradle clean build test
 ```
@@ -58,6 +60,7 @@ gradle publishToMavenLocal
 gradle publish
 ```
 Last step __gradle publish__, based on current artefact version publishes to snapshot or stage repository.
+Artefact version using ``-SNAPSHOT`` suffix is automatically published to snapshot repository. 
 
 ### 3.1 SNAPSHOT artefacts
 Artefacts published to [oss.sonatype.org SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots)
