@@ -40,3 +40,4 @@ project(':redis-demo') {}
 project(':artefact-publishing-demo') {}
 project(':diffie-hellman-demo')
 project(':entropy-demo')
+project(':datetime-demo')
