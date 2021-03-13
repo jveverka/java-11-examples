@@ -39,4 +39,8 @@ public final  class DateTimeUtils {
         return Instant.ofEpochMilli(epochTime);
     }
 
+    public static Long toEpochMillis(LocalDateTime localDateTime)  {
+        return localDateTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+    }
+
 }

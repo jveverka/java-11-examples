@@ -10,6 +10,7 @@ import java.util.Date;
 import static itx.datetime.DateTimeUtils.getUtcDate;
 import static itx.datetime.DateTimeUtils.getUtcInstant;
 import static itx.datetime.DateTimeUtils.getUtcLocalDateTime;
+import static itx.datetime.DateTimeUtils.toEpochMillis;
 import static org.testng.AssertJUnit.assertEquals;
 
 public class DateTimeUtilsTests {
@@ -26,7 +27,7 @@ public class DateTimeUtilsTests {
     @Test
     void testLocalDateTime() {
         LocalDateTime originalLocalDateTime = getUtcLocalDateTime();
-        Long epochMillis = originalLocalDateTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        Long epochMillis = toEpochMillis(originalLocalDateTime);
         LocalDateTime createdLocalDateTime = getUtcLocalDateTime(epochMillis);
         assertEquals(originalLocalDateTime.toEpochSecond(ZoneOffset.UTC), createdLocalDateTime.toEpochSecond(ZoneOffset.UTC));
     }
