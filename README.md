@@ -47,6 +47,7 @@ gradle --build-file di-examples/build.gradle clean test
   * [Blockchain demo](block-chain)
   * [JWT demo](jwt-demo)
   * [Entropy calculation demo](entropy-demo)
+  * [Enigma demo](enigma-demo)
 * __Databases__
   * [mongodb demo](mongodb-demo)
   * [hibernate demo](hibernate-demo)
