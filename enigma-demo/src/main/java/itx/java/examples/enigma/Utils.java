@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import itx.java.examples.enigma.alphabet.Alphabet;
 import itx.java.examples.enigma.configuration.EnigmaConfiguration;
 import itx.java.examples.enigma.configuration.EnigmaSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Random;
 
@@ -16,12 +18,14 @@ import java.util.Random;
  */
 public final class Utils {
 
+    private static final Logger LOG = LoggerFactory.getLogger(Utils.class);
+
     private Utils() {
         throw new UnsupportedOperationException();
     }
 
     public static String encryptOrDecrypt(Enigma enigma, String message) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < message.length(); i++) {
             sb.append(enigma.encryptOrDecrypt(message.charAt(i)));
         }
@@ -74,7 +78,7 @@ public final class Utils {
 
     public static Integer[] generateRandomIndexes(int length) {
         Random random = new Random(System.currentTimeMillis());
-        Integer randomIndexes[] = new Integer[length];
+        Integer[] randomIndexes = new Integer[length];
         int counter = 0;
         while (true) {
             int rnd = random.nextInt(length);
@@ -122,7 +126,7 @@ public final class Utils {
     }
 
     public static int[][] shiftSubstitutionTable(int[][] table) {
-        int firstRow[] = table[0];
+        int[] firstRow = table[0];
         for (int i = 0; i < (table.length-1); i++) {
             table[i] = table[i + 1];
         }
@@ -138,7 +142,7 @@ public final class Utils {
     }
 
     public static String prettyPrint(int columns, String data) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         int groups = 0;
         int counter = 1;
         for (int i=0; i<data.length(); i++) {
@@ -159,7 +163,7 @@ public final class Utils {
     }
 
     public static String prettyRead(String data) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i=0; i<data.length(); i++) {
            if ('\t' != data.charAt(i) && '\n' != data.charAt(i) && ' ' != data.charAt(i) && '\r' != data.charAt(i)) {
                sb.append(data.charAt(i));
@@ -178,9 +182,9 @@ public final class Utils {
      *   encrypted string in base64 format
      */
     public static String encryptUnicodeString(Enigma enigma, String input) {
-        byte[] inputBytes = Base64.getEncoder().encode(input.getBytes(Charset.forName("UTF-8")));
-        String inputData = new String(inputBytes, Charset.forName("UTF-8"));
-        StringBuffer sb = new StringBuffer();
+        byte[] inputBytes = Base64.getEncoder().encode(input.getBytes(StandardCharsets.UTF_8));
+        String inputData = new String(inputBytes, StandardCharsets.UTF_8);
+        StringBuilder sb = new StringBuilder();
         for (int i=0; i<inputData.length(); i++) {
             sb.append(enigma.encryptOrDecrypt(inputData.charAt(i)));
         }
@@ -197,12 +201,12 @@ public final class Utils {
      *   ordinary unicode java string
      */
     public static String decodeBase64String(Enigma enigma, String input) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i=0; i<input.length(); i++) {
             sb.append(enigma.encryptOrDecrypt(input.charAt(i)));
         }
         byte[] inputBytes = Base64.getDecoder().decode(sb.toString());
-        return new String(inputBytes, Charset.forName("UTF-8"));
+        return new String(inputBytes, StandardCharsets.UTF_8);
     }
 
     public static EnigmaConfiguration readEnigmaConfiguration(InputStream is) throws IOException {
@@ -237,7 +241,7 @@ public final class Utils {
 
     public static void main(String[] main) {
         String randomizedAlphabet = getRandomizedAlphabet(Alphabet.buildAlphabet26());
-        System.out.println(randomizedAlphabet);
+        LOG.info(randomizedAlphabet);
     }
 
 }
