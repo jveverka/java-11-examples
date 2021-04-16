@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 
@@ -118,9 +119,7 @@ public final class Utils {
     public static int[][] copySubstitutionTable(int[][] table) {
         int[][] result = new int[table.length][table[0].length];
         for (int i=0; i<table.length; i++) {
-            for (int j=0; j<table[0].length; j++) {
-                result[i][j] = table[i][j];
-            }
+            result[i] = Arrays.copyOf(table[i], table[i].length);
         }
         return result;
     }
@@ -136,7 +135,7 @@ public final class Utils {
 
     public static int[][] shiftSubstitutionTable(int[][] table, int shift) {
         for (int i=0; i<shift; i++) {
-            table = shiftSubstitutionTable(table);
+            shiftSubstitutionTable(table);
         }
         return table;
     }

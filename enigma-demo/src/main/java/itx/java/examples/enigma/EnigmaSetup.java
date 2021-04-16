@@ -11,17 +11,17 @@ public final class EnigmaSetup {
         throw new UnsupportedOperationException();
     }
 
-    public static final Alphabet defaultAlphabet26;
-    public static final int[][] reflectorData26;
-    public static final int[][] rotor0Data26;
-    public static final int[][] rotor1Data26;
-    public static final int[][] rotor2Data26;
+    private static final Alphabet defaultAlphabet26;
+    private static final int[][] reflectorData26;
+    private static final int[][] rotor0Data26;
+    private static final int[][] rotor1Data26;
+    private static final int[][] rotor2Data26;
 
-    public static final Alphabet defaultAlphabetBase64;
-    public static final int[][] reflectorDataBase64;
-    public static final int[][] rotor0DataBase64;
-    public static final int[][] rotor1DataBase64;
-    public static final int[][] rotor2DataBase64;
+    private static final Alphabet defaultAlphabetBase64;
+    private static final int[][] reflectorDataBase64;
+    private static final int[][] rotor0DataBase64;
+    private static final int[][] rotor1DataBase64;
+    private static final int[][] rotor2DataBase64;
 
     static {
         //default 26 letter alphabet (all uppercase letters)
@@ -43,6 +43,38 @@ public final class EnigmaSetup {
         rotor2DataBase64 = Utils.createSubstitutionMap(defaultAlphabetBase64,
         "pzu4IXGK/7lanbrdBF#USyPsj5c6e2OwVhR8MfLY3xZ=1HT+gtDQJCAWikoEvm0qN9");
         reflectorDataBase64 = Utils.createReflectorSubstitutionMap(defaultAlphabetBase64);
+    }
+
+    public static int[][] getReflectorData26() {
+        return Utils.copySubstitutionTable(reflectorData26);
+    }
+
+    public static int[][] getReflectorDataBase64() {
+        return Utils.copySubstitutionTable(reflectorDataBase64);
+    }
+
+    public static int[][] getRotor0Data26() {
+        return Utils.copySubstitutionTable(rotor0Data26);
+    }
+
+    public static int[][] getRotor1Data26() {
+        return Utils.copySubstitutionTable(rotor1Data26);
+    }
+
+    public static int[][] getRotor2Data26() {
+        return Utils.copySubstitutionTable(rotor2Data26);
+    }
+
+    public static int[][] getRotor0DataBase64() {
+        return Utils.copySubstitutionTable(rotor0DataBase64);
+    }
+
+    public static int[][] getRotor1DataBase64() {
+        return Utils.copySubstitutionTable(rotor1DataBase64);
+    }
+
+    public static int[][] getRotor2DataBase64() {
+        return Utils.copySubstitutionTable(rotor2DataBase64);
     }
 
 }

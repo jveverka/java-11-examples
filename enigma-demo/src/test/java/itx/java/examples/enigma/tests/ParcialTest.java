@@ -16,13 +16,14 @@ public class ParcialTest {
 
     @Test
     public void testCopyTable() {
-        int[][] copy = Utils.copySubstitutionTable(EnigmaSetup.rotor0Data26);
-        Assert.assertTrue(copy.length == EnigmaSetup.rotor0Data26.length);
-        Assert.assertTrue(copy[0].length == EnigmaSetup.rotor0Data26[0].length);
+        int[][] rotor0Data26 = EnigmaSetup.getRotor0Data26();
+        int[][] copy = Utils.copySubstitutionTable(rotor0Data26);
+        Assert.assertTrue(copy.length == rotor0Data26.length);
+        Assert.assertTrue(copy[0].length == rotor0Data26[0].length);
         for (int i=0; i<copy.length; i++) {
             for (int j=0;j<copy[0].length; j++) {
-                Assert.assertTrue(copy[i].length == EnigmaSetup.rotor0Data26[i].length);
-                Assert.assertTrue(copy[i][j] == EnigmaSetup.rotor0Data26[i][j]);
+                Assert.assertTrue(copy[i].length == rotor0Data26[i].length);
+                Assert.assertTrue(copy[i][j] == rotor0Data26[i][j]);
             }
         }
     }
@@ -56,24 +57,26 @@ public class ParcialTest {
 
     @Test
     public void testRotorForward() {
+        int[][] rotor0Data26 = EnigmaSetup.getRotor0Data26();
         Rotor rotor = Rotor.builder()
-                .setSubstitutionTable(EnigmaSetup.rotor0Data26)
+                .setSubstitutionTable(rotor0Data26)
                 .setIndex(0)
                 .build();
-        for (int i=0; i<EnigmaSetup.rotor0Data26.length; i++) {
+        for (int i=0; i<rotor0Data26.length; i++) {
             int result = rotor.substituteForward(i);
-            int subtitute = EnigmaSetup.rotor0Data26[i][1];
+            int subtitute = rotor0Data26[i][1];
             Assert.assertEquals(subtitute, result);
         }
     }
 
     @Test
     public void testRotor() {
+        int[][] rotor0Data26 = EnigmaSetup.getRotor0Data26();
         Rotor rotor = Rotor.builder()
-                .setSubstitutionTable(EnigmaSetup.rotor0Data26)
+                .setSubstitutionTable(rotor0Data26)
                 .setIndex(0)
                 .build();
-        for (int i = 0; i < EnigmaSetup.rotor0Data26.length; i++) {
+        for (int i = 0; i < rotor0Data26.length; i++) {
             Integer result = rotor.substituteForward(i);
             Integer reverse = rotor.substituteReverse(result);
             Assert.assertEquals(reverse, new Integer(i));
@@ -82,11 +85,12 @@ public class ParcialTest {
 
     @Test
     public void testShiftedRotor() {
+        int[][] rotor0Data26 = EnigmaSetup.getRotor0Data26();
         Rotor rotor = Rotor.builder()
-                .setSubstitutionTable(EnigmaSetup.rotor0Data26)
+                .setSubstitutionTable(rotor0Data26)
                 .setIndex(5)
                 .build();
-        for (int i = 0; i < EnigmaSetup.rotor0Data26.length; i++) {
+        for (int i = 0; i < rotor0Data26.length; i++) {
             Integer result = rotor.substituteForward(i);
             Integer reverse = rotor.substituteReverse(result);
             Assert.assertEquals(reverse, new Integer(i));
@@ -95,35 +99,39 @@ public class ParcialTest {
 
     @Test
     public void testReflector() {
+        int[][] reflectorData26 = EnigmaSetup.getReflectorData26();
         Reflector reflector = Reflector.builder()
-                .setSubstitutionTable(EnigmaSetup.reflectorData26)
+                .setSubstitutionTable(reflectorData26)
                 .build();
-        for (int i=0; i<EnigmaSetup.reflectorData26.length; i++) {
+        for (int i=0; i<reflectorData26.length; i++) {
             Integer result = reflector.substitute(i);
-            Integer subtitute = EnigmaSetup.reflectorData26[i][1];
+            Integer subtitute = reflectorData26[i][1];
             Assert.assertEquals(subtitute, result);
         }
     }
 
     @Test
     public void testRotorGroup() {
+        int[][] rotor0Data26 = EnigmaSetup.getRotor0Data26();
+        int[][] rotor1Data26 = EnigmaSetup.getRotor1Data26();
+        int[][] rotor2Data26 = EnigmaSetup.getRotor2Data26();
         RotorGroupBuilder rotorBuilder = RotorGroup.builder();
         rotorBuilder.addRotor(Rotor.builder()
-                .setSubstitutionTable(EnigmaSetup.rotor0Data26)
+                .setSubstitutionTable(rotor0Data26)
                 .setIndex(0)
                 .build());
         rotorBuilder.addRotor(Rotor.builder()
-                .setSubstitutionTable(EnigmaSetup.rotor1Data26)
+                .setSubstitutionTable(rotor1Data26)
                 .setIndex(0)
                 .build());
         rotorBuilder.addRotor(Rotor.builder()
-                .setSubstitutionTable(EnigmaSetup.rotor2Data26)
+                .setSubstitutionTable(rotor2Data26)
                 .setIndex(0)
                 .build());
         RotorGroup rotorGroup = rotorBuilder.build();
-        Reflector reflector = Reflector.builder().setSubstitutionTable(EnigmaSetup.reflectorData26).build();
+        Reflector reflector = Reflector.builder().setSubstitutionTable(EnigmaSetup.getReflectorData26()).build();
 
-        for (int i=0; i<EnigmaSetup.rotor0Data26.length; i++) {
+        for (int i=0; i<rotor0Data26.length; i++) {
             Integer result0 = rotorGroup.substituteForward(i);
             Integer reflected0 = reflector.substitute(result0);
             Integer outPut0 = rotorGroup.substituteReverse(reflected0);
@@ -138,24 +146,27 @@ public class ParcialTest {
 
     @Test
     public void testRotorGroupRotate() {
+        int[][] rotor0Data26 = EnigmaSetup.getRotor0Data26();
+        int[][] rotor1Data26 = EnigmaSetup.getRotor1Data26();
+        int[][] rotor2Data26 = EnigmaSetup.getRotor2Data26();
         RotorGroupBuilder rotorBuilder = RotorGroup.builder();
         rotorBuilder.addRotor(Rotor.builder()
-                .setSubstitutionTable(EnigmaSetup.rotor0Data26)
+                .setSubstitutionTable(rotor0Data26)
                 .setIndex(0)
                 .build());
         rotorBuilder.addRotor(Rotor.builder()
-                .setSubstitutionTable(EnigmaSetup.rotor1Data26)
+                .setSubstitutionTable(rotor1Data26)
                 .setIndex(0)
                 .build());
         rotorBuilder.addRotor(Rotor.builder()
-                .setSubstitutionTable(EnigmaSetup.rotor2Data26)
+                .setSubstitutionTable(rotor2Data26)
                 .setIndex(0)
                 .build());
         RotorGroup rotorGroup = rotorBuilder.build();
-        Reflector reflector = Reflector.builder().setSubstitutionTable(EnigmaSetup.reflectorData26).build();
+        Reflector reflector = Reflector.builder().setSubstitutionTable(EnigmaSetup.getReflectorData26()).build();
 
         for (int r=0; r<10; r++) {
-            for (int i = 0; i < EnigmaSetup.rotor0Data26.length; i++) {
+            for (int i = 0; i < rotor0Data26.length; i++) {
                 Integer result0 = rotorGroup.substituteForward(i);
                 Integer reflected0 = reflector.substitute(result0);
                 Integer outPut0 = rotorGroup.substituteReverse(reflected0);
@@ -172,21 +183,24 @@ public class ParcialTest {
 
     @Test
     public void testRotorGroupRotateSameInput() {
+        int[][] rotor0Data26 = EnigmaSetup.getRotor0Data26();
+        int[][] rotor1Data26 = EnigmaSetup.getRotor1Data26();
+        int[][] rotor2Data26 = EnigmaSetup.getRotor2Data26();
         RotorGroupBuilder rotorBuilder = RotorGroup.builder();
         rotorBuilder.addRotor(Rotor.builder()
-                .setSubstitutionTable(EnigmaSetup.rotor0Data26)
+                .setSubstitutionTable(rotor0Data26)
                 .setIndex(0)
                 .build());
         rotorBuilder.addRotor(Rotor.builder()
-                .setSubstitutionTable(EnigmaSetup.rotor1Data26)
+                .setSubstitutionTable(rotor1Data26)
                 .setIndex(0)
                 .build());
         rotorBuilder.addRotor(Rotor.builder()
-                .setSubstitutionTable(EnigmaSetup.rotor2Data26)
+                .setSubstitutionTable(rotor2Data26)
                 .setIndex(0)
                 .build());
         RotorGroup rotorGroup = rotorBuilder.build();
-        Reflector reflector = Reflector.builder().setSubstitutionTable(EnigmaSetup.reflectorData26).build();
+        Reflector reflector = Reflector.builder().setSubstitutionTable(EnigmaSetup.getReflectorData26()).build();
 
         int input = 8;
         int encrypted = -1; //encrypted

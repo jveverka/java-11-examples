@@ -32,7 +32,7 @@ public class TheBomb {
         this.plugBoardSetup = plugBoardSetup;
     }
 
-    public EnigmaConfiguration findEnigmaSetup() throws Exception {
+    public EnigmaConfiguration findEnigmaSetup() throws ConfigNotFoundException {
         LOG.info("searching for enigma setup ...");
         long duration = System.currentTimeMillis();
 
@@ -74,7 +74,7 @@ public class TheBomb {
 
         duration = System.currentTimeMillis() - duration;
         LOG.info("done: duration = {} ms", duration);
-        throw new Exception("Enigma setting not found !");
+        throw new ConfigNotFoundException("Enigma setting not found !");
     }
 
     private boolean testEnigmaSetup(EnigmaConfiguration enigmaConfiguration, String encodedMessage, String expectedString) {
