@@ -10,9 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class AlphabetImpl implements Alphabet {
 
-    private String alphabet;
-    private Map<Character, Integer> keys;
-    private Map<Integer, Character> indexes;
+    private final String alphabet;
+    private final Map<Character, Integer> keys;
+    private final Map<Integer, Character> indexes;
 
     public AlphabetImpl(String alphabet) {
         if (alphabet.length() % 2 != 0) {

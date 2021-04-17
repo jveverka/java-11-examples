@@ -7,7 +7,7 @@ import itx.java.examples.enigma.plugboard.PlugBoard;
  */
 public class PlugBoardImpl implements PlugBoard {
 
-    private Character[][] setup;
+    private final Character[][] setup;
 
     public PlugBoardImpl(Character[][] setup) {
         this.setup = setup;

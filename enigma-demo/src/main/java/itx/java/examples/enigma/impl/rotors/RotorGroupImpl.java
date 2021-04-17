@@ -8,9 +8,9 @@ import itx.java.examples.enigma.rotors.RotorGroup;
  */
 public class RotorGroupImpl implements RotorGroup {
 
-    private Rotor[] rotors;
-    private int[] positions;
-    private int size;
+    private final Rotor[] rotors;
+    private final int[] positions;
+    private final int size;
 
     public RotorGroupImpl(Rotor[] rotors) {
         this.rotors = rotors;

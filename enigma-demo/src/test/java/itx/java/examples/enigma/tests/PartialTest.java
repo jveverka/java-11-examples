@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 /**
  * Created by gergej on 18.1.2017.
  */
-public class ParcialTest {
+public class PartialTest {
 
     @Test
     public void testCopyTable() {

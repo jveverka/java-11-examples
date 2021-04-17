@@ -8,7 +8,7 @@ import itx.java.examples.enigma.rotors.Reflector;
  */
 public class ReflectorImpl implements Reflector {
 
-    private int[][] substitutionTable;
+    private final int[][] substitutionTable;
 
     public ReflectorImpl(int[][] substitutionTable) {
         this.substitutionTable = substitutionTable;

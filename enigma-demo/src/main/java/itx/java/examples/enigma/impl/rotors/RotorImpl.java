@@ -8,9 +8,9 @@ import itx.java.examples.enigma.rotors.Rotor;
  */
 public class RotorImpl implements Rotor {
 
-    private int[][] substitutionTable;
+    private final int[][] substitutionTable;
+    private final int startIndex;
     private int[][] shiftedTable;
-    private int startIndex;
 
     public RotorImpl(int[][] substitutionTable, int startIndex) {
         this.substitutionTable = substitutionTable;

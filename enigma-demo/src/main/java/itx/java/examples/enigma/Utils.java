@@ -44,7 +44,7 @@ public final class Utils {
         return result;
     }
 
-    public static Character[][] generateRandomPlugBoadrSetup(Alphabet alphabet) {
+    public static Character[][] generateRandomPlugBoardSetup(Alphabet alphabet) {
         int length = alphabet.getSize() / 2;
         if (length % 2 == 0) {
             throw new UnsupportedOperationException("alphabet length must be divisible by 2");

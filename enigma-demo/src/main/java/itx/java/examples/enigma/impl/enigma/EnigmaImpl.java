@@ -14,10 +14,10 @@ import java.util.Base64;
  */
 public class EnigmaImpl implements Enigma {
 
-    private Reflector reflector;
-    private RotorGroup rotorGroup;
-    private PlugBoard plugBoard;
-    private Alphabet alphabet;
+    private final Reflector reflector;
+    private final RotorGroup rotorGroup;
+    private final PlugBoard plugBoard;
+    private final Alphabet alphabet;
 
     public EnigmaImpl(Alphabet alphabet, Reflector reflector, RotorGroup rotorGroup, PlugBoard plugBoard) {
         this.alphabet = alphabet;
