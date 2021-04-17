@@ -11,7 +11,7 @@ initialRotorPositions[2] = 21;
 Enigma enigmaForEncryption = EnigmaFactory.createEnigmaBase64(initialRotorPositions, plugBoardSetup);
 Enigma enigmaForDecryption = EnigmaFactory.createEnigmaBase64(initialRotorPositions, plugBoardSetup);
 
-String originalMessage = "Hello World";       
-String encryptedMessage = enigmaForEncryption.encryptUnicodeString(originalMessage);
-String decryptedMessage = enigmaForDecryption.decodeBase64String(encryptedMessage);
+String originalMessage = "Hello World !";       
+String encryptedMessage = enigmaForEncryption.encryptGenericString(originalMessage);
+String decryptedMessage = enigmaForDecryption.decryptGenericString(encryptedMessage);
 ```
