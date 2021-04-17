@@ -1,9 +1,7 @@
 package itx.java.examples.enigma.tests;
 
 import itx.java.examples.enigma.Enigma;
-import itx.java.examples.enigma.EnigmaFactory;
 import itx.java.examples.enigma.Utils;
-import itx.java.examples.enigma.alphabet.Alphabet;
 import itx.java.examples.enigma.configuration.EnigmaConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -36,14 +34,12 @@ public class EnigmaTest {
 
     @Test(dataProvider = "messages26")
     public void testSimpleMessageAlphabet26(String originalMessage) {
-        Alphabet alphabet = Alphabet.buildAlphabet26();
         int[] initialRotorPositions = new int[3];
-        Character[][] plugBoardSetup = Utils.generateRandomPlugBoadrSetup(alphabet);
         initialRotorPositions[0] = 9;
         initialRotorPositions[1] = 19;
         initialRotorPositions[2] = 23;
-        Enigma enigmaForEncryption = EnigmaFactory.createEnigma26(initialRotorPositions, plugBoardSetup);
-        Enigma enigmaForDecryption = EnigmaFactory.createEnigma26(initialRotorPositions, plugBoardSetup);
+        Enigma enigmaForEncryption = Enigma.builder().createEnigma26(initialRotorPositions).build();
+        Enigma enigmaForDecryption = Enigma.builder().createEnigma26(initialRotorPositions).build();
         String encryptedMessage = enigmaForEncryption.encryptOrDecrypt(originalMessage);
         String decryptedMessage = enigmaForDecryption.encryptOrDecrypt(encryptedMessage);
         Assert.assertNotNull(encryptedMessage);
@@ -62,14 +58,12 @@ public class EnigmaTest {
 
     @Test(dataProvider = "messagesBase64")
     public void testSimpleMessageAlphabetBase64(String inputStreamClassPath) throws IOException {
-        Alphabet alphabet = Alphabet.buildAlphabetBase64();
         int[] initialRotorPositions = new int[3];
-        Character[][] plugBoardSetup = Utils.generateRandomPlugBoadrSetup(alphabet);
         initialRotorPositions[0] = 18;
         initialRotorPositions[1] = 12;
         initialRotorPositions[2] = 21;
-        Enigma enigmaForEncryption = EnigmaFactory.createEnigmaBase64(initialRotorPositions, plugBoardSetup);
-        Enigma enigmaForDecryption = EnigmaFactory.createEnigmaBase64(initialRotorPositions, plugBoardSetup);
+        Enigma enigmaForEncryption = Enigma.builder().createEnigmaBase64(initialRotorPositions).build();
+        Enigma enigmaForDecryption = Enigma.builder().createEnigmaBase64(initialRotorPositions).build();
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(inputStreamClassPath);
         Assert.assertNotNull(is);
         StringWriter writer = new StringWriter();
