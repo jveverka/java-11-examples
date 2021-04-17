@@ -1,6 +1,6 @@
 package itx.java.examples.enigma.impl.rotors;
 
-import itx.java.examples.enigma.Utils;
+import itx.java.examples.enigma.EnigmaUtils;
 import itx.java.examples.enigma.rotors.Reflector;
 
 /**
@@ -16,7 +16,7 @@ public class ReflectorImpl implements Reflector {
 
     @Override
     public int substitute(int character) {
-        return Utils.getSubstitutionOf(substitutionTable, character, false);
+        return EnigmaUtils.getSubstitutionOf(substitutionTable, character, false);
     }
 
 }

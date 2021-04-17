@@ -15,13 +15,80 @@ import java.util.Random;
 /**
  * Created by gergej on 17.1.2017.
  */
-public final class Utils {
+public final class EnigmaUtils {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Utils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EnigmaUtils.class);
 
-    private Utils() {
+    private EnigmaUtils() {
         throw new UnsupportedOperationException();
     }
+
+    private static final Alphabet defaultAlphabet26;
+    private static final int[][] reflectorData26;
+    private static final int[][] rotor0Data26;
+    private static final int[][] rotor1Data26;
+    private static final int[][] rotor2Data26;
+
+    private static final Alphabet defaultAlphabetBase64;
+    private static final int[][] reflectorDataBase64;
+    private static final int[][] rotor0DataBase64;
+    private static final int[][] rotor1DataBase64;
+    private static final int[][] rotor2DataBase64;
+
+    static {
+        //default 26 letter alphabet (all uppercase letters)
+        defaultAlphabet26 = Alphabet.buildAlphabet26();
+        rotor0Data26 = createSubstitutionMap(defaultAlphabet26,
+                "FYLDVAEQHMCZNXTKJPWUOGISBR");
+        rotor1Data26 = createSubstitutionMap(defaultAlphabet26,
+                "SXROTNJHUBECYWPDGMAFIZVKQL");
+        rotor2Data26 = createSubstitutionMap(defaultAlphabet26,
+                "WGDYQLVBIFJAUSCTHENOKXRZMP");
+        reflectorData26 = createReflectorSubstitutionMap(Alphabet.buildAlphabet26());
+
+        //default base 64 alphabet
+        defaultAlphabetBase64 = Alphabet.buildAlphabetBase64();
+        rotor0DataBase64 = createSubstitutionMap(defaultAlphabetBase64,
+                "2AFyaRcKfVvu1=Dp5+iYw9TXbOqm0NQdeJgnEG#hrUx3t8CWMHkzSs7ZPlL46oI/Bj");
+        rotor1DataBase64 = createSubstitutionMap(defaultAlphabetBase64,
+                "9C/c2YUL6#jbnhJGkDuK7SW5PpTqswzoig1OX+0VyrvdmHFQAEI3Rx=BZtN48ealMf");
+        rotor2DataBase64 = createSubstitutionMap(defaultAlphabetBase64,
+                "pzu4IXGK/7lanbrdBF#USyPsj5c6e2OwVhR8MfLY3xZ=1HT+gtDQJCAWikoEvm0qN9");
+        reflectorDataBase64 = createReflectorSubstitutionMap(defaultAlphabetBase64);
+    }
+
+    public static int[][] getReflectorData26() {
+        return copySubstitutionTable(reflectorData26);
+    }
+
+    public static int[][] getReflectorDataBase64() {
+        return copySubstitutionTable(reflectorDataBase64);
+    }
+
+    public static int[][] getRotor0Data26() {
+        return copySubstitutionTable(rotor0Data26);
+    }
+
+    public static int[][] getRotor1Data26() {
+        return copySubstitutionTable(rotor1Data26);
+    }
+
+    public static int[][] getRotor2Data26() {
+        return copySubstitutionTable(rotor2Data26);
+    }
+
+    public static int[][] getRotor0DataBase64() {
+        return copySubstitutionTable(rotor0DataBase64);
+    }
+
+    public static int[][] getRotor1DataBase64() {
+        return copySubstitutionTable(rotor1DataBase64);
+    }
+
+    public static int[][] getRotor2DataBase64() {
+        return copySubstitutionTable(rotor2DataBase64);
+    }
+
 
     public static int[][] createReflectorSubstitutionMap(Alphabet alphabet) {
         int[][] result = new int[alphabet.getSize()][2];

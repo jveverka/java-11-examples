@@ -1,6 +1,6 @@
 package itx.java.examples.enigma.tests;
 
-import itx.java.examples.enigma.Utils;
+import itx.java.examples.enigma.EnigmaUtils;
 import itx.java.examples.enigma.configuration.EnigmaConfiguration;
 import itx.java.examples.enigma.configuration.EnigmaSettings;
 import org.testng.Assert;
@@ -18,7 +18,7 @@ public class UtilsTest {
     public void readEnigmaConfigutationTest() throws IOException {
         InputStream is = UtilsTest.class.getClassLoader().getResourceAsStream("configurations/enigma-test-configuration-26-01.json");
         Assert.assertNotNull(is);
-        EnigmaConfiguration enigmaConfiguration = Utils.readEnigmaConfiguration(is);
+        EnigmaConfiguration enigmaConfiguration = EnigmaUtils.readEnigmaConfiguration(is);
         Assert.assertNotNull(enigmaConfiguration);
         Assert.assertNotNull(enigmaConfiguration.getAplhabet());
         Assert.assertNotNull(enigmaConfiguration.getRotorParameters());
@@ -35,7 +35,7 @@ public class UtilsTest {
     public void readEnigmaSetupTest() throws IOException {
         InputStream is = UtilsTest.class.getClassLoader().getResourceAsStream("configurations/enigma-test-setup-26-01.json");
         Assert.assertNotNull(is);
-        EnigmaSettings enigmaSettings = Utils.readEnigmaSetup(is);
+        EnigmaSettings enigmaSettings = EnigmaUtils.readEnigmaSetup(is);
         Assert.assertNotNull(enigmaSettings);
         Assert.assertNotNull(enigmaSettings.getPlugBoardSetup());
         Assert.assertNotNull(enigmaSettings.getRotorOrdinals());

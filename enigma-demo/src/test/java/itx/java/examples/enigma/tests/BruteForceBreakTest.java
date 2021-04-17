@@ -1,7 +1,7 @@
 package itx.java.examples.enigma.tests;
 
 import itx.java.examples.enigma.Enigma;
-import itx.java.examples.enigma.Utils;
+import itx.java.examples.enigma.EnigmaUtils;
 import itx.java.examples.enigma.configuration.EnigmaConfiguration;
 import itx.java.examples.enigma.thebomb.RotorGroupIterator;
 import itx.java.examples.enigma.thebomb.TheBomb;
@@ -29,7 +29,7 @@ public class BruteForceBreakTest {
 
         LOG.info("encrypting message ...");
         InputStream is = UtilsTest.class.getClassLoader().getResourceAsStream(enigmaConfigPath);
-        EnigmaConfiguration enigmaConfiguration = Utils.readEnigmaConfiguration(is);
+        EnigmaConfiguration enigmaConfiguration = EnigmaUtils.readEnigmaConfiguration(is);
         Enigma enigmaForEncryption = Enigma.builder().fromConfiguration(enigmaConfiguration).build();
         String encryptedMessage = enigmaForEncryption.encryptOrDecrypt(originalMessage);
 

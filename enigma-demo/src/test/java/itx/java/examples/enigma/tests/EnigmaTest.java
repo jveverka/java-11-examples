@@ -1,7 +1,7 @@
 package itx.java.examples.enigma.tests;
 
 import itx.java.examples.enigma.Enigma;
-import itx.java.examples.enigma.Utils;
+import itx.java.examples.enigma.EnigmaUtils;
 import itx.java.examples.enigma.configuration.EnigmaConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -72,7 +72,7 @@ public class EnigmaTest {
         String decryptedMessage = enigmaForDecryption.decryptGenericString(encryptedMessage);
         Assert.assertNotNull(encryptedMessage);
         Assert.assertNotNull(decryptedMessage);
-        String prettyPrint = Utils.prettyPrint(12, encryptedMessage);
+        String prettyPrint = EnigmaUtils.prettyPrint(12, encryptedMessage);
         Assert.assertNotNull(prettyPrint);
         Assert.assertEquals(originalMessage, decryptedMessage);
     }
@@ -89,7 +89,7 @@ public class EnigmaTest {
     @Test(dataProvider = "configs")
     public void testEnigmaConfiguration(String configPath, String originalMessage, Boolean useBase64) throws IOException {
         InputStream is = UtilsTest.class.getClassLoader().getResourceAsStream(configPath);
-        EnigmaConfiguration enigmaConfiguration = Utils.readEnigmaConfiguration(is);
+        EnigmaConfiguration enigmaConfiguration = EnigmaUtils.readEnigmaConfiguration(is);
         Enigma enigmaForEncryption = Enigma.builder().fromConfiguration(enigmaConfiguration).build();
         Enigma enigmaForDecryption = Enigma.builder().fromConfiguration(enigmaConfiguration).build();
         String encryptedMessage = null;
