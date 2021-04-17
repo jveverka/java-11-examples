@@ -7,17 +7,17 @@ import itx.java.examples.enigma.impl.rotors.RotorBuilder;
  */
 public interface Rotor {
 
-    public void resetPosition();
+    void resetPosition();
 
-    public int substituteForward(int character);
+    int substituteForward(int character);
 
-    public int substituteReverse(int character);
+    int substituteReverse(int character);
 
-    public void shift();
+    void shift();
 
-    public int getSize();
+    int getSize();
 
-    public static RotorBuilder builder() {
+    static RotorBuilder builder() {
         return new RotorBuilder();
     }
 

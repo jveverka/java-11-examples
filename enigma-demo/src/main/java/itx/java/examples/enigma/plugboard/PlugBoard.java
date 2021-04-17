@@ -7,11 +7,11 @@ import itx.java.examples.enigma.impl.plugboard.PlugBoardBuilder;
  */
 public interface PlugBoard {
 
-    public Character swapBefore(Character character);
+    Character swapBefore(Character character);
 
-    public Character swapAfter(Character character);
+    Character swapAfter(Character character);
 
-    public static PlugBoardBuilder builder() {
+    static PlugBoardBuilder builder() {
         return new PlugBoardBuilder();
     }
 

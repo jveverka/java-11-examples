@@ -27,18 +27,18 @@ public interface Enigma {
     String encryptOrDecrypt(String message);
 
     /**
+     * Encrypt ordinary java {@link String}.
+     * @param message ordinary java string.
+     * @return encrypted massage data as String.
+     */
+    String encryptGenericString(String message);
+
+    /**
      * Decrypt data in base64 format.
      * @param input encrypted data in base64 format.
      * @return ordinary unicode java string.
      */
-    String decodeBase64String(String input);
-
-    /**
-     * Decrypt ordinary unicode java string.
-     * @param input ordinary unicode java string.
-     * @return encrypted string in base64 format.
-     */
-    String encryptUnicodeString(String input);
+    String decryptGenericString(String input);
 
     /**
      * Reset rotor positions to initial state.

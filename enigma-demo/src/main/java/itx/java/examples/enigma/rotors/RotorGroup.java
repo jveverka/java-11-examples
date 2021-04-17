@@ -7,15 +7,15 @@ import itx.java.examples.enigma.impl.rotors.RotorGroupBuilder;
  */
 public interface RotorGroup {
 
-    public void resetPosition();
+    void resetPosition();
 
-    public int substituteForward(int character);
+    int substituteForward(int character);
 
-    public int substituteReverse(int character);
+    int substituteReverse(int character);
 
-    public void shift();
+    void shift();
 
-    public static RotorGroupBuilder builder() {
+    static RotorGroupBuilder builder() {
         return new RotorGroupBuilder();
     }
 

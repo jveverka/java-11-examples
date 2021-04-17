@@ -75,8 +75,8 @@ public class EnigmaTest {
         StringWriter writer = new StringWriter();
         IOUtils.copy(is, writer, Charset.forName("UTF-8"));
         String originalMessage = writer.toString();
-        String encryptedMessage = enigmaForEncryption.encryptUnicodeString(originalMessage);
-        String decryptedMessage = enigmaForDecryption.decodeBase64String(encryptedMessage);
+        String encryptedMessage = enigmaForEncryption.encryptGenericString(originalMessage);
+        String decryptedMessage = enigmaForDecryption.decryptGenericString(encryptedMessage);
         Assert.assertNotNull(encryptedMessage);
         Assert.assertNotNull(decryptedMessage);
         String prettyPrint = Utils.prettyPrint(12, encryptedMessage);
@@ -87,9 +87,9 @@ public class EnigmaTest {
     @DataProvider(name = "configs")
     public static Object[][] getConfigs() {
         return new Object[][]{
-                { "configurations/enigma-test-configuration-26-01.json", "THESECRETMESSAGE", new Boolean(false) },
-                { "configurations/enigma-test-configuration-26-02.json", "TOPSECRETMESSAGE", new Boolean(false) },
-                { "configurations/enigma-test-configuration-base64-01.json", "The Secret Message", new Boolean(true) }
+                { "configurations/enigma-test-configuration-26-01.json", "THESECRETMESSAGE", Boolean.FALSE },
+                { "configurations/enigma-test-configuration-26-02.json", "TOPSECRETMESSAGE", Boolean.FALSE },
+                { "configurations/enigma-test-configuration-base64-01.json", "The Secret Message", Boolean.TRUE }
         };
     }
 
@@ -102,8 +102,8 @@ public class EnigmaTest {
         String encryptedMessage = null;
         String decryptedMessage = null;
         if (useBase64) {
-            encryptedMessage = enigmaForEncryption.encryptUnicodeString(originalMessage);
-            decryptedMessage = enigmaForDecryption.decodeBase64String(encryptedMessage);
+            encryptedMessage = enigmaForEncryption.encryptGenericString(originalMessage);
+            decryptedMessage = enigmaForDecryption.decryptGenericString(encryptedMessage);
         } else {
             encryptedMessage = enigmaForEncryption.encryptOrDecrypt(originalMessage);
             decryptedMessage = enigmaForDecryption.encryptOrDecrypt(encryptedMessage);

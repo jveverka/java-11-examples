@@ -49,7 +49,7 @@ public class EnigmaImpl implements Enigma {
     }
 
     @Override
-    public String encryptUnicodeString(String input) {
+    public String encryptGenericString(String input) {
         byte[] inputBytes = Base64.getEncoder().encode(input.getBytes(StandardCharsets.UTF_8));
         String inputData = new String(inputBytes, StandardCharsets.UTF_8);
         StringBuilder sb = new StringBuilder();
@@ -60,7 +60,7 @@ public class EnigmaImpl implements Enigma {
     }
 
     @Override
-    public String decodeBase64String(String input) {
+    public String decryptGenericString(String input) {
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<input.length(); i++) {
             sb.append(encryptOrDecrypt(input.charAt(i)));

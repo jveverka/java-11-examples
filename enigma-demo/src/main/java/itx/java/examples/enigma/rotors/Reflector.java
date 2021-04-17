@@ -7,9 +7,9 @@ import itx.java.examples.enigma.impl.rotors.ReflectorBuilder;
  */
 public interface Reflector {
 
-    public int substitute(int character);
+    int substitute(int character);
 
-    public static ReflectorBuilder builder() {
+    static ReflectorBuilder builder() {
         return new ReflectorBuilder();
     }
 
