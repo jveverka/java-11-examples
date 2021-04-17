@@ -10,8 +10,8 @@ subprojects {
     }
 
     dependencies {
-        compile 'org.slf4j:slf4j-api:1.7.30'
-        compile 'org.slf4j:slf4j-simple:1.7.30'
+        implementation 'org.slf4j:slf4j-api:1.7.30'
+        implementation 'org.slf4j:slf4j-simple:1.7.30'
     }
 }
 
@@ -20,14 +20,14 @@ project(':ssh-server') {
 
 project(':ssh-client') {
     dependencies {
-        compile project(':ssh-server')
+        implementation project(':ssh-server')
     }
 }
 
 project(':ssh-examples') {
     dependencies {
-        compile project(':ssh-client')
-        compile project(':ssh-server')
+        implementation project(':ssh-client')
+        implementation project(':ssh-server')
     }
 }
 

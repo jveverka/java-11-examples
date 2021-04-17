@@ -10,24 +10,24 @@ subprojects {
     }
 
     dependencies {
-        compile 'org.slf4j:slf4j-api:1.7.30'
-        compile 'org.slf4j:slf4j-simple:1.7.30'
+        implementation 'org.slf4j:slf4j-api:1.7.30'
+        implementation 'org.slf4j:slf4j-simple:1.7.30'
     }
 }
 
-project(':common') {
+project(':hz-common') {
 }
 
 project(':server-node') {
     dependencies {
-        compile project(':common')
+        implementation project(':hz-common')
     }
 }
 
 project(':it-tests') {
     dependencies {
-        compile project(':common')
-        compile project(':server-node')
+        implementation project(':hz-common')
+        implementation project(':server-node')
     }
 }
 

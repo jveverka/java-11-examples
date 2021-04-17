@@ -23,15 +23,15 @@ mainClassName = "itx.examples.sshd.Main"
 applicationDefaultJvmArgs = [ "-Xms32m", "-Xmx32m" ]
 
 dependencies {
-   compile 'org.slf4j:slf4j-api:1.7.30'
-   compile 'org.slf4j:slf4j-simple:1.7.30'
-   compile 'org.apache.mina:mina-core:2.0.19'
-   compile 'org.apache.sshd:sshd-core:2.0.0'
+   implementation 'org.slf4j:slf4j-api:1.7.30'
+   implementation 'org.slf4j:slf4j-simple:1.7.30'
+   implementation 'org.apache.mina:mina-core:2.0.19'
+   implementation 'org.apache.sshd:sshd-core:2.0.0'
 
-   compile 'com.fasterxml.jackson.core:jackson-annotations:2.11.1'
-   compile 'com.fasterxml.jackson.core:jackson-core:2.11.1'
-   compile 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
+   implementation 'com.fasterxml.jackson.core:jackson-annotations:2.11.1'
+   implementation 'com.fasterxml.jackson.core:jackson-core:2.11.1'
+   implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
 
-   testCompile 'org.testng:testng:7.3.0'
+   testImplementation 'org.testng:testng:7.3.0'
 }
 

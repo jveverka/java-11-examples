@@ -1,6 +1,5 @@
 package itx.hazelcast.cluster.server.services;
 
-import com.google.protobuf.InvalidProtocolBufferException;
 import itx.hazelcast.cluster.dto.DataMessage;
 import itx.hazelcast.cluster.dto.DataMessageEvent;
 import itx.hazelcast.cluster.dto.MessageWrapper;
@@ -48,22 +47,14 @@ public class RequestRouter implements WsListener {
 
     @Override
     public void onBinaryMessage(long sessionId, byte[] payload, int offset, int len) {
-        try {
-            MessageWrapper messageWrapper = MessageWrapper.parseFrom(payload);
-            onMessageWrapper(sessionId, messageWrapper);
-        } catch (InvalidProtocolBufferException e) {
-            LOG.error("Error: ", e);
-        }
+        MessageWrapper messageWrapper = MessageWrapper.parseFrom(payload);
+        onMessageWrapper(sessionId, messageWrapper);
     }
 
     @Override
     public void onTextMessage(long sessionId, String message) {
-        try {
-            MessageWrapper messageWrapper = MessageWrapper.parseFrom(message.getBytes(DEF_CHS));
-            onMessageWrapper(sessionId, messageWrapper);
-        } catch (InvalidProtocolBufferException e) {
-            LOG.error("Error: ", e);
-        }
+        MessageWrapper messageWrapper = MessageWrapper.parseFrom(message.getBytes(DEF_CHS));
+        onMessageWrapper(sessionId, messageWrapper);
     }
 
     private void onMessageWrapper(long sessionId, MessageWrapper messageWrapper) {

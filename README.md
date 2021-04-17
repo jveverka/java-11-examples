@@ -11,8 +11,7 @@ but also new JDK 11 possibilities.
 ### Environment setup
 Make sure following software is installed on your PC.
 * [OpenJDK 11](https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot)
-* [Gradle 6.5](https://gradle.org/install/) or later
-* [protoc 3.8](https://github.com/protocolbuffers/protobuf/releases/tag/v3.8.0) google protocol buffers
+* [Gradle 6.8](https://gradle.org/install/) or later
 * [docker.io 19.x](https://www.docker.com/) or later 
 
 Please check [system requirements](docs/system-requirements.md) before. 
@@ -21,17 +20,12 @@ Please check [system requirements](docs/system-requirements.md) before.
 Most examples are build by top-level gradle project.
 ```
 gradle clean build test
-gradle --build-file di-examples/build.gradle clean test
 ```
 
 ### Examples
 * [artefact publishing demo](artefact-publishing-demo) - publish artefact to ORSSH.
 * [akka clustering demo](akka-cluster-sshsessions)
-* [apache avro demo](avro-demo)
-* [dependency injection examples](di-examples)
 * [futures demo](futures-demo)
-* [grpc demo](grpc-demo)
-* [hazelcast cluster demo](hazelcast-cluster)
 * [image processing demo](imageprocessing-demo)
 * [jetty server demo](jetty-servlet4-http2)
 * [kafka example](kafka-example)

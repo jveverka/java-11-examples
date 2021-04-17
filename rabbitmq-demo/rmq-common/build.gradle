@@ -2,5 +2,5 @@
 apply plugin: "java"
 
 dependencies {
-    compile 'io.reactivex.rxjava3:rxjava:3.0.4'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.4'
 }

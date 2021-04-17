@@ -17,30 +17,30 @@ mainClassName = 'itx.hazelcast.cluster.server.Main'
 
 dependencies {
 
-   compile "org.eclipse.jetty:jetty-server:${jettyVersion}"
-   compile "org.eclipse.jetty:jetty-servlet:${jettyVersion}"
+   implementation "org.eclipse.jetty:jetty-server:${jettyVersion}"
+   implementation "org.eclipse.jetty:jetty-servlet:${jettyVersion}"
 
-   compile "org.eclipse.jetty.websocket:websocket-api:${jettyVersion}"
-   compile "org.eclipse.jetty.websocket:websocket-server:${jettyVersion}"
-   compile "org.eclipse.jetty.websocket:websocket-client:${jettyVersion}"
+   implementation "org.eclipse.jetty.websocket:websocket-api:${jettyVersion}"
+   implementation "org.eclipse.jetty.websocket:websocket-server:${jettyVersion}"
+   implementation "org.eclipse.jetty.websocket:websocket-client:${jettyVersion}"
 
-   compile "com.fasterxml.jackson.core:jackson-databind:2.9.9"
-   compile "javax.xml.bind:jaxb-api:2.3.1"
+   implementation "com.fasterxml.jackson.core:jackson-databind:2.9.9"
+   implementation "javax.xml.bind:jaxb-api:2.3.1"
 
-   compile "org.glassfish.jersey.core:jersey-server:${jerseyVersion}"
-   compile "org.glassfish.jersey.containers:jersey-container-jetty-http:${jerseyVersion}"
-   compile "org.glassfish.jersey.containers:jersey-container-servlet-core:${jerseyVersion}"
-   compile "org.glassfish.jersey.media:jersey-media-json-jackson:${jerseyVersion}"
-   compile "org.glassfish.jersey.inject:jersey-hk2:${jerseyVersion}"
+   implementation "org.glassfish.jersey.core:jersey-server:${jerseyVersion}"
+   implementation "org.glassfish.jersey.containers:jersey-container-jetty-http:${jerseyVersion}"
+   implementation "org.glassfish.jersey.containers:jersey-container-servlet-core:${jerseyVersion}"
+   implementation "org.glassfish.jersey.media:jersey-media-json-jackson:${jerseyVersion}"
+   implementation "org.glassfish.jersey.inject:jersey-hk2:${jerseyVersion}"
 
-   compile "org.jboss.resteasy:resteasy-servlet-initializer:4.0.0.Final"
-   compile "javax.servlet:javax.servlet-api:4.0.1"
+   implementation "org.jboss.resteasy:resteasy-servlet-initializer:4.0.0.Final"
+   implementation "javax.servlet:javax.servlet-api:4.0.1"
 
-   compile 'org.slf4j:slf4j-api:1.7.30'
-   compile 'org.slf4j:slf4j-simple:1.7.30'
-   compile 'com.hazelcast:hazelcast:3.10.4'
+   implementation 'org.slf4j:slf4j-api:1.7.30'
+   implementation 'org.slf4j:slf4j-simple:1.7.30'
+   implementation 'com.hazelcast:hazelcast:3.10.4'
 
-   testCompile 'org.testng:testng:7.3.0'
+   testImplementation 'org.testng:testng:7.3.0'
 }
 
 test {

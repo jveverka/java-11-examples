@@ -4,13 +4,13 @@ include "akka-cluster-sshsessions"
 include "futures-demo"
 include "grpc-demo"
 
-include "hazelcast-cluster"
-include "common"
-include "it-tests"
-include "server-node"
-project(":common").projectDir = new File("hazelcast-cluster/common")
-project(":it-tests").projectDir = new File("hazelcast-cluster/it-tests")
-project(":server-node").projectDir = new File("hazelcast-cluster/server-node")
+//include "hazelcast-cluster"
+//include "hz-common"
+//include "it-tests"
+//include "server-node"
+//project(":hz-common").projectDir = new File("hazelcast-cluster/hz-common")
+//project(":it-tests").projectDir = new File("hazelcast-cluster/it-tests")
+//project(":server-node").projectDir = new File("hazelcast-cluster/server-node")
 
 include "hibernate-demo"
 include "jdbc-demo"
@@ -44,7 +44,7 @@ project(":ssh-server").projectDir = new File("ssh-server-demo/ssh-server")
 project(":ssh-examples").projectDir = new File("ssh-server-demo/ssh-examples")
 include "ssh-server-demo"
 
-include "avro-demo"
+//include "avro-demo"
 include "imageprocessing-demo"
 include "rxjava-demo"
 include "elastic-demo"

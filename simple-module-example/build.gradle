@@ -15,8 +15,8 @@ project(':service-compute') {
 
 project(':service-compute-async') {
     dependencies {
-        compile project(':service-compute')
-        compile project(':service-tasks')
+        implementation project(':service-compute')
+        implementation project(':service-tasks')
     }
 }
 
@@ -25,9 +25,9 @@ project(':service-tasks') {
 
 project(':application') {
     dependencies {
-        compile project(':service-compute')
-        compile project(':service-tasks')
-        compile project(':service-compute-async')
+        implementation project(':service-compute')
+        implementation project(':service-tasks')
+        implementation project(':service-compute-async')
     }
 }
 

@@ -2,7 +2,7 @@
 test {
 
     dependencies {
-        testCompile 'org.testng:testng:7.3.0'
+        testImplementation 'org.testng:testng:7.3.0'
     }
 
     // enable TestNG support (default is JUnit)

@@ -1,5 +1,5 @@
 
 
 dependencies {
-    compile 'org.springframework:spring-context:5.2.2.RELEASE'
+    implementation 'org.springframework:spring-context:5.2.2.RELEASE'
 }

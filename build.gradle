@@ -10,7 +10,7 @@ project(':block-chain') {}
 project(':akka-cluster-sshsessions') {}
 project(':futures-demo') {}
 project(':grpc-demo') {}
-project(':hazelcast-cluster') {}
+//project(':hazelcast-cluster') {}
 project(':hibernate-demo') {}
 project(':jdbc-demo') {}
 project(':jetty-servlet4-http2') {}
@@ -18,7 +18,7 @@ project(':kafka-example') {}
 project(':mongodb-demo') {}
 project(':simple-module-example') {}
 project(':ssh-server-demo') {}
-project(':avro-demo') {}
+//project(':avro-demo') {}
 project(':imageprocessing-demo') {}
 project(':rxjava-demo') {}
 project(':elastic-demo') {}

@@ -11,8 +11,8 @@ subprojects {
     }
 
     dependencies {
-        compile 'org.slf4j:slf4j-api:1.8.0-beta4'
-        compile 'org.slf4j:slf4j-simple:1.8.0-beta4'
+        implementation 'org.slf4j:slf4j-api:1.7.30'
+        implementation 'org.slf4j:slf4j-simple:1.7.30'
     }
 
 }
@@ -22,45 +22,45 @@ project(':data-service') {
 
 project(':di-spring') {
     dependencies {
-        compile project(':data-service')
+        implementation project(':data-service')
     }
 }
 
 project(':di-guice') {
     dependencies {
-        compile project(':data-service')
+        implementation project(':data-service')
     }
 }
 
 project(':di-dagger') {
     dependencies {
-        compile project(':data-service')
+        implementation project(':data-service')
     }
 }
 
 project(':app-simple') {
     dependencies {
-        compile project(':data-service')
+        implementation project(':data-service')
     }
 }
 
 project(':app-spring') {
     dependencies {
-        compile project(':data-service')
-        compile project(':di-spring')
+        implementation project(':data-service')
+        implementation project(':di-spring')
     }
 }
 
 project(':app-guice') {
     dependencies {
-        compile project(':data-service')
-        compile project(':di-guice')
+        implementation project(':data-service')
+        implementation project(':di-guice')
     }
 }
 
 project(':app-dagger') {
     dependencies {
-        compile project(':data-service')
-        compile project(':di-dagger')
+        implementation project(':data-service')
+        implementation project(':di-dagger')
     }
 }
