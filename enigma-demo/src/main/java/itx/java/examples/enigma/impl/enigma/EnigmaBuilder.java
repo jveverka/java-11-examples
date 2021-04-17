@@ -64,19 +64,19 @@ public class EnigmaBuilder {
         return this;
     }
 
-    public EnigmaBuilder createEnigma26(int[] initialRotorPositions) {
+    public EnigmaBuilder createEnigmaAlphabet26Rotors3(int initialRotor0Position, int initialRotor1Position, int initialRotor2Position) {
         this.alphabet = Alphabet.buildAlphabet26();
         Character[][] plugBoardSetup = EnigmaUtils.generateRandomPlugBoardSetup(alphabet);
         Rotor rotor0 = Rotor.builder()
-                .setIndex(initialRotorPositions[0])
+                .setIndex(initialRotor0Position)
                 .setSubstitutionTable(EnigmaUtils.getRotor0Data26())
                 .build();
         Rotor rotor1 = Rotor.builder()
-                .setIndex(initialRotorPositions[1])
+                .setIndex(initialRotor1Position)
                 .setSubstitutionTable(EnigmaUtils.getRotor1Data26())
                 .build();
         Rotor rotor2 = Rotor.builder()
-                .setIndex(initialRotorPositions[2])
+                .setIndex(initialRotor2Position)
                 .setSubstitutionTable(EnigmaUtils.getRotor2Data26())
                 .build();
         this.plugBoard = PlugBoard.builder()
@@ -93,19 +93,19 @@ public class EnigmaBuilder {
         return this;
     }
 
-    public EnigmaBuilder createEnigmaBase64(int[] initialRotorPositions) {
+    public EnigmaBuilder createEnigmaAlphabetBase64Rotors3(int initialRotor0Position, int initialRotor1Position, int initialRotor2Position) {
         this.alphabet = Alphabet.buildAlphabetBase64();
         Character[][] plugBoardSetup = EnigmaUtils.generateRandomPlugBoardSetup(alphabet);
         Rotor rotor0 = Rotor.builder()
-                .setIndex(initialRotorPositions[0])
+                .setIndex(initialRotor0Position)
                 .setSubstitutionTable(EnigmaUtils.getRotor0DataBase64())
                 .build();
         Rotor rotor1 = Rotor.builder()
-                .setIndex(initialRotorPositions[1])
+                .setIndex(initialRotor1Position)
                 .setSubstitutionTable(EnigmaUtils.getRotor1DataBase64())
                 .build();
         Rotor rotor2 = Rotor.builder()
-                .setIndex(initialRotorPositions[2])
+                .setIndex(initialRotor2Position)
                 .setSubstitutionTable(EnigmaUtils.getRotor2DataBase64())
                 .build();
         this.plugBoard = PlugBoard.builder()

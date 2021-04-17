@@ -33,18 +33,16 @@ public class EnigmaTest {
 
     @Test(dataProvider = "messages26")
     public void testSimpleMessageAlphabet26(String originalMessage) {
-        int[] initialRotorPositions = new int[3];
-        initialRotorPositions[0] = 9;
-        initialRotorPositions[1] = 19;
-        initialRotorPositions[2] = 23;
-        Enigma enigmaForEncryption = Enigma.builder().createEnigma26(initialRotorPositions).build();
-        Enigma enigmaForDecryption = Enigma.builder().createEnigma26(initialRotorPositions).build();
+        Enigma enigmaForEncryption = Enigma.builder().createEnigmaAlphabet26Rotors3(9, 19, 23)
+                .build();
+        Enigma enigmaForDecryption = Enigma.builder().createEnigmaAlphabet26Rotors3(9, 19, 23)
+                .build();
         String encryptedMessage = enigmaForEncryption.encryptOrDecrypt(originalMessage);
         String decryptedMessage = enigmaForDecryption.encryptOrDecrypt(encryptedMessage);
         Assert.assertNotNull(encryptedMessage);
-        Assert.assertTrue(originalMessage.length() == encryptedMessage.length());
+        Assert.assertEquals(originalMessage.length(), encryptedMessage.length());
         Assert.assertNotNull(decryptedMessage);
-        Assert.assertTrue(encryptedMessage.length() == decryptedMessage.length());
+        Assert.assertEquals(encryptedMessage.length(), decryptedMessage.length());
         Assert.assertEquals(originalMessage, decryptedMessage);
     }
 
@@ -57,15 +55,14 @@ public class EnigmaTest {
 
     @Test(dataProvider = "messagesBase64")
     public void testSimpleMessageAlphabetBase64(String inputStreamClassPath) throws IOException {
-        int[] initialRotorPositions = new int[3];
-        initialRotorPositions[0] = 18;
-        initialRotorPositions[1] = 12;
-        initialRotorPositions[2] = 21;
-        Enigma enigmaForEncryption = Enigma.builder().createEnigmaBase64(initialRotorPositions).build();
-        Enigma enigmaForDecryption = Enigma.builder().createEnigmaBase64(initialRotorPositions).build();
-        InputStream is = this.getClass().getClassLoader().getResourceAsStream(inputStreamClassPath);
-        Assert.assertNotNull(is);
+        Enigma enigmaForEncryption = Enigma.builder()
+                .createEnigmaAlphabetBase64Rotors3(18, 12, 21)
+                .build();
+        Enigma enigmaForDecryption = Enigma.builder()
+                .createEnigmaAlphabetBase64Rotors3(18, 12, 21)
+                .build();
         InputStream inputStream = EnigmaTest.class.getClassLoader().getResourceAsStream(inputStreamClassPath);
+        Assert.assertNotNull(inputStream);
         String originalMessage = new BufferedReader(new InputStreamReader(inputStream))
                 .lines().parallel().collect(Collectors.joining("\n"));
         String encryptedMessage = enigmaForEncryption.encryptGenericString(originalMessage);
