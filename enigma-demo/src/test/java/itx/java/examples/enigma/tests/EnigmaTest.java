@@ -44,8 +44,8 @@ public class EnigmaTest {
         initialRotorPositions[2] = 23;
         Enigma enigmaForEncryption = EnigmaFactory.createEnigma26(initialRotorPositions, plugBoardSetup);
         Enigma enigmaForDecryption = EnigmaFactory.createEnigma26(initialRotorPositions, plugBoardSetup);
-        String encryptedMessage = Utils.encryptOrDecrypt(enigmaForEncryption, originalMessage);
-        String decryptedMessage = Utils.encryptOrDecrypt(enigmaForDecryption, encryptedMessage);
+        String encryptedMessage = enigmaForEncryption.encryptOrDecrypt(originalMessage);
+        String decryptedMessage = enigmaForDecryption.encryptOrDecrypt(encryptedMessage);
         Assert.assertNotNull(encryptedMessage);
         Assert.assertTrue(originalMessage.length() == encryptedMessage.length());
         Assert.assertNotNull(decryptedMessage);
@@ -75,8 +75,8 @@ public class EnigmaTest {
         StringWriter writer = new StringWriter();
         IOUtils.copy(is, writer, Charset.forName("UTF-8"));
         String originalMessage = writer.toString();
-        String encryptedMessage = Utils.encryptUnicodeString(enigmaForEncryption, originalMessage);
-        String decryptedMessage = Utils.decodeBase64String(enigmaForDecryption, encryptedMessage);
+        String encryptedMessage = enigmaForEncryption.encryptUnicodeString(originalMessage);
+        String decryptedMessage = enigmaForDecryption.decodeBase64String(encryptedMessage);
         Assert.assertNotNull(encryptedMessage);
         Assert.assertNotNull(decryptedMessage);
         String prettyPrint = Utils.prettyPrint(12, encryptedMessage);
@@ -102,11 +102,11 @@ public class EnigmaTest {
         String encryptedMessage = null;
         String decryptedMessage = null;
         if (useBase64) {
-            encryptedMessage = Utils.encryptUnicodeString(enigmaForEncryption, originalMessage);
-            decryptedMessage = Utils.decodeBase64String(enigmaForDecryption, encryptedMessage);
+            encryptedMessage = enigmaForEncryption.encryptUnicodeString(originalMessage);
+            decryptedMessage = enigmaForDecryption.decodeBase64String(encryptedMessage);
         } else {
-            encryptedMessage = Utils.encryptOrDecrypt(enigmaForEncryption, originalMessage);
-            decryptedMessage = Utils.encryptOrDecrypt(enigmaForDecryption, encryptedMessage);
+            encryptedMessage = enigmaForEncryption.encryptOrDecrypt(originalMessage);
+            decryptedMessage = enigmaForDecryption.encryptOrDecrypt(encryptedMessage);
         }
         Assert.assertNotNull(encryptedMessage);
         Assert.assertNotNull(decryptedMessage);

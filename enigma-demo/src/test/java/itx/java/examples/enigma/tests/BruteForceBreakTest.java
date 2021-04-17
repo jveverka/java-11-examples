@@ -31,7 +31,7 @@ public class BruteForceBreakTest {
         InputStream is = UtilsTest.class.getClassLoader().getResourceAsStream(enigmaConfigPath);
         EnigmaConfiguration enigmaConfiguration = Utils.readEnigmaConfiguration(is);
         Enigma enigmaForEncryption = Enigma.builder().fromConfiguration(enigmaConfiguration).build();
-        String encryptedMessage = Utils.encryptOrDecrypt(enigmaForEncryption, originalMessage);
+        String encryptedMessage = enigmaForEncryption.encryptOrDecrypt(originalMessage);
 
         LOG.info("starting the bomb ...");
         EnigmaConfiguration config = new EnigmaConfiguration(enigmaConfiguration.getAplhabet(), enigmaConfiguration.getRotorParameters(), null);
@@ -48,7 +48,7 @@ public class BruteForceBreakTest {
 
         LOG.info("checking enigma settings ...");
         Enigma enigmaForDecryption = Enigma.builder().fromConfiguration(calculatedConfiguration).build();
-        String decryptedMessage = Utils.encryptOrDecrypt(enigmaForDecryption, encryptedMessage);
+        String decryptedMessage = enigmaForDecryption.encryptOrDecrypt(encryptedMessage);
 
         LOG.info("evaluating the results ...");
         Assert.assertNotNull(encryptedMessage);

@@ -25,14 +25,6 @@ public final class Utils {
         throw new UnsupportedOperationException();
     }
 
-    public static String encryptOrDecrypt(Enigma enigma, String message) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < message.length(); i++) {
-            sb.append(enigma.encryptOrDecrypt(message.charAt(i)));
-        }
-        return sb.toString();
-    }
-
     public static int[][] createReflectorSubstitutionMap(Alphabet alphabet) {
         int[][] result = new int[alphabet.getSize()][2];
         for (int i = 0; i < alphabet.getSize(); i++) {
@@ -169,43 +161,6 @@ public final class Utils {
            }
         }
         return sb.toString().trim();
-    }
-
-    /**
-     * encrypt ordinary unicode java string
-     * @param enigma
-     *   enigma with base64 alphabet
-     * @param input
-     *   ordinary unicode java string
-     * @return
-     *   encrypted string in base64 format
-     */
-    public static String encryptUnicodeString(Enigma enigma, String input) {
-        byte[] inputBytes = Base64.getEncoder().encode(input.getBytes(StandardCharsets.UTF_8));
-        String inputData = new String(inputBytes, StandardCharsets.UTF_8);
-        StringBuilder sb = new StringBuilder();
-        for (int i=0; i<inputData.length(); i++) {
-            sb.append(enigma.encryptOrDecrypt(inputData.charAt(i)));
-        }
-        return sb.toString();
-    }
-
-    /**
-     * decrypt data in base64 format
-     * @param enigma
-     *   enigma with base64 alphabet
-     * @param input
-     *   encrypted data in base64 format
-     * @return
-     *   ordinary unicode java string
-     */
-    public static String decodeBase64String(Enigma enigma, String input) {
-        StringBuilder sb = new StringBuilder();
-        for (int i=0; i<input.length(); i++) {
-            sb.append(enigma.encryptOrDecrypt(input.charAt(i)));
-        }
-        byte[] inputBytes = Base64.getDecoder().decode(sb.toString());
-        return new String(inputBytes, StandardCharsets.UTF_8);
     }
 
     public static EnigmaConfiguration readEnigmaConfiguration(InputStream is) throws IOException {
