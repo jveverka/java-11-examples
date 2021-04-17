@@ -46,6 +46,12 @@ public interface Enigma {
     void resetPosition();
 
     /**
+     * Clone this Enigma machine.
+     * @return
+     */
+    Enigma copy();
+
+    /**
      * Get enigma builder.
      * @return
      */

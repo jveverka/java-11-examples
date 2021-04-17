@@ -34,7 +34,7 @@ public class BruteForceBreakTest {
         String encryptedMessage = enigmaForEncryption.encryptOrDecrypt(originalMessage);
 
         LOG.info("starting the bomb ...");
-        EnigmaConfiguration config = new EnigmaConfiguration(enigmaConfiguration.getAplhabet(), enigmaConfiguration.getRotorParameters(), null);
+        EnigmaConfiguration config = new EnigmaConfiguration(enigmaConfiguration.getAlphabet(), enigmaConfiguration.getRotorParameters(), null);
         TheBomb theBomb = new TheBomb(config, encryptedMessage, messagePart, 3, enigmaConfiguration.getEnigmaSetup().getPlugBoardSetup());
         EnigmaConfiguration calculatedConfiguration = null;
 
@@ -54,6 +54,8 @@ public class BruteForceBreakTest {
         Assert.assertNotNull(encryptedMessage);
         Assert.assertNotNull(decryptedMessage);
         Assert.assertEquals(originalMessage, decryptedMessage);
+        Assert.assertNotEquals(originalMessage, encryptedMessage);
+        Assert.assertNotEquals(decryptedMessage, encryptedMessage);
     }
 
     @Test

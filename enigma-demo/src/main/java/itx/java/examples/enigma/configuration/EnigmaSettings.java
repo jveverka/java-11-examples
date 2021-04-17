@@ -1,5 +1,8 @@
 package itx.java.examples.enigma.configuration;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -7,16 +10,14 @@ import java.util.List;
  */
 public class EnigmaSettings {
 
-    private List<Integer> rotorOrdinals;
-    private List<Character> rotorStartingPositions;
-    private Character[][] plugBoardSetup;
+    private final List<Integer> rotorOrdinals;
+    private final List<Character> rotorStartingPositions;
+    private final Character[][] plugBoardSetup;
 
-    public EnigmaSettings() {
-    }
-
-    public EnigmaSettings(List<Integer> rotorOrdinals,
-                          List<Character> rotorStartingPositions,
-                          Character[][] plugBoardSetup) {
+    @JsonCreator
+    public EnigmaSettings(@JsonProperty("rotorOrdinals") List<Integer> rotorOrdinals,
+                          @JsonProperty("rotorStartingPositions") List<Character> rotorStartingPositions,
+                          @JsonProperty("plugBoardSetup") Character[][] plugBoardSetup) {
         this.rotorOrdinals = rotorOrdinals;
         this.rotorStartingPositions = rotorStartingPositions;
         this.plugBoardSetup = plugBoardSetup;
@@ -26,24 +27,12 @@ public class EnigmaSettings {
         return rotorOrdinals;
     }
 
-    public void setRotorOrdinals(List<Integer> rotorOrdinals) {
-        this.rotorOrdinals = rotorOrdinals;
-    }
-
     public List<Character> getRotorStartingPositions() {
         return rotorStartingPositions;
     }
 
-    public void setRotorStartingPositions(List<Character> rotorStartingPositions) {
-        this.rotorStartingPositions = rotorStartingPositions;
-    }
-
     public Character[][] getPlugBoardSetup() {
         return plugBoardSetup;
-    }
-
-    public void setPlugBoardSetup(Character[][] plugBoardSetup) {
-        this.plugBoardSetup = plugBoardSetup;
     }
 
 }

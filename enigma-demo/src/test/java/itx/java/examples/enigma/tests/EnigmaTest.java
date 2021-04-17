@@ -43,7 +43,10 @@ public class EnigmaTest {
         Assert.assertEquals(originalMessage.length(), encryptedMessage.length());
         Assert.assertNotNull(decryptedMessage);
         Assert.assertEquals(encryptedMessage.length(), decryptedMessage.length());
+
         Assert.assertEquals(originalMessage, decryptedMessage);
+        Assert.assertNotEquals(originalMessage, encryptedMessage);
+        Assert.assertNotEquals(decryptedMessage, encryptedMessage);
     }
 
     @DataProvider(name = "messagesBase64")
@@ -71,7 +74,10 @@ public class EnigmaTest {
         Assert.assertNotNull(decryptedMessage);
         String prettyPrint = EnigmaUtils.prettyPrint(12, encryptedMessage);
         Assert.assertNotNull(prettyPrint);
+
         Assert.assertEquals(originalMessage, decryptedMessage);
+        Assert.assertNotEquals(originalMessage, encryptedMessage);
+        Assert.assertNotEquals(decryptedMessage, encryptedMessage);
     }
 
     @DataProvider(name = "configs")
@@ -100,7 +106,10 @@ public class EnigmaTest {
         }
         Assert.assertNotNull(encryptedMessage);
         Assert.assertNotNull(decryptedMessage);
+
         Assert.assertEquals(originalMessage, decryptedMessage);
+        Assert.assertNotEquals(originalMessage, encryptedMessage);
+        Assert.assertNotEquals(decryptedMessage, encryptedMessage);
     }
 
 }

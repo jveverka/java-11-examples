@@ -74,4 +74,9 @@ public class EnigmaImpl implements Enigma {
         rotorGroup.resetPosition();
     }
 
+    @Override
+    public Enigma copy() {
+        return new EnigmaImpl(alphabet, reflector, rotorGroup, plugBoard);
+    }
+
 }

@@ -78,7 +78,7 @@ public class PartialTest {
         for (int i = 0; i < rotor0Data26.length; i++) {
             Integer result = rotor.substituteForward(i);
             Integer reverse = rotor.substituteReverse(result);
-            Assert.assertEquals(reverse, new Integer(i));
+            Assert.assertEquals(reverse, Integer.valueOf(i));
         }
     }
 
@@ -92,7 +92,7 @@ public class PartialTest {
         for (int i = 0; i < rotor0Data26.length; i++) {
             Integer result = rotor.substituteForward(i);
             Integer reverse = rotor.substituteReverse(result);
-            Assert.assertEquals(reverse, new Integer(i));
+            Assert.assertEquals(reverse, Integer.valueOf(i));
         }
     }
 

@@ -1,5 +1,8 @@
 package itx.java.examples.enigma.configuration;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -7,41 +10,29 @@ import java.util.List;
  */
 public class EnigmaConfiguration {
 
-    private String aplhabet;
-    private List<String> rotorParameters;
-    private EnigmaSettings enigmaSetup;
+    private final String alphabet;
+    private final List<String> rotorParameters;
+    private final EnigmaSettings enigmaSetup;
 
-    public EnigmaConfiguration() {
-    }
-
-    public EnigmaConfiguration(String aplhabet, List<String> rotorParameters, EnigmaSettings enigmaSetup) {
-        this.aplhabet = aplhabet;
+    @JsonCreator
+    public EnigmaConfiguration(@JsonProperty("alphabet") String alphabet,
+                               @JsonProperty("rotorParameters") List<String> rotorParameters,
+                               @JsonProperty("enigmaSetup") EnigmaSettings enigmaSetup) {
+        this.alphabet = alphabet;
         this.rotorParameters = rotorParameters;
         this.enigmaSetup = enigmaSetup;
     }
 
-    public String getAplhabet() {
-        return aplhabet;
-    }
-
-    public void setAplhabet(String aplhabet) {
-        this.aplhabet = aplhabet;
+    public String getAlphabet() {
+        return alphabet;
     }
 
     public List<String> getRotorParameters() {
         return rotorParameters;
     }
 
-    public void setRotorParameters(List<String> rotorParameters) {
-        this.rotorParameters = rotorParameters;
-    }
-
     public EnigmaSettings getEnigmaSetup() {
         return enigmaSetup;
-    }
-
-    public void setEnigmaSetup(EnigmaSettings enigmaSetup) {
-        this.enigmaSetup = enigmaSetup;
     }
 
 }

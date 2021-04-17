@@ -42,7 +42,7 @@ public class EnigmaBuilder {
 
     public EnigmaBuilder fromConfiguration(EnigmaConfiguration enigmaConfiguration) {
         this.alphabet = Alphabet.builder()
-                .setAlphabet(enigmaConfiguration.getAplhabet())
+                .setAlphabet(enigmaConfiguration.getAlphabet())
                 .build();
         this.reflector = Reflector.builder()
                 .setSubstitutionTable(EnigmaUtils.createReflectorSubstitutionMap(alphabet))

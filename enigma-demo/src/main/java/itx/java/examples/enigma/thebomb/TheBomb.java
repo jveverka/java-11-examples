@@ -46,21 +46,19 @@ public class TheBomb {
         }
 
         //TODO: implement iteration through all plugboard setup possibilities
-        EnigmaSettings enigmaSettings = new EnigmaSettings(null, null, plugBoardSetup);
-        EnigmaConfiguration result = new EnigmaConfiguration(enigmaConfiguration.getAplhabet(), enigmaConfiguration.getRotorParameters(), enigmaSettings);
 
         for (int i=0; i<rotorGroups.size(); i++) {
-            //iterate through all rotor group posiibilities
+            //iterate through all rotor group possibilities
             PermutationIterator<Integer> pe = new PermutationIterator<>(rotorGroups.get(i));
             while (pe.hasNext()) {
                 //iterate through all rotor order possibilities
                 List<Integer> rotorOrdinals = pe.next();
-                RotorGroupIterator rotorGroupIterator = new RotorGroupIterator(rotorOrdinals.size(), enigmaConfiguration.getAplhabet());
+                RotorGroupIterator rotorGroupIterator = new RotorGroupIterator(rotorOrdinals.size(), enigmaConfiguration.getAlphabet());
                 while (rotorGroupIterator.hasNext()) {
-                    //iterate through all rotor starting positions
                     List<Character> rotorStartingPositions = rotorGroupIterator.getNext();
-                    enigmaSettings.setRotorOrdinals(rotorOrdinals);
-                    enigmaSettings.setRotorStartingPositions(rotorStartingPositions);
+                    EnigmaSettings enigmaSettings = new EnigmaSettings(rotorOrdinals, rotorStartingPositions, plugBoardSetup);
+                    EnigmaConfiguration result = new EnigmaConfiguration(enigmaConfiguration.getAlphabet(), enigmaConfiguration.getRotorParameters(), enigmaSettings);
+                    //iterate through all rotor starting positions
                     printSetup(rotorOrdinals, rotorStartingPositions);
                     if (testEnigmaSetup(result, encodedMessage, expectedString)) {
                         duration = System.currentTimeMillis() - duration;

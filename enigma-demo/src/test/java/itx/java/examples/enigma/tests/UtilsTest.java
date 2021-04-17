@@ -15,12 +15,12 @@ import java.io.InputStream;
 public class UtilsTest {
 
     @Test
-    public void readEnigmaConfigutationTest() throws IOException {
+    public void readEnigmaConfigurationTest() throws IOException {
         InputStream is = UtilsTest.class.getClassLoader().getResourceAsStream("configurations/enigma-test-configuration-26-01.json");
         Assert.assertNotNull(is);
         EnigmaConfiguration enigmaConfiguration = EnigmaUtils.readEnigmaConfiguration(is);
         Assert.assertNotNull(enigmaConfiguration);
-        Assert.assertNotNull(enigmaConfiguration.getAplhabet());
+        Assert.assertNotNull(enigmaConfiguration.getAlphabet());
         Assert.assertNotNull(enigmaConfiguration.getRotorParameters());
         Assert.assertTrue(enigmaConfiguration.getRotorParameters().size() > 0);
         Assert.assertNotNull(enigmaConfiguration.getEnigmaSetup());
