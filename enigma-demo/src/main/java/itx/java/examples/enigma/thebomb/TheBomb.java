@@ -3,7 +3,6 @@ package itx.java.examples.enigma.thebomb;
 import itx.java.examples.enigma.Enigma;
 import itx.java.examples.enigma.configuration.EnigmaConfiguration;
 import itx.java.examples.enigma.configuration.EnigmaSettings;
-import org.apache.commons.collections4.iterators.PermutationIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

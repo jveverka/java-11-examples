@@ -6,13 +6,12 @@ import itx.java.examples.enigma.configuration.EnigmaConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.apache.commons.io.IOUtils;
 
-
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
-import java.nio.charset.Charset;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
 /**
  * Created by gergej on 17.1.2017.
@@ -66,9 +65,9 @@ public class EnigmaTest {
         Enigma enigmaForDecryption = Enigma.builder().createEnigmaBase64(initialRotorPositions).build();
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(inputStreamClassPath);
         Assert.assertNotNull(is);
-        StringWriter writer = new StringWriter();
-        IOUtils.copy(is, writer, Charset.forName("UTF-8"));
-        String originalMessage = writer.toString();
+        InputStream inputStream = EnigmaTest.class.getClassLoader().getResourceAsStream(inputStreamClassPath);
+        String originalMessage = new BufferedReader(new InputStreamReader(inputStream))
+                .lines().parallel().collect(Collectors.joining("\n"));
         String encryptedMessage = enigmaForEncryption.encryptGenericString(originalMessage);
         String decryptedMessage = enigmaForDecryption.decryptGenericString(encryptedMessage);
         Assert.assertNotNull(encryptedMessage);
